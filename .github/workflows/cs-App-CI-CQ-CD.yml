@@ -10,6 +10,12 @@ env:
 
 jobs:
   build-and-publish:
+    # Log in to Azure first
+    name: Azure Login
+    uses: azure/actions/login@v1
+    with:
+      creds: ${{secrets.AZURE_CREDENTIALS}}   
+
     name: "Build .NET Core and Publish PoC Alpha"
     runs-on: ubuntu-latest
     steps:
