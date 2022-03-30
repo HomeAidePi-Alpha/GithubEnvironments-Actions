@@ -4,6 +4,8 @@ Index:
 [Contributing Guilelines](CONTRIBUTING.md)
 [Security](SECURITY.md)
 [Privacy](PRIVACY.md)
+[Control Quality](CQ.md)
+[Pair Programming](pairProgramming.md)
 
 Examples for styling with markdown (see code in /docs but essentially super slim down html)
 ---
