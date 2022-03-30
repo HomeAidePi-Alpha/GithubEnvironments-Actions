@@ -1,16 +1,16 @@
 Index:
 
-[Code of Conduct](CODE_OF_CONDUCT.md)
-[Contributing Guilelines](CONTRIBUTING.md)
-[Security](SECURITY.md)
-[Privacy](PRIVACY.md)
-[Control Quality](CQ.md)
-[Pair Programming](pairProgramming.md)
+* [Code of Conduct](CODE_OF_CONDUCT.md)
+* [Contributing Guilelines](CONTRIBUTING.md)
+* [Security](SECURITY.md)
+* [Privacy](PRIVACY.md)
+* [Control Quality](CQ.md)
+* [Pair Programming](pairProgramming.md)
 
 Examples for styling with markdown (see code in /docs but essentially super slim down html)
 ---
 
-# h1 Heading 8-)
+# h1 Heading
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
