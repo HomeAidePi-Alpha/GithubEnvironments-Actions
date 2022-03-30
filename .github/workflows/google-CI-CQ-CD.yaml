@@ -9,4 +9,7 @@ jobs:
     environment: 'PreProd'
     steps:
     - uses: actions/checkout@v3
-    - uses: ./.github/workflows/google
+    - uses: .github/workflows/google
+      with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
