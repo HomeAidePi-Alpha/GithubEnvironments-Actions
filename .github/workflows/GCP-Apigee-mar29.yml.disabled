@@ -1,0 +1,128 @@
+name: 'Deploy ASP.NET Core app to Azure Web App and Provision Apigee'
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  DOTNET_VERSION: '3.1.404'
+
+jobs:
+  deploy-apigee-gcp:
+    name: "Provision ApiGee on GCP"
+    runs-on: ubuntu-latest
+    environment: 'PreProd'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - id: auth
+        name: 'Authenticate to GCP'
+        uses: google-github-actions/auth@v0.4.0
+        with:
+          token_format: "access_token"
+          create_credentials_file: true
+          workload_identity_provider:  ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - name: Echo Remove Me
+        run: | 
+          echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_SERVICE_ACCOUNT }} | sed 's/./& /g'
+          echo ${{steps.auth.outputs.access_token }} | sed 's/./& /g'
+      # - name: Set up Cloud SDK
+      #   uses: 'google-github-actions/setup-gcloud@v0'
+      - name: Create API bundle from apiproxy
+        run: zip -r proxy.zip . -i apiproxy
+      - name: Upload API Proxy Bundle
+        id: upload
+        run: "echo \"::set-output name=apigee-revision::$(curl --fail -X POST -H \"Content-Type: multipart/form-data\" -H \"Authorization: Bearer ${{steps.auth.outputs.access_token}}\" -F \"file=@proxy.zip\" \"https://apigee.googleapis.com/v1/organizations/${{secrets.GCP_APIGEE_ORG}}/apis?action=import&name=hello-world\" --silent | jq --raw-output .revision)\""
+      - name: Deploy Revision
+        run: "curl --fail -X POST -H \"Authorization: Bearer ${{steps.auth.outputs.access_token}}\" \"https://apigee.googleapis.com/v1/organizations/${{secrets.GCP_APIGEE_ORG}}/environments/eval/apis/hello-world/revisions/${{steps.upload.outputs.apigee-revision}}/deployments?override=true\""
+      # - name: Send chat ops notification to teams
+      #   uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+      #   with:
+      #     webhook: ${{ secrets.TEAMS_WEBHOOK }}
+      #     message: 'ApiGee Provision Complete for commit: ${{ github.sha }}'
+
+  build-and-publish:
+    name: "Build .NET Core and Publish PoC Alpha"
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@main
+
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Run dotnet build and publish
+      - name: dotnet build and publish
+        working-directory: 'app'
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o './published-app'
+
+      # Publish artifact
+      - name: Publish artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: published-app
+          path: './app/published-app'
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+  deploy-preprod:
+    name: "Deploy to PreProd Env PoC Alpha"
+    runs-on: 'ubuntu-latest'
+    environment: 'PreProd'
+    needs: build-and-publish
+    steps:
+
+      # Download published artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: published-app
+          path: './published-app'
+
+      # Deploy to web app
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: Azure-DotNet-Dev-Alpha
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: './published-app'
+
+      - name: Send chat ops notification to teams
+        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+        with:
+          webhook: ${{ secrets.TEAMS_WEBHOOK }}
+          message: 'Deployment Completed for commit: ${{ github.sha }}'
+  
+
+
+  # deploy-prod:
+  #   runs-on: 'ubuntu-latest'
+  #   environment: 'Prod'
+  #   needs: [build-and-publish, deploy-preprod]
+  #   steps:
+
+  #     # Download published artifact
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: published-app
+  #         path: './published-app'
+
+  #     # Deploy to web app
+  #     - name: Deploy to Azure WebApp
+  #       uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: Azure-DotNet-Prod-Alpha
+  #         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+  #         package: './published-app'
