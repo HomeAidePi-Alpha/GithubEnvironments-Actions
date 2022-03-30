@@ -10,9 +10,6 @@ env:
 
 jobs:
   build-and-publish:
-    # Log in to Azure first
-    name: Azure Login 
-    uses: azure/actions/login@v1
     with:
       creds: ${{secrets.AZURE_CREDENTIALS}}   
     runs-on: ubuntu-latest
@@ -48,13 +45,16 @@ jobs:
     environment: 'PreProd'
     needs: build-and-publish
     steps:
-
       # Download published artifact
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: published-app
           path: './published-app'
+
+      # Log in to Azure first
+      name: Azure Login 
+      uses: azure/actions/login@v1
 
       # Deploy to web app
       - name: Deploy to Azure WebApp
