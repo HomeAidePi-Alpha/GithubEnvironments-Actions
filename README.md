@@ -1,6 +1,6 @@
 # GitHubEnvironments-Actions
 
-- 👋 Hi, I’m Vandy@homeaidepi
+- 👋 Hi, I’m Vandy @ Ferguson
 - 👀 I’m interested in helping grow a team, product & community
 - 🌱 I’m currently learning harness.io, azure boards and extending my github ops skillsets
 - 🚀 I’m looking to collaborate with other architects on executing cloud functions in a scalable, multi-tenant, L1 & L2 self service, IaC managed fashion
