@@ -3,13 +3,11 @@ on:
   push:
     branches:
       - "main"
-
 permissions:
       id-token: write
       contents: read
-
 jobs:
-  gcp-job-id-alpha:
+  GCP-GitHub-Login:
     name: "Login GCP with Identity Provider & Service Account"
     runs-on: ubuntu-latest
     environment: 'PreProd'
@@ -25,8 +23,7 @@ jobs:
         with:
           workload_identity_provider:  ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v0'
-    - name: 'Use gcloud CLI'
-      run: 'gcloud info'
-      
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
