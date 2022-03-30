@@ -27,11 +27,11 @@ jobs:
           create_credentials_file: true
           workload_identity_provider:  ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-      - name: Echo Remove Me
-        run: | 
-          echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} | sed 's/./& /g'
-          echo ${{ secrets.GCP_SERVICE_ACCOUNT }} | sed 's/./& /g'
-          echo ${{steps.auth.outputs.access_token }} | sed 's/./& /g'
+      # - name: Echo Remove Me
+      #   run: | 
+      #     echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} | sed 's/./& /g'
+      #     echo ${{ secrets.GCP_SERVICE_ACCOUNT }} | sed 's/./& /g'
+      #     echo ${{steps.auth.outputs.access_token }} | sed 's/./& /g'
       # - name: Set up Cloud SDK
       #   uses: 'google-github-actions/setup-gcloud@v0'
       - name: Create API bundle from apiproxy
