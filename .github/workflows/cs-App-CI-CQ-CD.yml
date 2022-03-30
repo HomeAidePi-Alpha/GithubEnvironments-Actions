@@ -53,10 +53,6 @@ jobs:
           name: published-app
           path: './published-app'
 
-      # Log in to Azure first
-      - name: Azure Login 
-        uses: azure/actions/login@v1
-
       # Deploy to web app
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
