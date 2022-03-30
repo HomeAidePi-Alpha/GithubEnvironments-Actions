@@ -10,6 +10,7 @@ env:
 
 jobs:
   build-and-publish:
+    name: "Build and publish artifacts"
     runs-on: ubuntu-latest
     environment: 'PreProd'
     steps:
@@ -40,6 +41,7 @@ jobs:
 
   deploy-preprod:
     name: "Deploy to PreProd Env PoC Alpha"
+    runs-on: ubuntu-latest
     environment: 'PreProd'
     needs: build-and-publish
     steps:
