@@ -1,3 +1,13 @@
+name: Run Google Cloud Login with Identity Provider
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+      id-token: write
+      contents: read
+
 jobs:
   job_id:
     # Add "id-token" with the intended permissions.
@@ -17,3 +27,4 @@ jobs:
 
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
+      
