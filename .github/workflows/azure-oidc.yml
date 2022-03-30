@@ -1,5 +1,8 @@
 name: Run Azure Login with OpenID Connect and PowerShell
-on: [push]
+on:
+  push:
+    branches:
+      - "main"
 
 permissions:
       id-token: write
