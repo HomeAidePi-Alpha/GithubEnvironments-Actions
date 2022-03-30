@@ -23,4 +23,4 @@ jobs:
           with:
              inlineScript: |
                Get-AzResourceGroup
-             azPSVersion: "latest"
+             azPSVersion: "2022"
