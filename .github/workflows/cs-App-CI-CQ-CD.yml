@@ -37,7 +37,7 @@ jobs:
         with:
           name: published-app
           path: './cs-App-CI-CQ-CD/published-app'
-          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
   deploy-preprod:
     name: "Deploy to PreProd Env PoC Alpha"
