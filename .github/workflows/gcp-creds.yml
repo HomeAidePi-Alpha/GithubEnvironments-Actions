@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   gcp-job-id-alpha:
-    name: "Login GCP with Identity Provider"
+    name: "Login GCP with Identity Provider & Service Account"
     runs-on: ubuntu-latest
     environment: 'PreProd'
     permissions:
