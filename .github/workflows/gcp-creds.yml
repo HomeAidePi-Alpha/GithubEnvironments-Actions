@@ -13,7 +13,6 @@ jobs:
     name: "Login GCP with Identity Provider"
     runs-on: ubuntu-latest
     environment: 'PreProd'
-
     permissions:
       contents: 'read'
       id-token: 'write'
