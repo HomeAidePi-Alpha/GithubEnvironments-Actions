@@ -9,7 +9,7 @@ permissions:
       contents: read
 
 jobs:
-  gcp_job_id_alpha:
+  gcp-job-id-alpha:
     name: "Login GCP with Identity Provider"
     runs-on: ubuntu-latest
     environment: 'PreProd'
