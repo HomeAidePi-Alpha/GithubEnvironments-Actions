@@ -1,4 +1,4 @@
-# GitHubEnvironments-Actions
+# GitHubEnvironments-Actions-Projects
 
 - 👋 Hi, I’m Vandy @ Ferguson
 - 👀 I’m interested in helping grow a team, product & community
