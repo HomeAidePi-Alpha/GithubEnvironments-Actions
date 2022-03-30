@@ -45,6 +45,7 @@ jobs:
     environment: 'PreProd'
     needs: build-and-publish
     steps:
+
       # Download published artifact
       - name: Download artifact
         uses: actions/download-artifact@v2
