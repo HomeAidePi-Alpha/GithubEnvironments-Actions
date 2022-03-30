@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - "main"
+
 jobs:
   job:
     runs-on: ubuntu-latest
@@ -10,6 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: .github/workflows/google
-      with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      inputs:
+          GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}

@@ -3,6 +3,14 @@ on:
   push:
     branches:
       - "main"
+inputs:
+  GCP_WORKLOAD_IDENTITY_PROVIDER:
+    description: 'A Google Cloud Workload Identity Provider'
+    required: true
+  GCP_SERVICE_ACCOUNT:
+    description: 'A Google Cloud Service Account'
+    required: true
+
 jobs:
   GCP-GitHub-Login:
     name: "Login GCP with Identity Provider & Service Account"
@@ -18,8 +26,8 @@ jobs:
         name: 'Authenticate to GCP'
         uses: google-github-actions/auth@v0.4.0
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ inputs.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ inputs.GCP_SERVICE_ACCOUNT }}
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
       - name: 'Use gcloud CLI'
