@@ -11,11 +11,8 @@ inputs:
     description: 'A Google Cloud Service Account'
     required: true
 
-jobs:
-  GCP-GitHub-Login:
-    name: "Login GCP with Identity Provider & Service Account"
-    runs-on: ubuntu-latest
-    environment: 'PreProd'
+runs:
+    using: "composite"
     permissions:
       contents: 'read'
       id-token: 'write'
