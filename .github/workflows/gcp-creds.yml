@@ -1,4 +1,4 @@
-name: Run Google Cloud Login with Identity Provider
+name: Google Cloud Login with Identity Provider
 on:
   push:
     branches:
@@ -9,7 +9,10 @@ permissions:
       contents: read
 
 jobs:
-  job_id:
+  gcp_job_id_alpha:
+    name: "Login GCP with Identity Provider"
+    runs-on: windows-latest
+    environment: 'PreProd'
     # Add "id-token" with the intended permissions.
     permissions:
       contents: 'read'
