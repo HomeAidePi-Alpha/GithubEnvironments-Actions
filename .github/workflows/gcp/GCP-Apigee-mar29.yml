@@ -5,8 +5,13 @@ on:
     branches:
       - "main"
 
-env:
-  DOTNET_VERSION: '3.1.404'
+inputs:
+  GCP_WORKLOAD_IDENTITY_PROVIDER:
+    description: 'A Google Cloud Workload Identity Provider'
+    required: true
+  GCP_SERVICE_ACCOUNT:
+    description: 'A Google Cloud Service Account'
+    required: true
 
 jobs:
   deploy-apigee-gcp:

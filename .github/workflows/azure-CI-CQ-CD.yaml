@@ -1,4 +1,4 @@
-name: Microsoft Azure CI-CQ-CD 1
+name: Microsoft Azure CI-CQ-CD
 on:
   push:
     branches:
@@ -14,7 +14,10 @@ jobs:
     environment: 'PreProd'
     steps:
     - uses: actions/checkout@v3
-    - uses: ./.github/workflows/google
+    - uses: ./.github/workflows/netCore
       with:
-          GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        AZURE_CREDENTIALS:  ${{ secrets.AZURE_CREDENTIALS }}
+        AZURE_WEBAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
+
+
