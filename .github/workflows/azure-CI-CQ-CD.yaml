@@ -7,6 +7,9 @@ on:
 permissions:
   contents: 'read'
   id-token: 'write'
+
+env:
+  DOTNET_VERSION: '3.1.404'
   
 jobs:
   job:
