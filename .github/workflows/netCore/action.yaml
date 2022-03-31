@@ -24,7 +24,7 @@ runs:
     steps:
       # Checkout the repo
       - name: Checkout the repo
-      - uses: actions/checkout@main
+        uses: actions/checkout@main
 
       # Setup .NET Core SDK
       - name: Setup .NET Core
