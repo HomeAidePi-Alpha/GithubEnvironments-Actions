@@ -15,65 +15,63 @@ inputs:
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
     required: true
+  DOTNET_VERSION:
+    description: 'Version of .Net Core to target'
+    required: true
 
-jobs:
-  build-and-publish:
-    name: "Build and publish artifacts"
-    runs-on: ubuntu-latest
-    environment: 'PreProd'
+runs:
+    using: "composite"
     steps:
-      # Checkout the repo
-      - uses: actions/checkout@main
+    - name: "Build and publish artifacts"
+      runs-on: ubuntu-latest
+      environment: 'PreProd'
+      steps:
+        # Checkout the repo
+        - uses: actions/checkout@main
 
-      # Setup .NET Core SDK
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+        # Setup .NET Core SDK
+        - name: Setup .NET Core
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ inputs.DOTNET_VERSION }}
 
-      # Run dotnet build and publish
-      - name: dotnet build and publish
-        working-directory: 'cs-App-CI-CQ-CD'
-        run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet publish -c Release -o './published-app'
+        # Run dotnet build and publish
+        - name: dotnet build and publish
+          working-directory: 'cs-App-CI-CQ-CD'
+          run: |
+            dotnet restore
+            dotnet build --configuration Release
+            dotnet publish -c Release -o './published-app'
 
-      # Publish artifact
-      - name: Publish artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: published-app
-          path: './cs-App-CI-CQ-CD/published-app'
-          creds: ${{ inputs.AZURE_CREDENTIALS }}
+        # Publish artifact
+        - name: Publish artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: published-app
+            path: './cs-App-CI-CQ-CD/published-app'
+            creds: ${{ inputs.AZURE_CREDENTIALS }}
 
-  deploy-preprod:
-    name: "Deploy to PreProd Env PoC Alpha"
-    runs-on: ubuntu-latest
-    environment: 'PreProd'
-    needs: build-and-publish
-    steps:
+        # Download published artifact
+        - name: Download artifact
+          uses: actions/download-artifact@v2
+          with:
+            name: published-app
+            path: './published-app'
 
-      # Download published artifact
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: published-app
-          path: './published-app'
+        # Deploy to web app
+        - name: Deploy to Azure WebApp
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: Azure-DotNet-Dev-Alpha
+            publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
+            package: './published-app'
 
-      # Deploy to web app
-      - name: Deploy to Azure WebApp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: Azure-DotNet-Dev-Alpha
-          publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './published-app'
-
-      - name: Send chat ops notification to teams
-        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
-        with:
-          webhook: ${{ inputs.TEAMS_WEBHOOK }}
-          message: 'Deployment Completed for commit: ${{ github.sha }}'
+        # Send Chat Ops notification
+        - name: Send chat ops notification to teams
+          uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+          with:
+            webhook: ${{ inputs.TEAMS_WEBHOOK }}
+            message: 'Deployment Completed for commit: ${{ github.sha }}'
   
   # deploy-prod:
   #   runs-on: 'ubuntu-latest'
