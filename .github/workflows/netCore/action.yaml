@@ -23,8 +23,6 @@ runs:
     using: "composite"
     steps:
     - name: "Build and publish artifacts"
-      runs-on: ubuntu-latest
-      environment: 'PreProd'
       steps:
         # Checkout the repo
         - uses: actions/checkout@main
