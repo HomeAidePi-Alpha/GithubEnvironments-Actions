@@ -31,7 +31,10 @@ runs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ inputs.DOTNET_VERSION }}
+
+      - name: Test and save test results
         working-directory: 'cs-App-CI-CQ-CD'
+        shell: bash
         run: |
           dotnet restore
           dotnet build --configuration Release
