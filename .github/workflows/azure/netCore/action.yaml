@@ -60,7 +60,7 @@ runs:
         with:
           app-name: ${{ inputs.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './${{ inputs.AZURE_WEBAPP_NAME }}'
+          package: '${{ inputs.AZURE_WEBAPP_NAME }}'
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
