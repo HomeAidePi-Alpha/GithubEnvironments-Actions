@@ -45,7 +45,7 @@ runs:
         run: |
           dotnet restore
           dotnet build --configuration Release
-          dotnet publish -c Release -o '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}'
+          dotnet publish -c Release -o './${{ inputs.AZURE_WEBAPP_NAME }}'
 
       # Publish artifact
       - name: Publish artifact
