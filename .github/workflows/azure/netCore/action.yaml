@@ -52,7 +52,7 @@ runs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ inputs.AZURE_WEBAPP_NAME }}
-          path: '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}'
+          path: './${{ inputs.AZURE_WEBAPP_NAME }}'
 
       # Deploy artifact to web app
       - name: Deploy to Azure WebApp
@@ -67,4 +67,4 @@ runs:
         uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
         with:
           webhook: ${{ inputs.TEAMS_WEBHOOK }}
-          message: 'CI-CQ-CD for: ${{ inputs.AZURE_WEBAPP_NAME }} Completed for commit: ${{ github.sha }} '
+          message: 'CI-CQ-CD for: ${{ inputs.AZURE_WEBAPP_NAME }} Completed for commit: ${{ github.sha }}'
