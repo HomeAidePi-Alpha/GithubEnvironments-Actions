@@ -20,7 +20,7 @@ jobs:
     #
     #   This section runs the Azure Cli action composite with OIDC
     #
-    - uses: ./.github/workflows/azure
+    - uses: ./.github/workflows/azure/cli/oidc
       with:
         AZURE_CLIENT_ID:  ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_TENANT_ID:  ${{ secrets.AZURE_TENANT_ID }}
