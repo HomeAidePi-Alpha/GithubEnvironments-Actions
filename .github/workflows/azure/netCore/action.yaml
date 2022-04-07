@@ -52,7 +52,7 @@ runs:
 
       # Publish artifact
       - name: Publish artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.AZURE_WEBAPP_NAME }}
           path: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}'
@@ -64,7 +64,8 @@ runs:
           app-name: ${{ inputs.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}${{ inputs.AZURE_WEBAPP_NAME }}'
-
+          slot-name: 'production'
+  
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
         uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
