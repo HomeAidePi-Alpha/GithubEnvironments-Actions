@@ -45,7 +45,7 @@ runs:
         uses: actions/upload-artifact@v2
         with:
           name: published-app
-          path: './published-app'
+          path: './.github/workflows/azure/netCore/cs-App-CI-CQ-CD/published-app'
           credentials: ${{ inputs.AZURE_CREDENTIALS }}
 
       # Deploy artifact to web app
