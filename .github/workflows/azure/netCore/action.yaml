@@ -15,7 +15,6 @@ inputs:
   AZURE_WEBAPP_NAME:
     description: 'AppService Slot Name'
     required: true
-    .github\workflows\azure\netCore\cs-App-CI-CQ-CD
    AZURE_WEBAPP_DIR_PATH:
     description: 'AppService Source App Directory Path'
     required: true
