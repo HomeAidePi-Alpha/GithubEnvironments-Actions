@@ -15,7 +15,7 @@ inputs:
   AZURE_WEBAPP_NAME:
     description: 'AppService Slot Name'
     required: true
-   AZURE_WEBAPP_DIR_PATH:
+  AZURE_WEBAPP_DIR_PATH:
     description: 'AppService Source App Directory Path'
     required: true
   AZURE_WEBAPP_PACKAGE_PATH:
@@ -43,7 +43,7 @@ runs:
 
       # Restore & Build
       - name: Build Application
-        working-directory: '${{ inputs.AZURE_WEBAPP_DIR_PATH}}'
+        working-directory: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}'
         shell: bash
         run: |
           dotnet restore
