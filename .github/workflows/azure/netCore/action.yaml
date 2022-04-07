@@ -12,13 +12,19 @@ inputs:
   AZURE_WEBAPP_PUBLISH_PROFILE:
     description: 'Azure WebPublish Profile for WebApp'
     required: true
+  AZURE_WEBAPP_NAME:
+    description: 'AppService Slot Name'
+    required: true
+  AZURE_WEBAPP_PACKAGE_PATH:
+    description: 'AppService Publish Package Path'
+    required: true
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
     required: true
   DOTNET_VERSION:
     description: 'Version of .Net Core to target'
     required: true
-
+  
 runs:
     using: "composite"
     steps:
@@ -38,23 +44,15 @@ runs:
         run: |
           dotnet restore
           dotnet build --configuration Release
-          dotnet publish -c Release -o './published-app'
-
-      # Publish artifact
-      - name: Publish artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: published-app
-          path: './.github/workflows/azure/netCore/cs-App-CI-CQ-CD/published-app'
-          credentials: ${{ inputs.AZURE_CREDENTIALS }}
+          dotnet publish -c Release -o '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}/app'
 
       # Deploy artifact to web app
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: HomeAidePi
+          app-name: ${{ inputs.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './published-app'
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/app'
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
