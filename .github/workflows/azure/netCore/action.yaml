@@ -38,6 +38,7 @@ runs:
         with:
           dotnet-version: ${{ inputs.DOTNET_VERSION }}
 
+      # Restore & Build
       - name: Build Application
         working-directory: './.github/workflows/azure/netCore/cs-App-CI-CQ-CD'
         shell: bash
@@ -45,6 +46,14 @@ runs:
           dotnet restore
           dotnet build --configuration Release
           dotnet publish -c Release -o '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}/app'
+
+      # Publish artifact
+      - name: Publish artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.AZURE_WEBAPP_NAME }}
+          path: '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}/app'
+          credentials: ${{ inputs.AZURE_CREDENTIALS }}
 
       # Deploy artifact to web app
       - name: Deploy to Azure WebApp
