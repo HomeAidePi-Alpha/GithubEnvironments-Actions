@@ -28,7 +28,7 @@ runs:
       # Checkout the repo
       - name: Checkout the repo
         uses: actions/checkout@v3
-        
+
       - name: 'Az CLI Login via OIDC'
         uses: azure/login@v1
         with:
@@ -41,7 +41,7 @@ runs:
         with:
           azcliversion: ${{ env.AZURE_CLI_VERSION }}
           inlineScript: |
-                        echo "::add-mask::$(az login')"
+                        echo "::add-mask::$(az login)"
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
