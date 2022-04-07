@@ -33,7 +33,7 @@ runs:
           dotnet-version: ${{ inputs.DOTNET_VERSION }}
 
       - name: Build Application
-        working-directory: './.github/workflows/netCore/cs-App-CI-CQ-CD'
+        working-directory: './.github/workflows/azure/netCore/cs-App-CI-CQ-CD'
         shell: bash
         run: |
           dotnet restore
@@ -54,7 +54,7 @@ runs:
         with:
           app-name: Azure-DotNet-Dev-Alpha
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './.github/workflows/netCore/cs-App-CI-CQ-CD/published-app'
+          package: './.github/workflows/azure/netCore/cs-App-CI-CQ-CD/published-app'
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
