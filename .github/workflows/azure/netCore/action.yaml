@@ -48,7 +48,7 @@ runs:
         run: |
           dotnet restore
           dotnet build --configuration Release
-          dotnet publish -c Release -o './.github/workflows/azure/netCore/cs-App-CI-CQ-CD/homeaidepi'
+          dotnet publish -c Release -o '.github/workflows/azure/netCore/cs-App-CI-CQ-CD/homeaidepi'
 
       # Publish artifact
       - name: Publish artifact
