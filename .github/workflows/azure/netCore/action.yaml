@@ -58,7 +58,7 @@ runs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.AZURE_WEBAPP_NAME }}
-          path: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}'
+          path: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/app'
 
       # Deploy artifact to web app
       - name: Deploy to Azure WebApp
@@ -66,8 +66,8 @@ runs:
         with:
           app-name: ${{ inputs.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}${{ inputs.AZURE_WEBAPP_NAME }}/'
-          # slot-name: '${{ inputs.AZURE_WEBAPP_SLOT_NAME }}'
+          package: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/app'
+          slot-name: '${{ inputs.AZURE_WEBAPP_SLOT_NAME }}'
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
