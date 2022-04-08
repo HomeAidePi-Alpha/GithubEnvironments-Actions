@@ -60,6 +60,7 @@ runs:
           name: ${{ inputs.AZURE_WEBAPP_NAME }}
           path: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}/'
 
+  
       # Promote images in artifact store
       - name: Download artifact from store
         uses: actions/download-artifact@v3
