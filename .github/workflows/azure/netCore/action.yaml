@@ -43,12 +43,10 @@ runs:
 
       # Restore & Build
       - name: Restore & Build Application
-        working-directory: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}'
-        shell: bash
         run: |
           dotnet restore
           dotnet build --configuration Release
-          dotnet publish -c Release -o '.github/workflows/azure/netCore/cs-App-CI-CQ-CD/homeaidepi'
+          dotnet publish -c Release -o './homeaidepi'
 
       # Publish artifact
       - name: Publish artifact
