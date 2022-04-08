@@ -43,6 +43,7 @@ runs:
 
       # Restore & Build
       - name: Restore & Build Application
+        shell: bash
         run: |
           dotnet restore
           dotnet build --configuration Release
