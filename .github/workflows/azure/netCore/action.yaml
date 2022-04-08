@@ -23,7 +23,7 @@ inputs:
     required: true
   AZURE_WEBAPP_SLOT_NAME:
     description: 'AppService Deployment Slot (Env) Name'
-    required: true
+    required: false
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
     required: true
@@ -66,6 +66,8 @@ runs:
         with:
           app-name: ${{ inputs.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}${{ inputs.AZURE_WEBAPP_NAME }}/'
+          # slot-name: '${{ inputs.AZURE_WEBAPP_SLOT_NAME }}'
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
