@@ -1,4 +1,4 @@
-name: Microsoft Azure CI-CQ-CD
+name: azure-net-core-composite-action-creds
 on:
   push:
     branches:
