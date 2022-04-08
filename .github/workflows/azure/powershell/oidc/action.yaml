@@ -1,24 +1,33 @@
 name: Run Azure Login with OpenID Connect and PowerShell
+
 on:
   push:
     branches:
       - "main"
 
-permissions:
-    id-token: write
-    contents: read
-      
-jobs: 
-  Windows-latest:
-    runs-on: windows-latest
-    environment: 'PreProd'
+inputs:
+  AZURE_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+  TEAMS_WEBHOOK:
+    description: 'ChatOps Webhook for Ms Teams Channel Connector'
+    required: true
+  
+runs:
+    using: "composite"
     steps:
       - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+          client-id: ${{ inputs.AZURE_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }} 
           enable-AzPSSession: true
 
       - name: 'Get resource group with PowerShell action'
