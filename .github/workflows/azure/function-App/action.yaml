@@ -6,11 +6,14 @@ on:
       - "main"
 
 inputs:
-  AZURE_CREDENTIALS:
-    description: 'Azure Credentials'
+  AZURE_FUNCTIONAPP_NAME:
+    description: 'Azure Name for FunctionApp'
     required: true
-  AZURE_WEBAPP_PUBLISH_PROFILE:
-    description: 'Azure WebPublish Profile for WebApp'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH:
+    description: 'Azure Package Path for FunctionApp'
+    required: true
+  AZURE_FUNCTIONAPP_PUBLISH_PROFILE:
+    description: 'Azure Publish Profile for FunctionApp'
     required: true
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
@@ -23,38 +26,27 @@ runs:
     using: "composite"
     steps:
       # Checkout the repo
-      - name: Checkout the repo
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@main
 
-      # Setup .NET Core SDK
-      - name: Setup .NET Core
+      - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ inputs.DOTNET_VERSION }}
+           dotnet-version: ${{ inputs.DOTNET_VERSION }}
 
-      - name: Build Application
-        working-directory: './.github/workflows/netCore/cs-App-CI-CQ-CD'
+      - name: Resolve Project Dependencies Using Dotnet
         shell: bash
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet publish -c Release -o './published-app'
-
-      # Publish artifact
-      - name: Publish artifact
-        uses: actions/upload-artifact@v2
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+      - name: Run Azure Functions Action
+        uses: Azure/functions-action@v1
+        id: fa
         with:
-          name: published-app
-          path: './.github/workflows/netCore/cs-App-CI-CQ-CD/published-app'
-          credentials: ${{ inputs.AZURE_CREDENTIALS }}
-
-      # Deploy artifact to web app
-      - name: Deploy to Azure WebApp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: HomeAidePi
-          publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './.github/workflows/netCore/cs-App-CI-CQ-CD/published-app'
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
