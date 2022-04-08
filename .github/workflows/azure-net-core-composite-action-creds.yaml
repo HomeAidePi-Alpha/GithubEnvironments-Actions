@@ -27,6 +27,7 @@ jobs:
         AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}
         AZURE_WEBAPP_DIR_PATH: ${{ secrets.AZURE_WEBAPP_DIR_PATH }}
         AZURE_WEBAPP_PACKAGE_PATH: ${{ secrets.AZURE_WEBAPP_PACKAGE_PATH }}
+        AZURE_WEBAPP_SLOT_NAME: ${{ secrets.AZURE_WEBAPP_SLOT_NAME }}
         TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
         DOTNET_VERSION: ${{ env.DOTNET_VERSION }}
 
