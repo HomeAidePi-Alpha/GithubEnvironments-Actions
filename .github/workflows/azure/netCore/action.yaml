@@ -53,12 +53,18 @@ runs:
           dotnet build --configuration Release
           dotnet publish -c Release -o '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}${{ inputs.AZURE_WEBAPP_NAME }}'
 
-      # Publish artifact
-      - name: Publish artifact
+      # Publish to artifact store
+      - name: Publish artifact to store
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.AZURE_WEBAPP_NAME }}
-          path: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/app'
+          path: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}/'
+
+      # Promote images in artifact store
+      - name: Download artifact from store
+        uses: actions/download-artifact@v3
+        with:
+          name:  ${{ inputs.AZURE_WEBAPP_NAME }}
 
       # Deploy artifact to web app
       - name: Deploy to Azure WebApp
@@ -66,7 +72,7 @@ runs:
         with:
           app-name: ${{ inputs.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{ inputs.AZURE_WEBAPP_DIR_PATH }}/app'
+          package: '${{ inputs.AZURE_WEBAPP_PACKAGE_PATH }}/${{ inputs.AZURE_WEBAPP_NAME }}'
           slot-name: '${{ inputs.AZURE_WEBAPP_SLOT_NAME }}'
 
       # Send Chat Ops notification
