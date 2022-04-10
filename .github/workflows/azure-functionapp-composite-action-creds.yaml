@@ -1,0 +1,29 @@
+name: azure-powershell-composite-action-oidc
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+env:
+  AZURE_CLI_VERSION: '2.35.0'
+  
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    environment: 'PreProd'
+    steps:
+    - uses: actions/checkout@v3
+    #
+    #   This section runs the Azure function app action composite with creds
+    #
+    - uses: ./.github/workflows/azure/function/stateless/dotnet/alpha
+      with:
+        AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
+ 
