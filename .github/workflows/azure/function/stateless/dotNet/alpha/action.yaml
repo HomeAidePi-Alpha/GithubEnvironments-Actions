@@ -49,7 +49,7 @@ runs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.AZURE_FUNCTIONAPP_NAME }}
-          path: '${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          path: '${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
   
       # Promote images in artifact store
       - name: Download artifact from store
