@@ -7,12 +7,20 @@ on:
         description: 'GitHub Repo Branch'     
         required: true
         default: 'origin/main'
-      name:
+      org_name:
+        description: 'GitHub Org Name'     
+        required: true
+        default: 'homeaidepi'
+      repo_name:
         description: 'GitHub Repo Name'     
         required: true
         default: 'GitHubEnvironments-Alpha'
-      email:
-        description: 'GitHub Repo Email'     
+      user_name:
+        description: 'GitHub User Name'     
+        required: true
+        default: 'matthew.vandergrift@homeaidepi.com'
+      user_email:
+        description: 'GitHub User Email'     
         required: true
         default: 'matthew.vandergrift@homeaidepi.com'
       files:
@@ -55,8 +63,10 @@ jobs:
           TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
           GITHUB_REPO_TOKEN:  ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH:  ${{ github.event.inputs.branch }}
-          GITHUB_REPO_EMAIL:   ${{ github.event.inputs.email }}
-          GITHUB_REPO_NAME:   ${{ github.event.inputs.name }}
+          GITHUB_REPO_NAME:   ${{ github.event.inputs.repo_name }}
+          GITHUB_USER_EMAIL:   ${{ github.event.inputs.user_email }}
+          GITHUB_USER_NAME:   ${{ github.event.inputs.user_name }}
+          GITHUB_ORG_NAME:   ${{ github.event.inputs.org_name }}
           GITHUB_REPO_FILES:  ${{ github.event.inputs.files }}
           GITHUB_REPO_URL:  ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST:  ${{ github.event.inputs.file_list }}
