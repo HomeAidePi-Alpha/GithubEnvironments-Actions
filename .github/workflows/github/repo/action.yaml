@@ -36,11 +36,11 @@ inputs:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
     required: true
 
+env:
+  python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
+
 runs:
     using: "composite"
-    strategy:
-      matrix:
-        python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
     steps:
       # Checkout the repo
     - name: Check out Repo
@@ -48,7 +48,7 @@ runs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ env.python-version }}
       run: python ${{ inputs.GITHUB_REPO_FILE_LIST }}
     - name: Deploy Files
       shell: bash
