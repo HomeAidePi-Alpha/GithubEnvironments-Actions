@@ -1,0 +1,59 @@
+name: Create a GitHub Repo and populate code
+  
+on: 
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'GitHub Repo Branch'     
+        required: true
+        default: 'main'
+      name:
+        description: 'GitHub Repo Name'     
+        required: true
+        default: 'Alpha-Default-Name'
+      email:
+        description: 'GitHub Repo Email'     
+        required: true
+        default: 'matthew.vandergrift@homeaidepi.com'
+      files:
+        description: 'GitHub Repo Files'     
+        required: true
+        default: './github/repo/files'
+      file_list:
+        description: 'GitHub Repo File List'     
+        required: true
+        default: 'alpha.txt beta.txt'
+      webhook:
+        description: 'Teams Webhook'     
+        required: true
+        default: ${{ secrets.TEAMS_WEBHOOK }}
+      url:
+        description: 'GitHub Repo URL'     
+        required: true
+        default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha'
+      tags:
+        description: 'Input scenario tags'  
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+  
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    environment: 'PreProd'
+    steps:
+    - uses: actions/checkout@v3
+    #
+    #   This section runs the Google cli action composite with Service Account
+    #
+    - uses: ./.github/workflows/github/repo/oidc
+      with:
+          GITHUB_REPO_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO_BRANCH:  ${{ github.event.inputs.branch }}
+          GITHUB_REPO_EMAIL:   ${{ github.event.inputs.email }}
+          GITHUB_REPO_NAME:   ${{ github.event.inputs.name }}
+          GITHUB_REPO_FILES:  ${{ github.event.inputs.files }}
+          GITHUB_REPO_URL:  ${{ github.event.inputs.url }}
+          GITHUB_REPO_FILE_LIST:  ${{ github.event.inputs.file_list }}
+          TEAMS_WEBHOOK:  ${{ github.event.inputs.webhook }}

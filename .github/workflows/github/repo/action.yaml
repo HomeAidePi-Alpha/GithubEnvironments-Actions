@@ -1,0 +1,59 @@
+name: Create a GitHub Repo and populate code
+on:
+  push:
+    branches:
+      - "main"
+
+inputs:
+  GITHUB_REPO_BRANCH:
+    description: 'GitHub Repo Branch'
+    required: true
+  GITHUB_REPO_EMAIL:
+    description: 'GitHub Repo Email'
+    required: true
+  GITHUB_REPO_NAME:
+    description: 'GitHub Repo Name'
+    required: true
+  GITHUB_REPO_DESCRIPTION:
+    description: 'GitHub Repo Description'
+    required: true
+  GITHUB_REPO_FILES:
+    description: 'GitHub Repo Files'
+    required: true
+  GITHUB_REPO_URL:
+    description: 'GitHub Repo URL'
+    required: true
+  GITHUB_REPO_TOKEN:
+    description: 'GitHub Repo Token'
+    required: true
+  GITHUB_REPO_FILE_LIST:
+    description: 'GitHub File List'
+    required: true
+  TEAMS_WEBHOOK:
+    description: 'ChatOps Webhook for Ms Teams Channel Connector'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+    - name: checkout
+      uses: actions/checkout@v2
+    # make the changes between checkout and push
+    - name: push
+      uses: actions-x/commit@v2
+      with:
+        email: ${{ inputs.GITHUB_REPO_EMAIL }}
+        name: ${{ inputs.GITHUB_REPO_NAME }}
+        branch: ${{ inputs.GITHUB_REPO_BRANCH }}
+        repository: ${{ inputs.GITHUB_REPO_URL }}
+        token: ${{ inputs.GITHUB_REPO_TOKEN }}
+        force: true
+        files:  ${{ inputs.GITHUB_REPO_FILE_LIST }}
+        directory: ./files
+    # Send Chat Ops notification
+    - name: Send chat ops notification to teams
+      uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+      with:
+        webhook: ${{ inputs.TEAMS_WEBHOOK }}
+        message: 'Deployment Completed for github: ${{ github.sha }}'
