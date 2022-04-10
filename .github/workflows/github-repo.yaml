@@ -47,7 +47,7 @@ jobs:
     #
     #   This section runs the Google cli action composite with Service Account
     #
-    - uses: ./.github/workflows/github/repo/oidc
+    - uses: ./.github/workflows/github/repo
       with:
           TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
           GITHUB_REPO_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
