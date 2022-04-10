@@ -21,7 +21,7 @@ inputs:
     description: 'GitHub Repo Description'
     required: true
   GITHUB_REPO_FILES:
-    description: 'GitHub Repo Files Director'
+    description: 'GitHub Repo Files Directory'
     required: true
   GITHUB_REPO_URL:
     description: 'GitHub Repo URL to the .git'
@@ -51,7 +51,7 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip setuptools
-        python -m pip install -r python/requirements.txt
+        python -m pip install -r ${{ inputs.GITHUB_REPO_FILE_LIST}}
     - name: Deploy Files
       shell: bash
       run: |
