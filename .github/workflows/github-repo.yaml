@@ -6,11 +6,11 @@ on:
       branch:
         description: 'GitHub Repo Branch'     
         required: true
-        default: 'main'
+        default: 'origin/main'
       name:
         description: 'GitHub Repo Name'     
         required: true
-        default: 'Alpha-Default-Name'
+        default: 'GitHubEnvironments-Alpha'
       email:
         description: 'GitHub Repo Email'     
         required: true
@@ -18,11 +18,15 @@ on:
       files:
         description: 'GitHub Repo Files'     
         required: true
-        default: './github/repo/files'
+        default: './github/workflows/github/repo/files'
       file_list:
         description: 'GitHub Repo File List'     
         required: true
-        default: 'alpha.txt beta.txt'
+        default: './github/workflows/github/repo/files/alpha.txt ./github/workflows/github/repo/files/beta.txt'
+      token:
+        description: 'GitHub Token'     
+        required: true
+        default: ''
       webhook:
         description: 'Teams Webhook'     
         required: true
@@ -31,8 +35,6 @@ on:
         description: 'GitHub Repo URL'     
         required: true
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
-      tags:
-        description: 'Input scenario tags'  
   
 jobs:
   job:
@@ -45,16 +47,12 @@ jobs:
       actions: 'write'
       deployments: 'write'
       repository-projects: 'write'
-      
+
     steps:
-    - uses: actions/checkout@v3
-    #
-    #   This section runs the Google cli action composite with Service Account
-    #
     - uses: ./.github/workflows/github/repo
       with:
           TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
-          GITHUB_REPO_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO_TOKEN:  ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH:  ${{ github.event.inputs.branch }}
           GITHUB_REPO_EMAIL:   ${{ github.event.inputs.email }}
           GITHUB_REPO_NAME:   ${{ github.event.inputs.name }}

@@ -38,7 +38,7 @@ runs:
     steps:
       # Checkout the repo
     - name: checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     # make the changes between checkout and push
     - name: push
       uses: actions-x/commit@v2
