@@ -38,16 +38,16 @@ runs:
         working-directory: '${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}'
         shell: bash
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
       - name: Run Azure Functions Action
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+          app-name: ${{ inputs.AZURE_FUNCTIONAPP_NAME }}
+          package: '${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          publish-profile: ${{ inputs.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
