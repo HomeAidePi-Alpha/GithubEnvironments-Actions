@@ -50,7 +50,9 @@ runs:
         token: ${{ inputs.GITHUB_REPO_TOKEN }}
         force: true
         files:  ${{ inputs.GITHUB_REPO_FILE_LIST }}
-        directory: ./files
+        message: ${{ inputs.GITHUB_REPO_DESCRIPTION }}
+        # entrypoint: ??
+        # args: ??
     # Send Chat Ops notification
     - name: Send chat ops notification to teams
       uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
