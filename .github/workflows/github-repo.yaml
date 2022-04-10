@@ -30,7 +30,7 @@ on:
       file_list:
         description: 'GitHub Repo File List'     
         required: true
-        default: './github/workflows/github/repo/files/alpha.txt ./github/workflows/github/repo/files/beta.txt'
+        default: './github/workflows/github/repo/python/requirements.txt'
       token:
         description: 'GitHub Token'     
         required: true

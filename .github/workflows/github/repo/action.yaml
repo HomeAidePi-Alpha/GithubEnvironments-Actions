@@ -6,7 +6,7 @@ on:
 
 inputs:
   GITHUB_REPO_BRANCH:
-    description: 'GitHub Repo Branch'
+    description: 'GitHub Repo Branch Name usually "main" or  "master"'
     required: true
   GITHUB_USER_Name:
     description: 'GitHub User Name'
@@ -21,16 +21,16 @@ inputs:
     description: 'GitHub Repo Description'
     required: true
   GITHUB_REPO_FILES:
-    description: 'GitHub Repo Files'
+    description: 'GitHub Repo Files Director'
     required: true
   GITHUB_REPO_URL:
-    description: 'GitHub Repo URL'
+    description: 'GitHub Repo URL to the .git'
     required: true
   GITHUB_REPO_TOKEN:
-    description: 'GitHub Repo Token'
+    description: 'GitHub Repo Token for Auth'
     required: true
   GITHUB_REPO_FILE_LIST:
-    description: 'GitHub File List'
+    description: 'GitHub Repo File List'
     required: true
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
@@ -51,7 +51,7 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip setuptools
-        python -m pip install -r requirements.txt
+        python -m pip install -r python/requirements.txt
     - name: Deploy Files
       shell: bash
       run: |
