@@ -38,7 +38,7 @@ runs:
         working-directory: './${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}'
         shell: bash
         run: |
-          pushd '${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
       - name: Run Azure Functions Action
