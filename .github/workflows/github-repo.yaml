@@ -49,6 +49,7 @@ jobs:
       repository-projects: 'write'
 
     steps:
+    - uses: actions/checkout@v3
     - uses: ./.github/workflows/github/repo
       with:
           TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
