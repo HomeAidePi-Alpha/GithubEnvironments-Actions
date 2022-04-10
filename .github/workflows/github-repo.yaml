@@ -26,7 +26,7 @@ on:
       webhook:
         description: 'Teams Webhook'     
         required: true
-        default: ${{ secrets.TEAMS_WEBHOOK }}
+        default: ''
       url:
         description: 'GitHub Repo URL'     
         required: true
@@ -49,6 +49,7 @@ jobs:
     #
     - uses: ./.github/workflows/github/repo/oidc
       with:
+          TEAMS_WEBHOOK:  ${{ secrets.TEAMS_WEBHOOK }}
           GITHUB_REPO_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO_BRANCH:  ${{ github.event.inputs.branch }}
           GITHUB_REPO_EMAIL:   ${{ github.event.inputs.email }}
@@ -56,4 +57,3 @@ jobs:
           GITHUB_REPO_FILES:  ${{ github.event.inputs.files }}
           GITHUB_REPO_URL:  ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST:  ${{ github.event.inputs.file_list }}
-          TEAMS_WEBHOOK:  ${{ github.event.inputs.webhook }}
