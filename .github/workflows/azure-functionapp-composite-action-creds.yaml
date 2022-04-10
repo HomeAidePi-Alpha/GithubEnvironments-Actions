@@ -20,7 +20,7 @@ jobs:
     #
     #   This section runs the Azure function app action composite with creds
     #
-    - uses: ./.github/workflows/azure/function/stateless/dotnet/alpha
+    - uses: ./.github/workflows/azure/function/stateless/dotNet/alpha
       with:
         AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
         AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}

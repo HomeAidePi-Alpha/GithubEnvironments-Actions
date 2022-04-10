@@ -26,8 +26,8 @@ runs:
     using: "composite"
     steps:
       # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@main
+      - name: Checkout the repo
+        uses: actions/checkout@v3
 
       - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v1
