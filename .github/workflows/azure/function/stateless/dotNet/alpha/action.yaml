@@ -35,10 +35,10 @@ runs:
            dotnet-version: ${{ inputs.DOTNET_VERSION }}
 
       - name: Restore & Build Function App
-        working-directory: './'
+        working-directory: './.github/workflows/azure/function/stateless/dotNet/alpha'
         shell: bash
         run: |
-          pushd 'app'
+          pushd 'app/'
           dotnet build --configuration Release --output ./output
           popd
       - name: Run Azure Functions Action
