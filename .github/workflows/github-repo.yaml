@@ -30,7 +30,7 @@ on:
       url:
         description: 'GitHub Repo URL'     
         required: true
-        default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha'
+        default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
       tags:
         description: 'Input scenario tags'  
 
