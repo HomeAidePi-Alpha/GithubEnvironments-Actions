@@ -10,7 +10,7 @@ on:
       org_name:
         description: 'GitHub Org Name'
         required: true
-        default: 'homeaidepi'
+        default: 'HomeAidePi-Alpha'
       repo_name:
         description: 'GitHub Repo Name'
         required: true
