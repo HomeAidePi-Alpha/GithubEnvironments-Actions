@@ -37,7 +37,7 @@ on:
         default: ''
       webhook:
         description: 'Teams Webhook'
-        required: optional
+        required: false
         default: ''
       url:
         description: 'GitHub Repo URL'
