@@ -72,7 +72,7 @@ runs:
         git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
         git branch -M ${{ inputs.GITHUB_REPO_BRANCH }}
         git add ./README.md
-        git add ${{ inputs.GITHUB_REPO_FILES }}
+        git add -f ${{ inputs.GITHUB_REPO_FILES }}/\\*
         git commit -m "initial alpha checkin"
         git push -u origin ${{ inputs.GITHUB_REPO_BRANCH }}   
     # Send Chat Ops notification
