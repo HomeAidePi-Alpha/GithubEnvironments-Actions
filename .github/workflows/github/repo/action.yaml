@@ -5,6 +5,9 @@ on:
       - "main"
 
 inputs:
+   GITHUB_Org_Name:
+    description: 'GitHub Organization Name'
+    required: true
   GITHUB_REPO_BRANCH:
     description: 'GitHub Repo Branch Name usually "main" or  "master"'
     required: true
@@ -38,6 +41,7 @@ inputs:
 
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
+  python-architecture: 'x64'
 
 runs:
     using: "composite"
@@ -45,22 +49,26 @@ runs:
       # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
-    - name: Set up Python
+    - name: Set up Python 3.x
       uses: actions/setup-python@v3
       with:
+        # Semantic version range syntax or exact version of a Python version
         python-version: ${{ env.python-version }}
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: ${{ env.python-architecture }}
+    # Printing the current Python version
     - name: Display Python version
-      shell: bash
-      run: python ${{ inputs.GITHUB_REPO_FILE_LIST }}
+      run: python -c "import sys; print(sys.version)"
+      uses: actions/checkout@v3
     - name: Deploy Files
       shell: bash
       run: |
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email "${{ inputs.GITHUB_USER_EMAIL }}"
-        git remote add gh-token "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_TOKEN}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
-        git fetch gh-token && git fetch gh-token gh-pages:gh-pages
-        python -m mkdocs gh-deploy -v --clean --remote-name gh-token
-        git push gh-token gh-pages
+        git remote add gh-token "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
+        git add ${{ inputs.GITHUB_REPO_FILE_LIST }}
+        git commit -m "alpha message"
+        git push
     # Send Chat Ops notification
     - name: Send chat ops notification to teams
       uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
