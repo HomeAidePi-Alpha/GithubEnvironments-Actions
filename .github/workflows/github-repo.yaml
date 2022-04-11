@@ -4,46 +4,46 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'GitHub Repo Branch'     
+        description: 'GitHub Repo Branch'
         required: true
         default: 'origin/main'
       org_name:
-        description: 'GitHub Org Name'     
+        description: 'GitHub Org Name'
         required: true
         default: 'homeaidepi'
       repo_name:
-        description: 'GitHub Repo Name'     
+        description: 'GitHub Repo Name'
         required: true
         default: 'GitHubEnvironments-Alpha'
       user_name:
-        description: 'GitHub User Name'     
+        description: 'GitHub User Name'
         required: true
         default: 'matthew.vandergrift@homeaidepi.com'
       user_email:
-        description: 'GitHub User Email'     
+        description: 'GitHub User Email'
         required: true
         default: 'matthew.vandergrift@homeaidepi.com'
       files:
-        description: 'GitHub Repo Files'     
+        description: 'GitHub Repo Files'
         required: true
         default: './.github/workflows/github/python/files'
       file_list:
-        description: 'GitHub Repo File List'     
+        description: 'GitHub Repo File List'
         required: true
         default: './.github/workflows/github/repo/python/alpha.py'
       token:
-        description: 'GitHub Token'     
+        description: 'GitHub Token'
         required: true
         default: ''
       webhook:
-        description: 'Teams Webhook'     
+        description: 'Teams Webhook'
         required: optional
         default: ''
       url:
-        description: 'GitHub Repo URL'     
+        description: 'GitHub Repo URL'
         required: true
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
-  
+
 jobs:
   job:
     runs-on: ubuntu-latest
@@ -60,13 +60,13 @@ jobs:
     - uses: actions/checkout@v3
     - uses: ./.github/workflows/github/repo
       with:
-          TEAMS_WEBHOOK:  ${{ github.event.inputs.webhook }}
-          GITHUB_REPO_TOKEN:  ${{ github.event.inputs.token }}
-          GITHUB_REPO_BRANCH:  ${{ github.event.inputs.branch }}
-          GITHUB_REPO_NAME:   ${{ github.event.inputs.repo_name }}
-          GITHUB_USER_EMAIL:   ${{ github.event.inputs.user_email }}
-          GITHUB_USER_NAME:   ${{ github.event.inputs.user_name }}
-          GITHUB_ORG_NAME:   ${{ github.event.inputs.org_name }}
-          GITHUB_REPO_FILES:  ${{ github.event.inputs.files }}
-          GITHUB_REPO_URL:  ${{ github.event.inputs.url }}
-          GITHUB_REPO_FILE_LIST:  ${{ github.event.inputs.file_list }}
+          TEAMS_WEBHOOK: ${{ github.event.inputs.webhook }}
+          GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
+          GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
+          GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
+          GITHUB_USER_EMAIL: ${{ github.event.inputs.user_email }}
+          GITHUB_USER_NAME: ${{ github.event.inputs.user_name }}
+          GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+          GITHUB_REPO_FILES: ${{ github.event.inputs.files }}
+          GITHUB_REPO_URL: ${{ github.event.inputs.url }}
+          GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
