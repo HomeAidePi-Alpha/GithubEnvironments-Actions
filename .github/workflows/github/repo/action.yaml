@@ -58,8 +58,8 @@ runs:
         architecture: ${{ env.python-architecture }}
     # Printing the current Python version
     - name: Display Python version
+      shell: bash
       run: python -c "import sys; print(sys.version)"
-      uses: actions/checkout@v3
     - name: Deploy Files
       shell: bash
       run: |
