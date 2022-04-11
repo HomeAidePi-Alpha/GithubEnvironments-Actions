@@ -69,11 +69,10 @@ runs:
         git config --global user.name ${{ inputs.GITHUB_USER_NAME }}
         git config --global user.email ${{ inputs.GITHUB_USER_EMAIL }}
         git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
-        git init
         git remote set-url origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         git add README.md --force
         git commit -m "initial alpha checkin"
-        git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
+        git push -u origin ${{ inputs.GITHUB_REPO_BRANCH }}
     # Send Chat Ops notification
     - name: Send chat ops notification to teams
       uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
