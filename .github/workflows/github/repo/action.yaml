@@ -58,12 +58,12 @@ runs:
         architecture: ${{ env.python-architecture }}
     # Printing the current Python version
     - name: Display Python version
-      shell: bash
+      shell: python
       run: | 
         python -c "import sys; print(sys.version)"
         python ${{ inputs.GITHUB_REPO_FILE_LIST }}
     - name: Deploy Files
-      shell: bash
+      shell: pwsh
       run: |
         echo "# GitHubEnvironments-Alpha" >> README.md
         git add README.md
