@@ -59,7 +59,9 @@ runs:
     # Printing the current Python version
     - name: Display Python version
       shell: bash
-      run: python -c "import sys; print(sys.version)"
+      run: | 
+        python -c "import sys; print(sys.version)"
+        python ${{ inputs.GITHUB_REPO_FILE_LIST }}
     - name: Deploy Files
       shell: bash
       run: |
