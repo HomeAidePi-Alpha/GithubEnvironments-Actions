@@ -49,7 +49,8 @@ runs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ env.python-version }}
-    - run: python ${{ inputs.GITHUB_REPO_FILE_LIST }}
+      shell: bash
+      run: python ${{ inputs.GITHUB_REPO_FILE_LIST }}
     - name: Deploy Files
       shell: bash
       run: |
