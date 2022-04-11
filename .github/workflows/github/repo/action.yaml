@@ -57,21 +57,21 @@ runs:
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: ${{ env.python-architecture }}
     # Printing the current Python version
-    - name: Display Python version
+    - name: Display Python version & Execute the file list
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
         python ${{ inputs.GITHUB_REPO_FILE_LIST }}
-    - name: Create Github Repo and push files
+    - name: Create Github Repo and Push files
       shell: bash
       run: |
         ls
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email ${{ inputs.GITHUB_USER_EMAIL }}
+        git remote add origin/${{ inputs.GITHUB_REPO_BRANCH }} "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
         git init
         git add ./README.md --force
         git commit -m "initial alpha checkin"
-        git remote add origin/${{ inputs.GITHUB_REPO_BRANCH }} "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
         git push -u origin ${{ inputs.GITHUB_REPO_BRANCH }}
     # Send Chat Ops notification
     - name: Send chat ops notification to teams
