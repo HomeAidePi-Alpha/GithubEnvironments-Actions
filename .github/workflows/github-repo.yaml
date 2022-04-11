@@ -18,7 +18,7 @@ on:
       user_name:
         description: 'GitHub User Name'
         required: true
-        default: 'matthew.vandergrift@homeaidepi.com'
+        default: 'Vandy'
       user_email:
         description: 'GitHub User Email'
         required: true
