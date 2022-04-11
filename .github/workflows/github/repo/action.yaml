@@ -70,7 +70,6 @@ runs:
         git config user.email ${{ inputs.GITHUB_USER_EMAIL }}
         git remote rm origin
         git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
-        git remote set-url upstream https://github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git
         git add README.md --force
         git commit -m "initial alpha checkin"
         git push -u origin ${{ inputs.GITHUB_REPO_BRANCH }}   
