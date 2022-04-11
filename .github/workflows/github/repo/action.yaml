@@ -68,6 +68,7 @@ runs:
         ls
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email ${{ inputs.GITHUB_USER_EMAIL }}
+        rm -rf .git/
         git init
         git remote rm origin
         git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
