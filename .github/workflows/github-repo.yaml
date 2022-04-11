@@ -46,7 +46,7 @@ on:
   
 jobs:
   job:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: 'PreProd'
     permissions:
       contents: 'write'
