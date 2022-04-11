@@ -63,6 +63,7 @@ runs:
     - name: Deploy Files
       shell: bash
       run: |
+        ls
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email "${{ inputs.GITHUB_USER_EMAIL }}"
         git remote add gh-token "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/:${{ inputs.GITHUB_ORG_NAME}}/:${{ inputs.GITHUB_REPO_NAME}}.git"
