@@ -5,7 +5,7 @@ on:
       - "main"
 
 inputs:
-  GITHUB_Org_Name:
+  GITHUB_ORG_NAME:
     description: 'GitHub Organization Name'
     required: true
   GITHUB_REPO_BRANCH:
