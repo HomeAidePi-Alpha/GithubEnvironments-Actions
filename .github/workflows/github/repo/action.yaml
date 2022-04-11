@@ -63,6 +63,7 @@ runs:
     - name: Deploy Files
       shell: bash
       run: |
+        cd .github/workflows/github/repo/python
         ls
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email "${{ inputs.GITHUB_USER_EMAIL }}"
