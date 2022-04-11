@@ -71,7 +71,7 @@ runs:
         rm -rf .git/
         git init
         git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
-        gh auth login 
+        gh auth login --with-token ${{ inputs.GITHUB_REPO_TOKEN}}
         gh repo create ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
         git add README.md --force
         git commit -m "initial alpha checkin"
