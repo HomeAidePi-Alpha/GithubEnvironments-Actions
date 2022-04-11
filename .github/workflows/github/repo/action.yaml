@@ -49,10 +49,8 @@ runs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ env.python-version }}
-      shell: bash
       run: python ${{ inputs.GITHUB_REPO_FILE_LIST }}
     - name: Deploy Files
-      shell: bash
       run: |
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email "${{ inputs.GITHUB_USER_EMAIL }}"
