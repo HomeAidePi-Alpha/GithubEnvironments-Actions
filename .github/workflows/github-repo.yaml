@@ -1,6 +1,6 @@
 name: Create a GitHub Repo and populate code
-  
-on: 
+
+on:
   workflow_dispatch:
     inputs:
       branch:
