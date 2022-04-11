@@ -68,6 +68,7 @@ runs:
         ls
         git config user.name ${{ inputs.GITHUB_USER_NAME }}
         git config user.email ${{ inputs.GITHUB_USER_EMAIL }}
+        git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
         rm -rf .git/
         git init
         git remote rm origin
