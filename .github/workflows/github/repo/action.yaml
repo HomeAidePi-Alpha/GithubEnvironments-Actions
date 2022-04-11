@@ -69,10 +69,11 @@ runs:
         git config --global user.name ${{ inputs.GITHUB_USER_NAME }}
         git config --global user.email ${{ inputs.GITHUB_USER_EMAIL }}
         git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
-        git remote remove origin
+        git init
         git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         git remote set-url origin https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git
         git add README.md --force
+        git status
         git commit -m "initial alpha checkin"
         git status
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
