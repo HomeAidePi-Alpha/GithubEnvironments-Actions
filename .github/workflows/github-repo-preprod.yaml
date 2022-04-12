@@ -92,3 +92,4 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+    # Perform quality checks & standards

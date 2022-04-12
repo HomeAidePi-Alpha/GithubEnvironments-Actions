@@ -46,6 +46,8 @@ runs:
       shell: bash
       # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
       run: |
+        git remote set-url origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
+        git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         gh secret set super_secret_nplus_abstractions_away --body "${{ env.pulled-from-env-even-better }}" --env ${{ inputs. inputs.ENVIRONMENT }}
