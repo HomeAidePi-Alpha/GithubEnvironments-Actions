@@ -1,17 +1,17 @@
 name: Create a GitHub Repo, populate base code & create environments
 
 inputs:
+  USER_Name:
+    description: 'User Name'
+    required: true
+  USER_EMAIL:
+    description: 'User Email'
+    required: true
   GITHUB_ORG_NAME:
     description: 'GitHub Organization Name'
     required: true
   GITHUB_REPO_BRANCH:
     description: 'GitHub Repo Branch Name usually "main" or  "master"'
-    required: true
-  GITHUB_USER_Name:
-    description: 'GitHub User Name'
-    required: true
-  GITHUB_USER_EMAIL:
-    description: 'GitHub Repo Email'
     required: true
   GITHUB_REPO_NAME:
     description: 'GitHub Repo Name'
@@ -69,8 +69,8 @@ runs:
     - name: Create new Github Repo and Push baseline files (any project type)
       shell: bash
       run: |
-        git config --global user.name ${{ inputs.GITHUB_USER_NAME }}
-        git config --global user.email ${{ inputs.GITHUB_USER_EMAIL }}
+        git config --global user.name ${{ inputs.USER_NAME }}
+        git config --global user.email ${{ inputs.USER_EMAIL }}
         git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
         rm -rf .git/
         git init

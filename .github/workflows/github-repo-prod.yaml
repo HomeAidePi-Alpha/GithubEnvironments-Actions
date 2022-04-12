@@ -2,6 +2,10 @@ name: Production create secrets test for quality and check standards
 on:
   workflow_dispatch:
     inputs:
+      user_name:
+        description: 'User Name'
+        required: true
+        default: 'Vandy'
       user_email:
         description: 'User Email'
         required: true
@@ -83,6 +87,7 @@ jobs:
     - uses: ./.github/workflows/chatops/slack
       with:
           ENVIRONMENT: preprod
+          USER_NAME: ${{ github.event.inputs.user_name }}
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
     
     # perform your quality checks here

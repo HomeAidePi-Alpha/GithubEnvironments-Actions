@@ -4,6 +4,10 @@ name: Preprod create a GitHub Repo and populate code, create secrets, docs & wik
 on:
   workflow_dispatch:
     inputs:
+      user_name:
+        description: 'User Name'
+        required: true
+        default: 'Vandy'
       user_email:
         description: 'User Email'
         required: true
@@ -75,10 +79,11 @@ jobs:
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
+          USER_EMAIL: ${{ github.event.inputs.user_name }}
+          USER_EMAIL: ${{ github.event.inputs.user_mail }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
-          GITHUB_USER_EMAIL: ${{ github.event.inputs.user_email }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
           GITHUB_REPO_URL: ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
