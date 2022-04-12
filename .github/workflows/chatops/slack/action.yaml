@@ -1,0 +1,31 @@
+name: Create a Teams message related to deployment
+
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  SLACK_USER_NAME:
+    description: 'User sending the notification'
+    required: true
+  SLACK_WEBHOOK:
+    description: 'Slack Webhook for some Chat Channel'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+
+    # Send Chat Ops notification
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: general
+        SLACK_COLOR: 'good' # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: docs/bear-cavalry.png?size=48
+        SLACK_MESSAGE: ':rocket: Environment: ${{ inputs.ENVIRONMENT }} deployment completed for commit: ${{ github.sha }}'
+        SLACK_TITLE: 'CI/CQ/CD Completed' 
+        SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

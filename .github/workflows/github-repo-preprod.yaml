@@ -36,8 +36,16 @@ on:
         description: 'GitHub Token'
         required: true
         default: ''
-      webhook:
+      teams_webhook:
         description: 'Teams Webhook'
+        required: false
+        default: ''
+      slack_user_name: 
+        description: 'Slack Username'
+        required: false
+        default: ''
+      slack_webhook:
+        description: 'Slack Webhook'
         required: false
         default: ''
       url:
@@ -101,9 +109,18 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+
+    # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
           ENVIRONMENT: preprod
-          TEAMS_WEBHOOK: ${{ github.event.inputs.webhook }}
+          TEAMS_WEBHOOK: ${{ github.event.inputs.teams_webhook }}
+
+    # Send a chat ops notification depending on slack
+    - uses: ./.github/workflows/chatops/slack
+      with:
+          ENVIRONMENT: preprod
+          SLACK_USER_NAME: ${{ github.event.inputs.slack_user_name }}
+          SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
 
     # todo Perform quality checks & standards here

@@ -76,6 +76,19 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+          
+     # Send a chat ops notification on teams or use slack below
+    - uses: ./.github/workflows/chatops/teams
+      with:
+          ENVIRONMENT: preprod
+          TEAMS_WEBHOOK: ${{ github.event.inputs.teams_webhook }}
+
+    # Send a chat ops notification on slack
+    - uses: ./.github/workflows/chatops/slack
+      with:
+          ENVIRONMENT: preprod
+          SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
+    
     # perform your quality checks here
 
     # if the canary dies rollback the environment or
