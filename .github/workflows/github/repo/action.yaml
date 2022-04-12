@@ -86,7 +86,7 @@ runs:
         git add README.md
         git add docs
         git add workflows
-        git mv workflows .github/workflows
+        git mv workflows .github/
         git add workloads
         git mv workloads .github/workflows/workloads
         git commit -m "initial alpha checkin"
