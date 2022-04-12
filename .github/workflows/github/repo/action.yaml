@@ -34,7 +34,7 @@ inputs:
 
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
-  environments: ['preprod'm 'prod']
+  environments: ['preprod', 'prod']
   # will need to add/edit/remove api calls below based on changing the environments matrix
   python-architecture: 'x64'
   pulled-from-keyvault : 'secret'
