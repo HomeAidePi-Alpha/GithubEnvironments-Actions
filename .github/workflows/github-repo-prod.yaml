@@ -1,4 +1,4 @@
-name: Create a GitHub Repo and populate code (PRODUCTION)
+name: Production create a GitHub Repo and populate code 
 
 on:
   workflow_dispatch:
