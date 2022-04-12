@@ -92,10 +92,8 @@ runs:
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
     - name: Push secrets from any source you want and will be abstracted away from the consumer of the repo unless they are doing bad deeds with the keys (Consider federating Azure to Github to prevent even bad deeds).
       shell: bash
+      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
       run: |
-        git config --global user.name ${{ inputs.GITHUB_USER_NAME }}
-        git config --global user.email ${{ inputs.GITHUB_USER_EMAIL }}
-        git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}"
