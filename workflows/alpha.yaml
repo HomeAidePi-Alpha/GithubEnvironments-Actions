@@ -1,0 +1,45 @@
+name: Run a python process
+
+on: [push]
+
+#Phase 1 - Alpha - Executed
+jobs:
+  GitHub-Environments-Actions-Runtime:
+    runs-on: ubuntu-latest
+    # todo implement quality strategy by tiger team committee
+    # strategy:
+    #   matrix:
+    #       package:
+    #           - coding-standard
+    #           - python-lint-rules
+    #           - commit-guidelines
+    #           - pull-request-peer-review
+    #           - quality-checks
+    environment: preprod
+    # todo Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+
+    steps:
+     # Checkout the repo
+    - name: Check out Repo
+    - uses: actions/checkout@v3
+    # Setup Python versions
+    - name: Setup Python versions
+      uses: actions/setup-python@v3
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: ${{ env.python-version }}
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: ${{ env.python-architecture }}
+    # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
+    - name: Display Python version & Execute python on the file list
+      shell: bash
+      run: | 
+        python -c "import sys; print(sys.version)"
+        python workload/beta.py ${{ secrets.pulled_from_keyvault }} ${{ secrets.pulled_from_cyberark }}
