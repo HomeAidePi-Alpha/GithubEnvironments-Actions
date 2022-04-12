@@ -81,8 +81,10 @@ runs:
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         gh repo create ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}} --public
-        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[0] }}
-        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[1] }}
+        gh auth login --with-token < .githubtoken
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/preprod
+        gh auth login --with-token < .githubtoken
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/prod
         git add README.md
         git add docs
         git commit -m "initial alpha checkin"
