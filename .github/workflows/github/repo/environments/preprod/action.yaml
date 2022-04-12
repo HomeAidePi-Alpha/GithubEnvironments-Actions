@@ -50,7 +50,7 @@ runs:
         git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
-        del .githubtoken
+        rm .githubtoken
         gh secret set PULLED_FROM_KEYVAULT --body "${{ env.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_CYBERARK --body "${{ env.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_SQL --body "${{ env.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }}

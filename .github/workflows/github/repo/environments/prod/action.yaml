@@ -40,7 +40,7 @@ runs:
         git remote set-url origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
-        del .githubtoken
+        rm .githubtoken
         gh auth login --with-token < .githubtoken
         gh secret set PULLED_FROM_NPLUS_ABSTRACTIONS_ENV --body "${{ env.PULLED_FROM_NPLUS_ABSTRACTIONS_ENV }}" --env ${{  inputs.ENVIRONMENT }}
       # Paste secret value for the current repository in an interactive prompt
