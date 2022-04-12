@@ -38,10 +38,22 @@ inputs:
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
     required: true
+  MY_SECRET:
+    description: 'Secret Env Variable you would like to store (will be abstracted away from consumer)'
+    required: true
 
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
   python-architecture: 'x64'
+  pulled-from-keyvault : 'secret'
+  pulled-from-cyberark : 'secret-shh'
+  pulled-from-sql : 'secret-donttell'
+  pulled-from-blob : 'secret-psst'
+  pulled-from-file : 'secret-hey'
+  pulled-from-stream : 'secret-omg'
+  pulled-from-queue : 'secret-didjahear'
+  pulled-from-service : 'secret-dontask'
+  pulled-from-http-webhook-ideal : 'secret-wonttell'
 
 runs:
     using: "composite"
@@ -78,9 +90,40 @@ runs:
         git add docs
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
+    - name: Push secrets from any source you want and will be abstracted away from the consumer of the repo unless they are doing bad deeds with the keys (Consider federating Azure to Github to prevent even bad deeds).
+      shell: bash
+      run: |
+        git config --global user.name ${{ inputs.GITHUB_USER_NAME }}
+        git config --global user.email ${{ inputs.GITHUB_USER_EMAIL }}
+        git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
+        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        gh secret set pulled-from-keyvault --body "${{ env.pulled-from-keyvault }}"
+        gh secret set pulled-from-cyberark --body "${{ env.pulled-from-cyberark }}"
+        gh secret set pulled-from-sql --body "${{ env.pulled-from-sql }}"
+        gh secret set pulled-from-blob --body "${{ env.pulled-from-blob }}"
+        gh secret set pulled-from-file --body "${{ env.pulled-from-file }}"
     # Send Chat Ops notification
     - name: Send chat ops notification to teams
       uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
       with:
         webhook: ${{ inputs.TEAMS_WEBHOOK }}
         message: 'Deployment Completed for github: ${{ github.sha }}'
+    # Paste secret value for the current repository in an interactive prompt
+    # $ gh secret set MYSECRET
+    # Read secret value from an environment variable
+    #$ gh secret set MYSECRET --body "$ENV_VALUE"
+    # Read secret value from a file
+    #$ gh secret set MYSECRET < myfile.txt
+    # Set secret for a deployment environment in the current repository
+    #$ gh secret set MYSECRET --env myenvironment
+    # Set organization-level secret visible to both public and private repositories
+    #$ gh secret set MYSECRET --org myOrg --visibility all
+    # Set organization-level secret visible to specific repositories
+    #$ gh secret set MYSECRET --org myOrg --repos repo1,repo2,repo3
+    # Set user-level secret for Codespaces
+    #$ gh secret set MYSECRET --user
+    # Set repository-level secret for Dependabot
+    #$ gh secret set MYSECRET --app dependabot
+    # Set multiple secrets imported from the ".env" file
+    #$ gh secret set -f .env
