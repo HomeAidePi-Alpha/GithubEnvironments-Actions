@@ -1,4 +1,4 @@
-name: Preprod create a GitHub Repo and populate code
+name: Preprod create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
 
 on:
   workflow_dispatch:
@@ -44,13 +44,11 @@ on:
         required: true
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
 
-env:
-  KIND : 'preprod'
-
 jobs:
   #Phase 1 - Alpha
   job:
     runs-on: ubuntu-latest
+    # todo implement quality strategy by tiger team committee
     # strategy:
     #   matrix:
     #       package:
@@ -59,8 +57,8 @@ jobs:
     #           - commit-guidelines
     #           - pull-request-peer-review
     #           - quality-checks
-    environment: ${{ env.KIND }}
-    # todo Implement principle of least priv
+    environment: preprod
+    # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
       id-token: 'write'
@@ -74,7 +72,7 @@ jobs:
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
-          ENVIRONMENT: ${{ env.KIND }}
+          ENVIRONMENT: 'preprod'
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
@@ -84,10 +82,10 @@ jobs:
           GITHUB_REPO_FILES: ${{ github.event.inputs.files }}
           GITHUB_REPO_URL: ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
-    # Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
-    - uses: ./.github/workflows/github/repo/environments/${{ env.environment }}
+    # Create secrets, docs & wiki, test for quality and check standards
+    - uses: ./.github/workflows/github/repo/environments/preprod
       with:
-          ENVIRONMENT: ${{ env.environment }}
+          ENVIRONMENT: preprod
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
