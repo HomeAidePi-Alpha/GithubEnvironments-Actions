@@ -81,7 +81,7 @@ jobs:
           GITHUB_REPO_FILES: ${{ github.event.inputs.files }}
           GITHUB_REPO_URL: ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
-    - name: Sleep for 30 seconds
+    - name: Sleep for 10 seconds
       run: sleep 10s
       shell: bash
     # Create secrets, docs & wiki, test for quality and check standards
