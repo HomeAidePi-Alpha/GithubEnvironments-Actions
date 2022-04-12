@@ -38,10 +38,6 @@ on:
         description: 'Slack Webhook'
         required: false
         default: ''
-      url:
-        description: 'GitHub Repo URL'
-        required: true
-        default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
 
 jobs:
   #Phase 1 - Alpha

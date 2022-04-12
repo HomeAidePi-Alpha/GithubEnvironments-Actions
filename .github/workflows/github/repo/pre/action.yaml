@@ -16,9 +16,6 @@ inputs:
   GITHUB_REPO_NAME:
     description: 'GitHub Repo Name'
     required: true
-  GITHUB_REPO_DESCRIPTION:
-    description: 'GitHub Repo Description'
-    required: true
   GITHUB_REPO_TOKEN:
     description: 'GitHub Repo Token for Auth'
     required: true
@@ -29,18 +26,8 @@ inputs:
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
   environments: ['preprod', 'prod']
-  # will need to add/edit/remove api calls below based on changing the environments matrix
   python-architecture: 'x64'
-  pulled-from-keyvault : 'secret'
-  pulled-from-cyberark : 'secret-shh'
-  pulled-from-sql : 'secret-donttell'
-  pulled-from-blob : 'secret-psst'
-  pulled-from-file : 'secret-hey'
-  pulled-from-stream : 'secret-omg'
-  pulled-from-queue : 'secret-didjahear'
-  pulled-from-service : 'secret-dontask'
-  pulled-from-http-webhook-ideal : 'secret-wonttell'
-  pulled-from-env-even-better : 'no-secret-found'
+
 
 runs:
     using: "composite"
@@ -78,12 +65,6 @@ runs:
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/preprod
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/prod
         git add README.md
-        git add docs
-        git add workflows/phase1-alpha-python-executed.yaml
-        git mv workflows/phase1-alpha-python-executed.yaml .github/workflows/phase1-alpha-python-executed.yaml
-        git add workflows/quality-codeql.yaml
-        git mv workflows/quality-codeql.yaml .github/workflows/quality-codeql.yaml
-        git add workloads
-        git mv workloads .github/workflows
-        git commit -m "initial alpha checkin"
+        git add docs       
+        git commit -m "initial README & docs check-in"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
