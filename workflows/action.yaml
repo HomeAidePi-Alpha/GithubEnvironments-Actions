@@ -1,6 +1,9 @@
 name: Run a python process
 
-on: [push]
+on:
+  push:
+    branches:
+      - "main"
 
 #Phase 1 - Alpha - Executed
 jobs:
