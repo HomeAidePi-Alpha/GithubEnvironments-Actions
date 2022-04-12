@@ -1,4 +1,4 @@
-name: Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
+name: Create preprod secrets
 
 inputs:
   ENVIRONMENT:
