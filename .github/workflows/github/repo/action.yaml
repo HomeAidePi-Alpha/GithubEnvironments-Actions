@@ -1,4 +1,4 @@
-name: Create a GitHub Repo, populate base code 
+name: Create a GitHub Repo, populate base code & create environments
 
 inputs:
   GITHUB_ORG_NAME:
@@ -34,6 +34,7 @@ inputs:
 
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
+  environments: ['preprod'm 'prod']
   # will need to add/edit/remove api calls below based on changing the environments matrix
   python-architecture: 'x64'
   pulled-from-keyvault : 'secret'
@@ -84,3 +85,5 @@ runs:
         git add docs
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[0] }}        
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[1] }}        

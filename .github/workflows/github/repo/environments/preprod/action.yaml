@@ -48,7 +48,6 @@ runs:
       run: |
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
-        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ inputs.ENVIRONMENT }}        
         gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env ${{  inputs.ENVIRONMENT }}
