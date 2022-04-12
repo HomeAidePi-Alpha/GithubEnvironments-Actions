@@ -42,7 +42,7 @@ runs:
     
     # PROD Env & Secrets (one abstraction away from consumer of downstream repo) 
     # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
-    - name: Create Env & secrets for (${{  inputs.ENVIRONMENT }} 
+    - name: Create Env & secrets for Prod
       shell: bash
       # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
       run: |
