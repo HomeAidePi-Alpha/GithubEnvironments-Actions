@@ -68,6 +68,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    # perform canary deployment using feature flags on
     - uses: ./.github/workflows/github/repo/environments/prod
       with:
           ENVIRONMENT: prod
@@ -75,3 +76,8 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+    # perform your quality checks here
+
+    # if the canary dies rollback the environment or
+    # if the canary flies keep the environment and turn feature flag off or
+    # if the canary flies keep the environment and leave feature flag on
