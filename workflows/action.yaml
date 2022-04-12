@@ -45,4 +45,4 @@ jobs:
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
-        python ./workloads/beta.py ${{ secrets.pulled_from_keyvault }} ${{ secrets.pulled_from_cyberark }}
+        python .github/workflows/workloads/beta.py ${{ secrets.pulled_from_keyvault }} ${{ secrets.pulled_from_cyberark }}
