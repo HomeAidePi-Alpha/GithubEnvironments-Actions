@@ -98,11 +98,11 @@ runs:
         git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
-        gh secret set pulled-from-keyvault --body "${{ env.pulled-from-keyvault }}"
-        gh secret set pulled-from-cyberark --body "${{ env.pulled-from-cyberark }}"
-        gh secret set pulled-from-sql --body "${{ env.pulled-from-sql }}"
-        gh secret set pulled-from-blob --body "${{ env.pulled-from-blob }}"
-        gh secret set pulled-from-file --body "${{ env.pulled-from-file }}"
+        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}"
+        gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}"
+        gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}"
+        gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}"
+        gh secret set pulled_from_file --body "${{ env.pulled-from-file }}"
     # Send Chat Ops notification
     - name: Send chat ops notification to teams
       uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
