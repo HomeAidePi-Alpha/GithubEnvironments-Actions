@@ -1,4 +1,4 @@
-name: Create a GitHub Repo, populate base code
+name: Create a GitHub Repo, populate base code 
 
 inputs:
   GITHUB_ORG_NAME:
@@ -31,7 +31,7 @@ inputs:
   GITHUB_REPO_FILE_LIST:
     description: 'GitHub Repo File List'
     required: true
-    
+
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
   # will need to add/edit/remove api calls below based on changing the environments matrix
