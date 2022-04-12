@@ -86,6 +86,8 @@ runs:
         git add README.md
         git add docs
         git add workflows
+        git mv workflows .github/workflows
         git add workloads
+        git mv workflows .github/workflows/workloads
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
