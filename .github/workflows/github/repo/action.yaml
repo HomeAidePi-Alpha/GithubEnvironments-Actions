@@ -1,8 +1,4 @@
-name: Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
-on:
-  push:
-    branches:
-      - "main"
+name: Create a GitHub Repo, populate base code
 
 inputs:
   GITHUB_ORG_NAME:
@@ -35,17 +31,10 @@ inputs:
   GITHUB_REPO_FILE_LIST:
     description: 'GitHub Repo File List'
     required: true
-  TEAMS_WEBHOOK:
-    description: 'ChatOps Webhook for Ms Teams Channel Connector'
-    required: true
-  MY_SECRET:
-    description: 'Secret Env Variable you would like to store (will be abstracted away from consumer)'
-    required: true
-
+    
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
   # will need to add/edit/remove api calls below based on changing the environments matrix
-  environments: ['PreProd', 'Prod']
   python-architecture: 'x64'
   pulled-from-keyvault : 'secret'
   pulled-from-cyberark : 'secret-shh'
@@ -95,60 +84,3 @@ runs:
         git add docs
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
-    # Here we will create environment(s) and push secrets using gh cli 
-    # Basically from any source you want to populate and will be abstracted away from the consumer of the repo in one degree of separation 
-    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be logged or able to be observed (in the non quantum sense) 
-    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds from consumers as the secrets will only be exchanged between upper domains and not downstreams or middlemen    
-    
-    # PREPROD Env & Secrets (one abstraction away from consumer of downstream repo) 
-    # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level- name: Create Env & secrets for (${{ env.environments[0] }} 
-      shell: bash
-      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
-      run: |
-        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
-        gh auth login --with-token < .githubtoken
-        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[0]}}        
-        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_file --body "${{ env.pulled-from-file }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_stream --body "${{ env.pulled-from-strem }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_queue --body "${{ env.pulled-from-queue }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_service --body "${{ env.pulled-from-service }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_http_webhook --body "${{ env.pulled-from-http-webhook }}" --env ${{ env.environments[0]}}        
-    # PROD Env & Secrets (one abstraction away from consumer of downstream repo) 
-    # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
-    - name: Create Env & secrets for (${{ env.environments[1] }} 
-      shell: bash
-      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
-      run: |
-        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
-        gh auth login --with-token < .githubtoken
-        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[0]}}        
-        gh secret set super_secret_nplus_abstractions_away --body "${{ env.pulled-from-env-even-better }}" --env ${{ env.environments[1]}}
-      # Paste secret value for the current repository in an interactive prompt
-      # $ gh secret set MYSECRET
-      # Read secret value from an environment variable
-      #$ gh secret set MYSECRET --body "$ENV_VALUE"
-      # Read secret value from a file
-      #$ gh secret set MYSECRET < myfile.txt
-      # Set secret for a deployment environment in the current repository
-      #$ gh secret set MYSECRET --env myenvironment
-      # Set organization-level secret visible to both public and private repositories
-      #$ gh secret set MYSECRET --org myOrg --visibility all
-      # Set organization-level secret visible to specific repositories
-      #$ gh secret set MYSECRET --org myOrg --repos repo1,repo2,repo3
-      # Set user-level secret for Codespaces
-      #$ gh secret set MYSECRET --user
-      # Set repository-level secret for Dependabot
-      #$ gh secret set MYSECRET --app dependabot
-      # Set multiple secrets imported from the ".env" file
-      #$ gh secret set -f .env
-    # Send Chat Ops notification
-    - name: Send chat ops notification to teams
-      uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
-      with:
-        webhook: ${{ inputs.TEAMS_WEBHOOK }}
-        message: 'Deployment Completed for github: ${{ github.sha }}'
-   

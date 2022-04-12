@@ -44,20 +44,23 @@ on:
         required: true
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
 
+env:
+  environment: 'preprod'
+
 jobs:
   #Phase 1 - Alpha
   job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          package:
-              - coding-standard
-              - python-lint-rules
-              - commit-guidelines
-              - pull-request-peer-review
-              - quality-checks
-              
-    environment: 'PreProd'
+    # strategy:
+    #   matrix:
+    #       package:
+    #           - coding-standard
+    #           - python-lint-rules
+    #           - commit-guidelines
+    #           - pull-request-peer-review
+    #           - quality-checks
+    environment: ${{ env.environment }}
+    # todo Implement principle of least priv
     permissions:
       contents: 'write'
       id-token: 'write'
@@ -68,9 +71,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
-          TEAMS_WEBHOOK: ${{ github.event.inputs.webhook }}
+          ENVIRONMENT: ${{ env.environment }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
@@ -80,3 +84,11 @@ jobs:
           GITHUB_REPO_FILES: ${{ github.event.inputs.files }}
           GITHUB_REPO_URL: ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
+    # Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
+    - uses: ./.github/workflows/github/repo/environments/${{ env.environment }}
+      with:
+          ENVIRONMENT: ${{ env.environment }}
+          GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
+          GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
+          GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
+          GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}

@@ -1,0 +1,79 @@
+name: Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
+
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  GITHUB_ORG_NAME:
+    description: 'GitHub Organization Name'
+    required: true
+  GITHUB_REPO_BRANCH:
+    description: 'GitHub Repo Branch Name usually "main" or  "master"'
+    required: true
+  GITHUB_REPO_NAME:
+    description: 'GitHub Repo Name'
+    required: true
+  GITHUB_REPO_TOKEN:
+    description: 'GitHub Repo Token for Auth'
+    required: true
+
+env:
+  pulled-from-keyvault : 'secret'
+  pulled-from-cyberark : 'secret-shh'
+  pulled-from-sql : 'secret-donttell'
+  pulled-from-blob : 'secret-psst'
+  pulled-from-file : 'secret-hey'
+  pulled-from-stream : 'secret-omg'
+  pulled-from-queue : 'secret-didjahear'
+  pulled-from-service : 'secret-dontask'
+  pulled-from-http-webhook-ideal : 'secret-wonttell'
+  pulled-from-env-even-better : 'no-secret-found'
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+    # Here we will create environment(s) and push secrets using gh cli 
+    # Basically from any source you want to populate and will be abstracted away from the consumer of the repo in one degree of separation 
+    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be logged or able to be observed (in the non quantum sense) 
+    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds from consumers as the secrets will only be exchanged between upper domains and not downstreams or middlemen    
+    
+    # PREPROD Env & Secrets (one abstraction away from consumer of downstream repo) 
+    # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
+    - name: Create Env & secrets for (${{  inputs.ENVIRONMENT }} 
+      shell: bash
+      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
+      run: |
+        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ inputs.ENVIRONMENT }}        
+        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_file --body "${{ env.pulled-from-file }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_stream --body "${{ env.pulled-from-strem }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_queue --body "${{ env.pulled-from-queue }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_service --body "${{ env.pulled-from-service }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set pulled_from_http_webhook --body "${{ env.pulled-from-http-webhook }}" --env ${{  inputs.ENVIRONMENT }}        
+      # Paste secret value for the current repository in an interactive prompt
+      # $ gh secret set MYSECRET
+      # Read secret value from an environment variable
+      #$ gh secret set MYSECRET --body "$ENV_VALUE"
+      # Read secret value from a file
+      #$ gh secret set MYSECRET < myfile.txt
+      # Set secret for a deployment environment in the current repository
+      #$ gh secret set MYSECRET --env myenvironment
+      # Set organization-level secret visible to both public and private repositories
+      #$ gh secret set MYSECRET --org myOrg --visibility all
+      # Set organization-level secret visible to specific repositories
+      #$ gh secret set MYSECRET --org myOrg --repos repo1,repo2,repo3
+      # Set user-level secret for Codespaces
+      #$ gh secret set MYSECRET --user
+      # Set repository-level secret for Dependabot
+      #$ gh secret set MYSECRET --app dependabot
+      # Set multiple secrets imported from the ".env" file
+      #$ gh secret set -f .env
+   
