@@ -1,4 +1,4 @@
 import sys
 print('Hello Beta')
-for i in range(1, len(sys.argv)):
-    print('argument:', i, 'value:', sys.argv[i])
+print('argument 1:"', sys.argv[0], '"')
+print('argument 2:"', sys.argv[1], '"')
