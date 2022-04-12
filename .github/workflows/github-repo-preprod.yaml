@@ -45,7 +45,7 @@ on:
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
 
 env:
-  environment: 'preprod'
+  KIND : 'preprod'
 
 jobs:
   #Phase 1 - Alpha
@@ -59,7 +59,7 @@ jobs:
     #           - commit-guidelines
     #           - pull-request-peer-review
     #           - quality-checks
-    environment: ${{ env.environment }}
+    environment: ${{ env.KIND }}
     # todo Implement principle of least priv
     permissions:
       contents: 'write'
@@ -74,7 +74,7 @@ jobs:
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
-          ENVIRONMENT: ${{ env.environment }}
+          ENVIRONMENT: ${{ env.KIND }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
