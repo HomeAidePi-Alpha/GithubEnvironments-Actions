@@ -1,4 +1,4 @@
-name: Production create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
+name: Production create secrets test for quality and check standards
 on:
   workflow_dispatch:
     inputs:
