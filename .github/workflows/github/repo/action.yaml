@@ -19,9 +19,6 @@ inputs:
   GITHUB_REPO_DESCRIPTION:
     description: 'GitHub Repo Description'
     required: true
-  GITHUB_REPO_FILES:
-    description: 'GitHub Repo Files Directory'
-    required: true
   GITHUB_REPO_URL:
     description: 'GitHub Repo URL to the .git'
     required: true

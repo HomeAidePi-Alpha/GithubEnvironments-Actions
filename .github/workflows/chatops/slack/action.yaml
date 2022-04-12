@@ -4,8 +4,8 @@ inputs:
   ENVIRONMENT:
     description: 'Environment Name'
     required: true
-  SLACK_USER_NAME:
-    description: 'User sending the notification'
+  USER_NAME:
+    description: 'User creating the job should be sent on the notification'
     required: true
   SLACK_WEBHOOK:
     description: 'Slack Webhook for some Chat Channel'
@@ -27,5 +27,5 @@ runs:
         SLACK_ICON: docs/bear-cavalry.png?size=48
         SLACK_MESSAGE: ':rocket: Environment: ${{ inputs.ENVIRONMENT }} deployment completed for commit: ${{ github.sha }}'
         SLACK_TITLE: 'CI/CQ/CD Completed' 
-        SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
+        SLACK_USERNAME: ${{ inputs.USER_EMAIL }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

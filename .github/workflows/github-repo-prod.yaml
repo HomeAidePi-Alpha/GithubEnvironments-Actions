@@ -2,6 +2,10 @@ name: Production create secrets test for quality and check standards
 on:
   workflow_dispatch:
     inputs:
+      user_email:
+        description: 'User Email'
+        required: true
+        default: 'matthew.vandergrift@homeaidepi.com'
       branch:
         description: 'GitHub Repo Branch'
         required: true
@@ -14,28 +18,20 @@ on:
         description: 'GitHub Repo Name'
         required: true
         default: 'GitHubEnvironments-Alpha'
-      user_name:
-        description: 'GitHub User Name'
-        required: true
-        default: 'Vandy'
-      user_email:
-        description: 'GitHub User Email'
-        required: true
-        default: 'matthew.vandergrift@homeaidepi.com'
-      files:
-        description: 'GitHub Repo Files'
-        required: true
-        default: './.github/workflows/github/repo/python'
       file_list:
         description: 'GitHub Repo File List'
         required: true
         default: './.github/workflows/github/repo/python/alpha.py'
       token:
-        description: 'GitHub Token'
+        description: 'A Token'
         required: true
         default: ''
-      webhook:
+      teams_webhook:
         description: 'Teams Webhook'
+        required: false
+        default: ''
+      slack_webhook:
+        description: 'Slack Webhook'
         required: false
         default: ''
       url:

@@ -4,6 +4,10 @@ name: Preprod create a GitHub Repo and populate code, create secrets, docs & wik
 on:
   workflow_dispatch:
     inputs:
+      user_email:
+        description: 'User Email'
+        required: true
+        default: 'matthew.vandergrift@homeaidepi.com'
       branch:
         description: 'GitHub Repo Branch'
         required: true
@@ -16,32 +20,16 @@ on:
         description: 'GitHub Repo Name'
         required: true
         default: 'GitHubEnvironments-Alpha'
-      user_name:
-        description: 'GitHub User Name'
-        required: true
-        default: 'Vandy'
-      user_email:
-        description: 'GitHub User Email'
-        required: true
-        default: 'matthew.vandergrift@homeaidepi.com'
-      files:
-        description: 'GitHub Repo Files'
-        required: true
-        default: './.github/workflows/github/repo/python'
       file_list:
         description: 'GitHub Repo File List'
         required: true
         default: './.github/workflows/github/repo/python/alpha.py'
       token:
-        description: 'GitHub Token'
+        description: 'A Token'
         required: true
         default: ''
       teams_webhook:
         description: 'Teams Webhook'
-        required: false
-        default: ''
-      slack_user_name: 
-        description: 'Slack Username'
         required: false
         default: ''
       slack_webhook:
@@ -83,6 +71,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
@@ -90,9 +79,7 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_USER_EMAIL: ${{ github.event.inputs.user_email }}
-          GITHUB_USER_NAME: ${{ github.event.inputs.user_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
-          GITHUB_REPO_FILES: ${{ github.event.inputs.files }}
           GITHUB_REPO_URL: ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
 
@@ -120,7 +107,7 @@ jobs:
     - uses: ./.github/workflows/chatops/slack
       with:
           ENVIRONMENT: preprod
-          SLACK_USER_NAME: ${{ github.event.inputs.slack_user_name }}
+          USER_NAME: ${{ github.event.inputs.user_name }}
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
 
     # todo Perform quality checks & standards here
