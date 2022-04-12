@@ -96,11 +96,12 @@ runs:
       run: |
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
-        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}"
-        gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}"
-        gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}"
-        gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}"
-        gh secret set pulled_from_file --body "${{ env.pulled-from-file }}"
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/PreProd
+        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env PreProd
+      # gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env PreProd
+      # gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env PreProd
+      # gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}" --env PreProd
+      # gh secret set pulled_from_file --body "${{ env.pulled-from-file }}" --env PreProd
       # Paste secret value for the current repository in an interactive prompt
       # $ gh secret set MYSECRET
       # Read secret value from an environment variable
