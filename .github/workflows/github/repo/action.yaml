@@ -85,9 +85,8 @@ runs:
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/prod
         git add README.md
         git add docs
-        git add workflows
-        git mv workflows/* .github/workflows/*
+        git add workflows/action.yaml .github/workflows/action.yaml
         git add workloads
-        git mv workloads .github/workflows/workloads
+        git mv workloads .github/workflows
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
