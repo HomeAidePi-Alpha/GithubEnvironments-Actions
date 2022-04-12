@@ -18,16 +18,16 @@ inputs:
     required: true
 
 env:
-  pulled-from-keyvault : 'secret'
-  pulled-from-cyberark : 'secret-shh'
-  pulled-from-sql : 'secret-donttell'
-  pulled-from-blob : 'secret-psst'
-  pulled-from-file : 'secret-hey'
-  pulled-from-stream : 'secret-omg'
-  pulled-from-queue : 'secret-didjahear'
-  pulled-from-service : 'secret-dontask'
-  pulled-from-http-webhook-ideal : 'secret-wonttell'
-  pulled-from-env-even-better : 'no-secret-found'
+  PULLED_FROM_KEYVAULT : 'SECRET'
+  PULLED_FROM_CYBERARK : 'SECRET_SHH'
+  PULLED_FROM_SQL : 'SECRET_DONTTELL'
+  PULLED_FROM_BLOB : 'SECRET_PSST'
+  PULLED_FROM_FILE : 'SECRET_HEY'
+  PULLED_FROM_STREAM : 'SECRET_OMG'
+  PULLED_FROM_QUEUE : 'SECRET_DIDJAHEAR'
+  PULLED_FROM_SERVICE : 'SECRET_DONTASK'
+  PULLED_FROM_HTTP_WEBHOOK_IDEAL : 'SECRET_WONTTELL'
+  PULLED_FROM_ENV_EVEN_BETTER : 'NO_SECRET_FOUND'
 
 runs:
     using: "composite"
@@ -50,15 +50,15 @@ runs:
         git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
-        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_file --body "${{ env.pulled-from-file }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_stream --body "${{ env.pulled-from-strem }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_queue --body "${{ env.pulled-from-queue }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_service --body "${{ env.pulled-from-service }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set pulled_from_http_webhook --body "${{ env.pulled-from-http-webhook }}" --env ${{  inputs.ENVIRONMENT }}        
+        gh secret set PULLED_FROM_KEYVAULT --body "${{ env.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_CYBERARK --body "${{ env.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SQL --body "${{ env.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_BLOB --body "${{ env.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_FILE --body "${{ env.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_QUEUE --body "${{ env.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_STREAM --body "${{ env.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_HTTP_WEBHOOK_IDEAL --body "${{ env.PULLED_FROM_HTTP_WEBHOOK_IDEAL }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SERVICE --body "${{ env.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }}        
       # Paste secret value for the current repository in an interactive prompt
       # $ gh secret set MYSECRET
       # Read secret value from an environment variable
