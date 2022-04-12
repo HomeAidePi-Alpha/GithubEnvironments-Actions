@@ -17,18 +17,6 @@ inputs:
     description: 'GitHub Repo Token for Auth'
     required: true
 
-env:
-  pulled-from-keyvault : 'secret'
-  pulled-from-cyberark : 'secret-shh'
-  pulled-from-sql : 'secret-donttell'
-  pulled-from-blob : 'secret-psst'
-  pulled-from-file : 'secret-hey'
-  pulled-from-stream : 'secret-omg'
-  pulled-from-queue : 'secret-didjahear'
-  pulled-from-service : 'secret-dontask'
-  pulled-from-http-webhook-ideal : 'secret-wonttell'
-  pulled-from-env-even-better : 'no-secret-found'
-
 runs:
     using: "composite"
     steps:
@@ -44,13 +32,17 @@ runs:
     # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
     - name: Create Env & secrets for Prod
       shell: bash
-      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
+      env:
+        PULLED_FROM_NPLUS_ABSTRACTIONS_ENV : 'no-secret-found'
+      # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long 
+      # and is not communicated across pipes or interfaces but only consumed by gh auth and then deleted
       run: |
         git remote set-url origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        del .githubtoken
         gh auth login --with-token < .githubtoken
-        gh secret set super_secret_nplus_abstractions_away --body "${{ env.pulled-from-env-even-better }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_NPLUS_ABSTRACTIONS_ENV --body "${{ env.PULLED_FROM_NPLUS_ABSTRACTIONS_ENV }}" --env ${{  inputs.ENVIRONMENT }}
       # Paste secret value for the current repository in an interactive prompt
       # $ gh secret set MYSECRET
       # Read secret value from an environment variable

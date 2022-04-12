@@ -17,18 +17,6 @@ inputs:
     description: 'GitHub Repo Token for Auth'
     required: true
 
-env:
-  PULLED_FROM_KEYVAULT : 'SECRET'
-  PULLED_FROM_CYBERARK : 'SECRET_SHH'
-  PULLED_FROM_SQL : 'SECRET_DONTTELL'
-  PULLED_FROM_BLOB : 'SECRET_PSST'
-  PULLED_FROM_FILE : 'SECRET_HEY'
-  PULLED_FROM_STREAM : 'SECRET_OMG'
-  PULLED_FROM_QUEUE : 'SECRET_DIDJAHEAR'
-  PULLED_FROM_SERVICE : 'SECRET_DONTASK'
-  PULLED_FROM_HTTP_WEBHOOK_IDEAL : 'SECRET_WONTTELL'
-  PULLED_FROM_ENV_EVEN_BETTER : 'NO_SECRET_FOUND'
-
 runs:
     using: "composite"
     steps:
@@ -44,12 +32,25 @@ runs:
     # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
     - name: Create Env & secrets for PreProd 
       shell: bash
-      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
+      env:
+        PULLED_FROM_KEYVAULT : 'SECRET'
+        PULLED_FROM_CYBERARK : 'SECRET_SHH'
+        PULLED_FROM_SQL : 'SECRET_DONTTELL'
+        PULLED_FROM_BLOB : 'SECRET_PSST'
+        PULLED_FROM_FILE : 'SECRET_HEY'
+        PULLED_FROM_STREAM : 'SECRET_OMG'
+        PULLED_FROM_QUEUE : 'SECRET_DIDJAHEAR'
+        PULLED_FROM_SERVICE : 'SECRET_DONTASK'
+        PULLED_FROM_HTTP : 'SECRET_WONTTELL'
+
+      # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long 
+      # and is not communicated across pipes or interfaces but only consumed by gh auth and then deleted
       run: |
         git remote set-url origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
+        del .githubtoken
         gh secret set PULLED_FROM_KEYVAULT --body "${{ env.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_CYBERARK --body "${{ env.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_SQL --body "${{ env.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }}
@@ -57,7 +58,7 @@ runs:
         gh secret set PULLED_FROM_FILE --body "${{ env.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_QUEUE --body "${{ env.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_STREAM --body "${{ env.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_HTTP_WEBHOOK_IDEAL --body "${{ env.PULLED_FROM_HTTP_WEBHOOK_IDEAL }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_HTTP --body "${{ env.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }}
         gh secret set PULLED_FROM_SERVICE --body "${{ env.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }}        
       # Paste secret value for the current repository in an interactive prompt
       # $ gh secret set MYSECRET
