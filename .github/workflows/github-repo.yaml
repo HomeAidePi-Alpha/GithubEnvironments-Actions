@@ -45,8 +45,18 @@ on:
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
 
 jobs:
+  #Phase 1 - Alpha
   job:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+          package:
+              - coding-standard
+              - python-lint-rules
+              - commit-guidelines
+              - pull-request-peer-review
+              - quality-checks
+              
     environment: 'PreProd'
     permissions:
       contents: 'write'

@@ -44,6 +44,8 @@ inputs:
 
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
+  # will need to add/edit/remove api calls below based on changing the environments matrix
+  environments: ['PreProd', 'Prod']
   python-architecture: 'x64'
   pulled-from-keyvault : 'secret'
   pulled-from-cyberark : 'secret-shh'
@@ -54,6 +56,7 @@ env:
   pulled-from-queue : 'secret-didjahear'
   pulled-from-service : 'secret-dontask'
   pulled-from-http-webhook-ideal : 'secret-wonttell'
+  pulled-from-env-even-better : 'no-secret-found'
 
 runs:
     using: "composite"
@@ -61,20 +64,22 @@ runs:
       # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
-    - name: Set up Python 3.x
+    # Setup Python versions
+    - name: Setup Python versions
       uses: actions/setup-python@v3
       with:
         # Semantic version range syntax or exact version of a Python version
         python-version: ${{ env.python-version }}
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: ${{ env.python-architecture }}
-    # Printing the current Python version
-    - name: Display Python version & Execute the file list
+    # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
+    - name: Display Python version & Execute python on the file list
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
         python ${{ inputs.GITHUB_REPO_FILE_LIST }}
-    - name: Create Github Repo and Push files
+    # Create a new GitHub repo with gh and use git to push project files
+    - name: Create new Github Repo and Push baseline files (any project type)
       shell: bash
       run: |
         git config --global user.name ${{ inputs.GITHUB_USER_NAME }}
@@ -90,18 +95,34 @@ runs:
         git add docs
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
-    - name: Push secrets from any source you want and will be abstracted away from the consumer of the repo unless they are doing bad deeds with the keys (Consider federating Azure to Github to prevent even bad deeds).
+    # Here we will create environment(s) and push secrets using gh cli
+    # Basically from any source you want to populate and will be abstracted away from the consumer of the repo unless they are doing bad deeds with the keys (Consider federating Azure to Github to prevent even bad deeds).
+    - name: Create Env & secrets for (${{ env.environments[0] }} 
       shell: bash
       # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
       run: |
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
-        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/PreProd
-        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env PreProd
-      # gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env PreProd
-      # gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env PreProd
-      # gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}" --env PreProd
-      # gh secret set pulled_from_file --body "${{ env.pulled-from-file }}" --env PreProd
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[0]}}        
+        gh secret set pulled_from_keyvault --body "${{ env.pulled-from-keyvault }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_cyberark --body "${{ env.pulled-from-cyberark }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_sql --body "${{ env.pulled-from-sql }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_blob --body "${{ env.pulled-from-blob }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_file --body "${{ env.pulled-from-file }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_stream --body "${{ env.pulled-from-strem }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_queue --body "${{ env.pulled-from-queue }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_service --body "${{ env.pulled-from-service }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_http_webhook --body "${{ env.pulled-from-http-webhook }}" --env ${{ env.environments[0]}}
+    # PROD Env & Secrets (one abstraction away from consumer of downstream repo) 
+    # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
+    - name: Create Env & secrets for (${{ env.environments[1] }} 
+      shell: bash
+      # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
+      run: |
+        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ env.environments[0]}}        
+        gh secret set super_secret_nplus_abstractions_away --body "${{ env.pulled-from-env-even-better }}" --env ${{ env.environments[1]}}
       # Paste secret value for the current repository in an interactive prompt
       # $ gh secret set MYSECRET
       # Read secret value from an environment variable
