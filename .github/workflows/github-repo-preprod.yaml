@@ -1,5 +1,6 @@
 name: Preprod create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
 
+# This will run when kicked off manually or by trigger
 on:
   workflow_dispatch:
     inputs:
@@ -45,19 +46,24 @@ on:
         default: 'https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Alpha.git'
 
 jobs:
-  #Phase 1 - Alpha
-  job:
-    runs-on: ubuntu-latest
-    # todo implement quality strategy by tiger team committee
-    # strategy:
-    #   matrix:
-    #       package:
-    #           - coding-standard
-    #           - python-lint-rules
-    #           - commit-guidelines
-    #           - pull-request-peer-review
-    #           - quality-checks
+  build:
+    name: Phase-1-Alpha
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # todo implement quality strategy after tiger team committee approval
+        # package:
+        #   - coding-standard
+        #   - lint-rules (eslint, flake8)
+        #   - commit-guidelines
+        #   - pull-request-peer-review
+        #   - quality-checks
+
+    runs-on: ${{ matrix.os }}
+   
     environment: preprod
+    
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
@@ -81,9 +87,12 @@ jobs:
           GITHUB_REPO_FILES: ${{ github.event.inputs.files }}
           GITHUB_REPO_URL: ${{ github.event.inputs.url }}
           GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
-    - name: Sleep for 10 seconds
-      run: sleep 10s
+
+    # Allow former API operations to complete with an artifical 10 second wait
+    - name: Wait for 10 seconds
       shell: bash
+      run: sleep 10s
+
     # Create secrets, docs & wiki, test for quality and check standards
     - uses: ./.github/workflows/github/repo/environments/preprod
       with:
@@ -92,4 +101,9 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
-    # Perform quality checks & standards
+    - uses: ./.github/workflows/chatops/teams
+      with:
+          ENVIRONMENT: preprod
+          TEAMS_WEBHOOK: ${{ github.event.inputs.webhook }}
+
+    # todo Perform quality checks & standards here

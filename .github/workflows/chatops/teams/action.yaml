@@ -1,10 +1,12 @@
-name: Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
-on:
-  push:
-    branches:
-      - "main"
+name: Create a Teams message related to deployment
 
-env:
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  TEAMS_WEBHOOK:
+    description: 'Teams Webhook for some Chat Channel'
+    required: true
 
 runs:
     using: "composite"
@@ -17,5 +19,5 @@ runs:
       uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
       with:
         webhook: ${{ inputs.TEAMS_WEBHOOK }}
-        message: 'Deployment Completed for github: ${{ github.sha }}'
+        message: 'Environment: ${{ inputs.environment }} deployment completed for commit: ${{ github.sha }}'
    
