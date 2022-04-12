@@ -7,7 +7,7 @@ on:
 
 #Phase 1 - Alpha - Executed
 jobs:
-  GitHub-Environments-Actions-Runtime:
+  Phase1-Alpha-Python-Executed:
     runs-on: ubuntu-latest
     # todo implement quality strategy by tiger team committee
     # strategy:
@@ -29,9 +29,9 @@ jobs:
       repository-projects: 'write'
 
     steps:
-     # Checkout the repo
+      # Checkout the repo
     - name: Check out Repo
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
     # Setup Python versions
     - name: Setup Python versions
       uses: actions/setup-python@v3
