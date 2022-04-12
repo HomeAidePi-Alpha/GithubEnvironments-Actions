@@ -27,5 +27,5 @@ runs:
         SLACK_ICON: docs/bear-cavalry.png?size=48
         SLACK_MESSAGE: ':rocket: Environment: ${{ inputs.ENVIRONMENT }} deployment completed for commit: ${{ github.sha }}'
         SLACK_TITLE: 'CI/CQ/CD Completed' 
-        SLACK_USERNAME: ${{ inputs.USER_EMAIL }}
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_USERNAME: ${{ inputs.USER_NAME }}
+        SLACK_WEBHOOK: ${{ inputs.SLACK_WEBHOOK }}
