@@ -1,4 +1,4 @@
-name: Create a GitHub Repo and populate code, create secrets, docs & wiki, and wrap in unit tests and coding standards
+name: Create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
 on:
   push:
     branches:
@@ -95,9 +95,13 @@ runs:
         git add docs
         git commit -m "initial alpha checkin"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
-    # Here we will create environment(s) and push secrets using gh cli
-    # Basically from any source you want to populate and will be abstracted away from the consumer of the repo unless they are doing bad deeds with the keys (Consider federating Azure to Github to prevent even bad deeds).
-    - name: Create Env & secrets for (${{ env.environments[0] }} 
+    # Here we will create environment(s) and push secrets using gh cli 
+    # Basically from any source you want to populate and will be abstracted away from the consumer of the repo in one degree of separation 
+    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be logged or able to be observed (in the non quantum sense) 
+    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds from consumers as the secrets will only be exchanged between upper domains and not downstreams or middlemen    
+    
+    # PREPROD Env & Secrets (one abstraction away from consumer of downstream repo) 
+    # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level- name: Create Env & secrets for (${{ env.environments[0] }} 
       shell: bash
       # places the token in a temp file so its not handled long and is not communicated across pipes or interfaces
       run: |
@@ -112,7 +116,7 @@ runs:
         gh secret set pulled_from_stream --body "${{ env.pulled-from-strem }}" --env ${{ env.environments[0]}}
         gh secret set pulled_from_queue --body "${{ env.pulled-from-queue }}" --env ${{ env.environments[0]}}
         gh secret set pulled_from_service --body "${{ env.pulled-from-service }}" --env ${{ env.environments[0]}}
-        gh secret set pulled_from_http_webhook --body "${{ env.pulled-from-http-webhook }}" --env ${{ env.environments[0]}}
+        gh secret set pulled_from_http_webhook --body "${{ env.pulled-from-http-webhook }}" --env ${{ env.environments[0]}}        
     # PROD Env & Secrets (one abstraction away from consumer of downstream repo) 
     # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
     - name: Create Env & secrets for (${{ env.environments[1] }} 
