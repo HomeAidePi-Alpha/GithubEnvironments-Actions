@@ -92,7 +92,8 @@ jobs:
           PULLED_FROM_STREAM: ${{ secrets.PULLED_FROM_STREAM }}
           PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
           PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
-
+  deploy:
+    needs: build
     # Create secrets, docs & wiki, test for quality and check standards
     # - uses: ./.github/workflows/github/repo/environments/preprod
     #   with:
@@ -132,9 +133,10 @@ jobs:
 
     # todo Perform quality checks & standards here
 
-  exec-shared-workflow:
   # Run a shared workflow on the newly minted repo
-  - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
+  exec-shared-workflow:
+    needs: [build,deploy]
+    uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
     with:
       secrets:
         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
