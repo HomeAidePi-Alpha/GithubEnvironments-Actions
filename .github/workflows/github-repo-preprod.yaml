@@ -46,7 +46,7 @@ jobs:
     name: Build-Alpha
     timeout-minutes: 3
     strategy:
-      matrix:
+      alpha:
         os: [ubuntu-latest]
         # todo implement quality strategy after tiger team committee approval
         # package:
@@ -55,7 +55,7 @@ jobs:
         #   - commit-guidelines
         #   - pull-request-peer-review
         #   - quality-check
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ alpha.os }}
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
@@ -94,9 +94,9 @@ jobs:
     needs: build
     timeout-minutes: 3
     strategy:
-      matrix:
+      alpha:
         os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ alpha.os }}
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
@@ -125,9 +125,9 @@ jobs:
     needs: [build,deploy]
     timeout-minutes: 3
     strategy:
-      matrix:
+      alpha:
         os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ alpha.os }}
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
@@ -140,7 +140,7 @@ jobs:
     steps:
     # Checkout the repo
     - uses: actions/checkout@v3
-    
+
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
@@ -162,9 +162,9 @@ jobs:
   #   needs: [build,deploy]
   #   timeout-minutes: 3
   #   strategy:
-  #     matrix:
+  #     alpha:
   #       os: [ubuntu-latest]
-  #   runs-on: ${{ matrix.os }}
+  #   runs-on: ${{ alpha.os }}
   #   environment: 'preprod'
   #   # todo Implement principle of least priv based on need
   #   permissions:
