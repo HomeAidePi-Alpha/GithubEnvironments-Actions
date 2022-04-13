@@ -43,7 +43,7 @@ on:
 
 jobs:
   build:
-    name: Phase-1-Alpha
+    name: Phase-1-Alpha-Pre
     timeout-minutes: 10
     strategy:
       matrix:
@@ -93,6 +93,11 @@ jobs:
           PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
           PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
 
+    # Allow former API operations to complete with an artifical 10 second wait
+    - name: Wait for 10 seconds
+      shell: bash
+      run: sleep 10s
+
     # Create secrets, docs & wiki, test for quality and check standards
     # - uses: ./.github/workflows/github/repo/environments/preprod
     #   with:
@@ -125,15 +130,25 @@ jobs:
           USER_NAME: ${{ github.event.inputs.user_name }}
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
 
-    # Allow former operations to complete with an artifical 10 second wait
-    - name: Wait for 10 seconds
-      shell: bash
-      run: sleep 10s
-
     # todo Perform quality checks & standards here
+  execute-file-workflow:
+    name: Phase-1-Alpha-Post
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # todo implement quality strategy after tiger team committee approval
+        # package:
+        #   - coding-standard
+        #   - lint-rules (eslint, flake8)
+        #   - commit-guidelines
+        #   - pull-request-peer-review
+        #   - quality-checks
 
+    runs-on: ${{ matrix.os }}
+    environment: 'preprod'
     # Run a shared workflow
-    - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
+    uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
       secrets:
         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
         PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
