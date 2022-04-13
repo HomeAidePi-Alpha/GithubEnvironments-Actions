@@ -25,7 +25,7 @@ on:
       file_list:
         description: 'GitHub Repo File List'
         required: true
-        default: './.github/workflows/github/repo/python/alpha.py'
+        default: './.github/workflows/github/repo/src/alpha.py'
       token:
         description: 'A Token'
         required: true

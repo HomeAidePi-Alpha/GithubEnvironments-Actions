@@ -65,6 +65,6 @@ runs:
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/preprod
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/prod
         git add README.md
-        git add docs       
+        git add docs
         git commit -m "initial README & docs check-in"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
