@@ -93,11 +93,6 @@ jobs:
           PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
           PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
 
-    # Allow former API operations to complete with an artifical 10 second wait
-    - name: Wait for 10 seconds
-      shell: bash
-      run: sleep 10s
-
     # Create secrets, docs & wiki, test for quality and check standards
     # - uses: ./.github/workflows/github/repo/environments/preprod
     #   with:
@@ -130,10 +125,15 @@ jobs:
           USER_NAME: ${{ github.event.inputs.user_name }}
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
 
+    # Allow former operations to complete with an artifical 10 second wait
+    - name: Wait for 10 seconds
+      shell: bash
+      run: sleep 10s
+
     # todo Perform quality checks & standards here
-  execute-file-workflow:
+
     # Run a shared workflow
     - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
-      with:
-          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
-          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
+      secrets:
+        PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
+        PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
