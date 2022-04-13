@@ -44,5 +44,6 @@ runs:
         git mv workflows/quality-codeql.yaml .github/workflows/quality-codeql.yaml
         git add workloads
         git mv workloads .github/workflows
+        git add .github/
         git commit -m "Add workflows after Envs are setup"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
