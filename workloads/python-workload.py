@@ -1,7 +1,7 @@
 import sys
 
 def beta(a,b):
-    print("Hello Beta")
+    print("Hello Alpha-Actions")
     print('argument 1:"', param1, '"')
     print('argument 2:"', param2, '"')
 

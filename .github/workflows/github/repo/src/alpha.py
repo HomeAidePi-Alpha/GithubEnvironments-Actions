@@ -1,1 +1,1 @@
-print('Hello Alpha')
+print('Hello Actions Repo')

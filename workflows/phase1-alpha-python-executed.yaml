@@ -21,18 +21,23 @@ jobs:
     environment: preprod
     # todo Implement principle of least priv based on need
     permissions:
-      contents: 'write'
-      id-token: 'write'
-      issues: 'write'
-      actions: 'write'
-      deployments: 'write'
-      repository-projects: 'write'
+      contents: write
+      id-token: write
+      issues: write
+      actions: write
+      deployments: write
+      repository-projects: write
+      checks: write
+      packages: write
+      pull-requests: write
+      security-events: write
+      statuses: write
 
     steps:
       # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
-      
+
     # Setup Python versions
     - name: Setup Python versions
       uses: actions/setup-python@v3
@@ -47,4 +52,4 @@ jobs:
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
-        python .github/workflows/workloads/beta.py '1${{ secrets.PULLED_FROM_KEYVAULT }}' '2${{ secrets.PULLED_FROM_CYBERARK }}'
+        python .github/workflows/workloads/python-workload.py '1${{ secrets.PULLED_FROM_KEYVAULT }}' '2${{ secrets.PULLED_FROM_CYBERARK }}'
