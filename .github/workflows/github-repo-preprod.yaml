@@ -43,7 +43,7 @@ on:
 
 jobs:
   build:
-    name: Build-Alpha
+    name: Build
     timeout-minutes: 3
     strategy:
       matrix:
@@ -90,7 +90,7 @@ jobs:
           PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
 
   deploy:
-    name: Deploy-Alpha
+    name: Deploy
     needs: build
     timeout-minutes: 3
     strategy:
@@ -121,7 +121,7 @@ jobs:
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
 
   chat-ops:
-    name: Notify-Alpha
+    name: Notify
     needs: [build,deploy]
     timeout-minutes: 3
     strategy:
@@ -157,27 +157,26 @@ jobs:
   # todo Perform quality checks & standards here
   
   # Run a shared workflow on the newly minted repo
-  # exec-shared-workflow:
-  #   name: Exec-Alpha
-  #   needs: [build,deploy]
-  #   timeout-minutes: 3
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #   runs-on: ${{ matrix.os }}
-  #   environment: 'preprod'
-  #   # todo Implement principle of least priv based on need
-  #   permissions:
-  #     contents: 'write'
-  #     id-token: 'write'
-  #     issues: 'write'
-  #     actions: 'write'
-  #     deployments: 'write'
-  #     repository-projects: 'write'
-
-  #   steps:
-  #   - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
-  #     with:
-  #       secrets:
-  #         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
-  #         PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
+  exec-shared-workflow:
+    name: Exec-Alpha
+    needs: [build,deploy]
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: 'preprod'
+    # todo Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+    steps:
+    - uses: https://github.com home/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
+      with:
+        secrets:
+          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
+          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}

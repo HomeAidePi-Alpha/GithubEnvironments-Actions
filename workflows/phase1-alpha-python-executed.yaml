@@ -1,15 +1,18 @@
 name: Run a python process
 
 on:
-  # This is a reusable workflow
-  workflow_call:
-    secrets:
-      PULLED_FROM_KEYVAULT:
-        description: 'Secret pulled from keyvault'
-        required: true
-      PULLED_FROM_CYBERARK:
-        description: 'Secret pulled from cyberark'
-        required: true
+  workflow_dispatch:
+  
+# on:
+#   # This is a reusable workflow
+#   workflow_call:
+#     secrets:
+#       PULLED_FROM_KEYVAULT:
+#         description: 'Secret pulled from keyvault'
+#         required: true
+#       PULLED_FROM_CYBERARK:
+#         description: 'Secret pulled from cyberark'
+#         required: true
 
 #Phase 1 - Alpha - Executed
 jobs:
