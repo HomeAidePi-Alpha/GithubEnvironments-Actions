@@ -46,8 +46,6 @@ runs:
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long 
       # and is not communicated across pipes or interfaces but only consumed by gh auth and then deleted
       run: |
-        git remote set-url origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
-        git status
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         rm .githubtoken
