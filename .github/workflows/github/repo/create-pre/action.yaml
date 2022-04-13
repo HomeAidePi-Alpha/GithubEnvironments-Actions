@@ -59,7 +59,7 @@ runs:
       run: | 
         python -c "import sys; print(sys.version)"
         python ${{ inputs.GITHUB_REPO_FILE_LIST }}
-        
+
     # Create a new GitHub repo with gh and use git to push project files
     - name: Create new Github Repo and Push baseline files (any project type)
       shell: bash
@@ -69,3 +69,12 @@ runs:
         gh repo create ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}} --public
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/preprod
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/prod
+        gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{ inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{ inputs.ENVIRONMENT }}
