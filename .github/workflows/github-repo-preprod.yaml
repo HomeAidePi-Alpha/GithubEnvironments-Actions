@@ -96,6 +96,32 @@ jobs:
   deploy:
     name: Deploy-Alpha
     needs: build
+
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # todo implement quality strategy after tiger team committee approval
+        # package:
+        #   - coding-standard
+        #   - lint-rules (eslint, flake8)
+        #   - commit-guidelines
+        #   - pull-request-peer-review
+        #   - quality-checks
+
+    runs-on: ${{ matrix.os }}
+   
+    environment: 'preprod'
+    
+    # todo Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+      
     steps:
      # Push post creation items like workflows
     - uses: ./.github/workflows/github/repo/create-post
