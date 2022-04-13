@@ -127,12 +127,12 @@ jobs:
 
     # todo Perform quality checks & standards here
   # Run a shared workflow on the newly minted repo
-  exec-shared-workflow:
-    name: Exec-Alpha
-    needs: [build,deploy]
-    steps:
-    - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
-      with:
-        secrets:
-          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
-          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
+  # exec-shared-workflow:
+  #   name: Exec-Alpha
+  #   needs: [build,deploy]
+  #   steps:
+  #   - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
+  #     with:
+  #       secrets:
+  #         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
+  #         PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
