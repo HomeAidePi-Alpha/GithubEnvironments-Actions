@@ -16,6 +16,35 @@ inputs:
   GITHUB_REPO_TOKEN:
     description: 'GitHub Repo Token for Auth'
     required: true
+  PULLED_FROM_KEYVAULT:
+    description: 'Keyvault Credential'
+    required: false
+  PULLED_FROM_CYBERARK:
+    description: 'Cyberark Credential'
+    required: false
+  PULLED_FROM_SQL:
+    description: 'Sql Credential'
+    required: false
+  PULLED_FROM_BLOB:
+    description: 'Blob Credential'
+    required: false
+  PULLED_FROM_FILE:
+    description: 'File Credential'
+    required: false
+  PULLED_FROM_QUEUE:
+    description: 'Queue Credential'
+    required: false
+  PULLED_FROM_STREAM:
+    description: 'Stream Credential'
+    required: false
+  PULLED_FROM_HTTP:
+    description: 'Http Credential'
+    required: false
+  PULLED_FROM_SERVICE:
+    description: 'Service Credential'
+    required: false
+
+  
 
 runs:
     using: "composite"
@@ -32,16 +61,7 @@ runs:
     # two+ abstractions away from consumer of downstream repo if the upper consumers who ran this are also abstracted away N+1 level
     - name: Create Env & secrets for PreProd 
       shell: bash
-      env:
-        PULLED_FROM_KEYVAULT : 'SECRET'
-        PULLED_FROM_CYBERARK : 'SECRET_SHH'
-        PULLED_FROM_SQL : 'SECRET_DONTTELL'
-        PULLED_FROM_BLOB : 'SECRET_PSST'
-        PULLED_FROM_FILE : 'SECRET_HEY'
-        PULLED_FROM_STREAM : 'SECRET_OMG'
-        PULLED_FROM_QUEUE : 'SECRET_DIDJAHEAR'
-        PULLED_FROM_SERVICE : 'SECRET_DONTASK'
-        PULLED_FROM_HTTP : 'SECRET_WONTTELL'
+      
 
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long 
       # and is not communicated across pipes or interfaces but only consumed by gh auth and then deleted
@@ -49,15 +69,16 @@ runs:
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         rm .githubtoken
-        gh secret set PULLED_FROM_KEYVAULT --body "${{ env.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_CYBERARK --body "${{ env.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_SQL --body "${{ env.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_BLOB --body "${{ env.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_FILE --body "${{ env.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_QUEUE --body "${{ env.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_STREAM --body "${{ env.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_HTTP --body "${{ env.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }}
-        gh secret set PULLED_FROM_SERVICE --body "${{ env.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }}        
+        gh repo clone "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
+        gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }}        
       # Paste secret value for the current repository in an interactive prompt
       # $ gh secret set MYSECRET
       # Read secret value from an environment variable

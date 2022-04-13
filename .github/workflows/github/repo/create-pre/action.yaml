@@ -27,6 +27,15 @@ env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
   environments: ['preprod', 'prod']
   python-architecture: 'x64'
+  PULLED_FROM_KEYVAULT : 'SECRET'
+  PULLED_FROM_CYBERARK : 'SECRET_SHH'
+  PULLED_FROM_SQL : 'SECRET_DONTTELL'
+  PULLED_FROM_BLOB : 'SECRET_PSST'
+  PULLED_FROM_FILE : 'SECRET_HEY'
+  PULLED_FROM_STREAM : 'SECRET_OMG'
+  PULLED_FROM_QUEUE : 'SECRET_DIDJAHEAR'
+  PULLED_FROM_SERVICE : 'SECRET_DONTASK'
+  PULLED_FROM_HTTP : 'SECRET_WONTTELL'
 
 runs:
     using: "composite"
@@ -34,6 +43,7 @@ runs:
       # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
+
     # Setup Python versions
     - name: Setup Python versions
       uses: actions/setup-python@v3
@@ -42,12 +52,14 @@ runs:
         python-version: ${{ env.python-version }}
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: ${{ env.python-architecture }}
+
     # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
     - name: Display Python version & Execute python on the file list
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
         python ${{ inputs.GITHUB_REPO_FILE_LIST }}
+        
     # Create a new GitHub repo with gh and use git to push project files
     - name: Create new Github Repo and Push baseline files (any project type)
       shell: bash
