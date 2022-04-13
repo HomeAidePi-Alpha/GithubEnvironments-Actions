@@ -46,7 +46,7 @@ jobs:
     name: Build-Alpha
     timeout-minutes: 3
     strategy:
-      alpha:
+      matrix:
         os: [ubuntu-latest]
         # todo implement quality strategy after tiger team committee approval
         # package:
@@ -55,7 +55,7 @@ jobs:
         #   - commit-guidelines
         #   - pull-request-peer-review
         #   - quality-check
-    runs-on: ${{ alpha.os }}
+    runs-on: ${{ matrix.os }}
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
