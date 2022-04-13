@@ -33,13 +33,17 @@ runs:
       run: |
         git config --global user.name ${{ inputs.USER_NAME }}
         git config --global user.email ${{ inputs.USER_EMAIL }}
-        git remote set-url origin https://${{ inputs.GITHUB_REPO_TOKEN }}@github.com/${{ inputs.USER_NAME }}/${{ inputs.GITHUB_REPO_NAME }}.git
-        git status
+        git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
+        rm -rf .git/
+        git init
+        git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
+        git add README.md
+        git add docs
         git add workflows/phase1-alpha-python-executed.yaml
         git mv workflows/phase1-alpha-python-executed.yaml .github/workflows/phase1-alpha-python-executed.yaml
         git add workflows/quality-codeql.yaml
         git mv workflows/quality-codeql.yaml .github/workflows/quality-codeql.yaml
         git add workloads
         git mv workloads .github/workflows
-        git commit -m "Add workflows after envs are setup"
+        git commit -m "Initial Setup"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}

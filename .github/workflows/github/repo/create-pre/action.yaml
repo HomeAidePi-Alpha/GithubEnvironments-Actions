@@ -28,7 +28,6 @@ env:
   environments: ['preprod', 'prod']
   python-architecture: 'x64'
 
-
 runs:
     using: "composite"
     steps:
@@ -53,18 +52,8 @@ runs:
     - name: Create new Github Repo and Push baseline files (any project type)
       shell: bash
       run: |
-        git config --global user.name ${{ inputs.USER_NAME }}
-        git config --global user.email ${{ inputs.USER_EMAIL }}
-        git config --global init.defaultBranch ${{ inputs.GITHUB_REPO_BRANCH }}
-        rm -rf .git/
-        git init
-        git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         gh repo create ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}} --public
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/preprod
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/prod
-        git add README.md
-        git add docs
-        git commit -m "initial README & docs check-in"
-        git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
