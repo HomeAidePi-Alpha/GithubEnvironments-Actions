@@ -24,7 +24,6 @@ jobs:
     #           - commit-guidelines
     #           - pull-request-peer-review
     #           - quality-checks
-    environment: preprod
 
     # todo Implement principle of least priv based on need
     permissions:
