@@ -134,7 +134,7 @@ jobs:
 
   exec-shared-workflow:
   # Run a shared workflow on the newly minted repo
-  - uses: ${{ inputs.GITHUB_ORG_NAME }}/${{ inputs.GITHUB_REPO_NAME }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ inputs.GITHUB_REPO_BRANCH }}
+  - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
     with:
       secrets:
         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
