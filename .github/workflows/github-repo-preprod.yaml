@@ -111,6 +111,19 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+        
+    # Allow former operations to complete with an artifical 10 second wait
+    - name: Wait for 10 seconds
+      shell: bash
+      run: sleep 10s
+
+    # Run a shared workflow
+    - uses: ${{ inputs.GITHUB_ORG_NAME }}/${{ inputs.GITHUB_REPO_NAME }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ inputs.GITHUB_REPO_BRANCH }}
+      with:
+        secrets:
+          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
+          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
+
 
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams

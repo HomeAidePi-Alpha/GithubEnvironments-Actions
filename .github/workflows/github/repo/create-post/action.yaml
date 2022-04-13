@@ -47,17 +47,6 @@ runs:
         git mv workloads .github/workflows
         git commit -m "Initial Setup"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
-    
-    # Allow former operations to complete with an artifical 10 second wait
-    - name: Wait for 10 seconds
-      shell: bash
-      run: sleep 10s
-
-    # Run a shared workflow
-    - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
-      secrets:
-        PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
-        PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
         
     # todo Perform quality checks & standards here
 
