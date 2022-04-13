@@ -41,9 +41,6 @@ on:
         required: false
         default: ''
 
-env:
-  ENVIRONMENT: 'preprod'
-
 jobs:
   build:
     name: Phase-1-Alpha
@@ -61,7 +58,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
    
-    environment: ${{ env.ENVIRONMENT }}
+    environment: 'preprod'
     
     # todo Implement principle of least priv based on need
     permissions:
@@ -78,7 +75,7 @@ jobs:
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo/create-pre
       with:
-          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+          ENVIRONMENT: 'preprod'
           USER_NAME: ${{ github.event.inputs.user_name }}
           USER_EMAIL: ${{ github.event.inputs.user_email }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
