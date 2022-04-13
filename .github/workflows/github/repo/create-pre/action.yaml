@@ -1,6 +1,9 @@
 name: Create a GitHub Repo, populate base code & create environments
 
 inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
   USER_NAME:
     description: 'User Name'
     required: true
