@@ -122,7 +122,7 @@ jobs:
 
   chat-ops:
     name: Notify-Alpha
-    needs: build
+    needs: [build,deploy]
     timeout-minutes: 3
     strategy:
       matrix:
@@ -138,6 +138,9 @@ jobs:
       deployments: 'write'
       repository-projects: 'write'
     steps:
+    # Checkout the repo
+    - uses: actions/checkout@v3
+    
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
