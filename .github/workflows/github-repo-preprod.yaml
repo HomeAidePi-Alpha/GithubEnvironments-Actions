@@ -44,7 +44,7 @@ on:
 jobs:
   build:
     name: Build-Alpha
-    timeout-minutes: 10
+    timeout-minutes: 3
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -54,12 +54,9 @@ jobs:
         #   - lint-rules (eslint, flake8)
         #   - commit-guidelines
         #   - pull-request-peer-review
-        #   - quality-checks
-
+        #   - quality-check
     runs-on: ${{ matrix.os }}
-   
     environment: 'preprod'
-    
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
@@ -68,10 +65,9 @@ jobs:
       actions: 'write'
       deployments: 'write'
       repository-projects: 'write'
-
     steps:
+    # Checkout the repo
     - uses: actions/checkout@v3
-
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo/create-pre
       with:
@@ -96,23 +92,12 @@ jobs:
   deploy:
     name: Deploy-Alpha
     needs: build
-
-    timeout-minutes: 10
+    timeout-minutes: 3
     strategy:
       matrix:
         os: [ubuntu-latest]
-        # todo implement quality strategy after tiger team committee approval
-        # package:
-        #   - coding-standard
-        #   - lint-rules (eslint, flake8)
-        #   - commit-guidelines
-        #   - pull-request-peer-review
-        #   - quality-checks
-
     runs-on: ${{ matrix.os }}
-   
     environment: 'preprod'
-    
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
@@ -121,8 +106,10 @@ jobs:
       actions: 'write'
       deployments: 'write'
       repository-projects: 'write'
-      
     steps:
+    # Checkout the repo
+    - uses: actions/checkout@v3
+
      # Push post creation items like workflows
     - uses: ./.github/workflows/github/repo/create-post
       with:
@@ -132,7 +119,25 @@ jobs:
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
-        
+
+  chat-ops:
+    name: Notify-Alpha
+    needs: build
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: 'preprod'
+    # todo Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+    steps:
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
@@ -145,20 +150,31 @@ jobs:
           ENVIRONMENT: preprod
           USER_NAME: ${{ github.event.inputs.user_name }}
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
-    
-    # Allow former operations to complete with an artifical 10 second wait
-    - name: Wait for 10 seconds
-      shell: bash
-      run: sleep 10s
 
-    # todo Perform quality checks & standards here
+  # todo Perform quality checks & standards here
+  
   # Run a shared workflow on the newly minted repo
-  # exec-shared-workflow:
-  #   name: Exec-Alpha
-  #   needs: [build,deploy]
-  #   steps:
-  #   - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
-  #     with:
-  #       secrets:
-  #         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
-  #         PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
+  exec-shared-workflow:
+    name: Exec-Alpha
+    needs: [build,deploy]
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: 'preprod'
+    # todo Implement principle of least priv based on need
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      issues: 'write'
+      actions: 'write'
+      deployments: 'write'
+      repository-projects: 'write'
+
+    steps:
+    - uses: ${{ github.event.inputs.org_name }}/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
+      with:
+        secrets:
+          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
+          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
