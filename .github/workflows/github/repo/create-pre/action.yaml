@@ -22,20 +22,38 @@ inputs:
   GITHUB_REPO_FILE_LIST:
     description: 'GitHub Repo File List'
     required: true
+  PULLED_FROM_KEYVAULT:
+    description: 'Keyvault Credential'
+    required: false
+  PULLED_FROM_CYBERARK:
+    description: 'Cyberark Credential'
+    required: false
+  PULLED_FROM_SQL:
+    description: 'Sql Credential'
+    required: false
+  PULLED_FROM_BLOB:
+    description: 'Blob Credential'
+    required: false
+  PULLED_FROM_FILE:
+    description: 'File Credential'
+    required: false
+  PULLED_FROM_QUEUE:
+    description: 'Queue Credential'
+    required: false
+  PULLED_FROM_STREAM:
+    description: 'Stream Credential'
+    required: false
+  PULLED_FROM_HTTP:
+    description: 'Http Credential'
+    required: false
+  PULLED_FROM_SERVICE:
+    description: 'Service Credential'
+    required: false
 
 env:
   python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
   environments: ['preprod', 'prod']
   python-architecture: 'x64'
-  PULLED_FROM_KEYVAULT : 'SECRET'
-  PULLED_FROM_CYBERARK : 'SECRET_SHH'
-  PULLED_FROM_SQL : 'SECRET_DONTTELL'
-  PULLED_FROM_BLOB : 'SECRET_PSST'
-  PULLED_FROM_FILE : 'SECRET_HEY'
-  PULLED_FROM_STREAM : 'SECRET_OMG'
-  PULLED_FROM_QUEUE : 'SECRET_DIDJAHEAR'
-  PULLED_FROM_SERVICE : 'SECRET_DONTASK'
-  PULLED_FROM_HTTP : 'SECRET_WONTTELL'
 
 runs:
     using: "composite"

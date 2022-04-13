@@ -44,8 +44,6 @@ inputs:
     description: 'Service Credential'
     required: false
 
-  
-
 runs:
     using: "composite"
     steps:
