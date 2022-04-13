@@ -29,6 +29,7 @@ jobs:
     #           - quality-checks
 
     # todo Implement principle of least priv based on need
+    environment: 'preprod'
     permissions:
       contents: write
       id-token: write
