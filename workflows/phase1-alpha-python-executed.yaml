@@ -1,9 +1,15 @@
 name: Run a python process
 
 on:
-  push:
-    branches:
-      - "main"
+  # This is a reusable workflow
+  workflow_call:
+    secrets:
+      PULLED_FROM_KEYVAULT:
+        description: 'Secret pulled from keyvault'
+        required: true
+      PULLED_FROM_CYBERARK:
+        description: 'Secret pulled from cyberark'
+        required: true
 
 #Phase 1 - Alpha - Executed
 jobs:
@@ -19,6 +25,7 @@ jobs:
     #           - pull-request-peer-review
     #           - quality-checks
     environment: preprod
+
     # todo Implement principle of least priv based on need
     permissions:
       contents: write
