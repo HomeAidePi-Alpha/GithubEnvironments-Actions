@@ -94,9 +94,9 @@ jobs:
     needs: build
     timeout-minutes: 3
     strategy:
-      alpha:
+      matrix:
         os: [ubuntu-latest]
-    runs-on: ${{ alpha.os }}
+    runs-on: ${{ matrix.os }}
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
@@ -125,9 +125,9 @@ jobs:
     needs: [build,deploy]
     timeout-minutes: 3
     strategy:
-      alpha:
+      matrix:
         os: [ubuntu-latest]
-    runs-on: ${{ alpha.os }}
+    runs-on: ${{ matrix.os }}
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
@@ -162,9 +162,9 @@ jobs:
   #   needs: [build,deploy]
   #   timeout-minutes: 3
   #   strategy:
-  #     alpha:
+  #     matrix:
   #       os: [ubuntu-latest]
-  #   runs-on: ${{ alpha.os }}
+  #   runs-on: ${{ matrix.os }}
   #   environment: 'preprod'
   #   # todo Implement principle of least priv based on need
   #   permissions:
