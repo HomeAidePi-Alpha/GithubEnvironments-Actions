@@ -50,6 +50,10 @@ runs:
       # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
+      with:
+        # Repository name with owner. For example, actions/checkout
+        # Default: ${{ github.repository }}
+        repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
     # Here we will create environment(s) and push secrets using gh cli 
     # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
     # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
@@ -76,12 +80,12 @@ runs:
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         rm .githubtoken
-        gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      # gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      # gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      # gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      # gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }} --org ${{ inputs.GITHUB_ORG_NAME}} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
