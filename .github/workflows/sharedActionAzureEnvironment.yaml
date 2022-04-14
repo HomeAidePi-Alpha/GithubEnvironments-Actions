@@ -1,4 +1,4 @@
-name: Shared Action - GitHub - Environment
+name: Shared Action - Azure - Environment
 # This will run when kicked off manually or by trigger
 on:
   workflow_dispatch:
