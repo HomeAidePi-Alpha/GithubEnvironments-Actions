@@ -48,6 +48,14 @@ runs:
     # composite type is key to chaining workflow modules accessed in repo or externally packaged or shared in an organization in github
     using: "composite"
     steps:
+    # Checkout the repo
+    - uses: actions/checkout@v3
+      with:
+          # Repository name with owner. For example, actions/checkout
+          # Default: ${{ github.repository }}
+          repository: ${{ github.event.inputs.GITHUB_ORG_NAME}}/${{ github.event.inputs.GITHUB_REPO_NAME}}
+          fetch-depth: 0
+
     # Here we will create environment using gh cli 
     - name: Create an environment 
       id: create
