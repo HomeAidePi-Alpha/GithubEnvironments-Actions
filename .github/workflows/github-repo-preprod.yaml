@@ -103,6 +103,7 @@ jobs:
     # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
+      
     - uses: ./.github/workflows/github/environment
       with:
           ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
@@ -113,8 +114,8 @@ jobs:
           PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
           PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
           PULLED_FROM_SQL: ${{ secrets.PULLED_FROM_SQL }}
-          PULLED_FROM_BLOB: ${{ secrets.PULLED_FROM_BLOB }}
-          PULLED_FROM_FILE: ${{ secrets.PULLED_FROM_FILE }}
+          PULLED_FROM_BLOB: ${{  secrets.PULLED_FROM_BLOB }}
+          PULLED_FROM_FILE: ${{  secrets.PULLED_FROM_FILE }}
     # PULLED_FROM_QUEUE: ${{ secrets.PULLED_FROM_QUEUE }}
     # PULLED_FROM_STREAM: ${{ secrets.PULLED_FROM_STREAM }}
     # PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
