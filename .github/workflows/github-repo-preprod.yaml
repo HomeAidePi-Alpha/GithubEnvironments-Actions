@@ -140,6 +140,10 @@ jobs:
       repository-projects: 'write'
 
     steps:
+    # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+      
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
