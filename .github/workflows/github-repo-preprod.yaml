@@ -64,6 +64,9 @@ jobs:
       deployments: 'write'
       repository-projects: 'write'
     steps:
+    # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
@@ -92,6 +95,9 @@ jobs:
       repository-projects: 'write'
 
     steps:
+    # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
     - uses: ./.github/workflows/github/environment
       with:
           ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
