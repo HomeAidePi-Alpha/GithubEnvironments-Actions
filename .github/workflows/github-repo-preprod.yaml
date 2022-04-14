@@ -70,7 +70,8 @@ jobs:
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
-          ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
+          USER_NAME: ${{ github.event.inputs.user_name }}
+          USER_EMAIL: ${{ github.event.inputs.user_email }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
