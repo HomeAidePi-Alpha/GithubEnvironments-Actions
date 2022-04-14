@@ -73,15 +73,15 @@ runs:
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
-      echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
-      gh auth login --with-token < .githubtoken
-      rm .githubtoken
-      gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-      gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-    # gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-    # gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-    # gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-    # gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        rm .githubtoken
+        gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+      # gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
