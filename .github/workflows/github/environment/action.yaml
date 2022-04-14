@@ -70,9 +70,9 @@ runs:
         sleep 10s
 
      - name: Create secrets
-      shell: bash
-      # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
-      run: |
+       shell: bash
+       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
+       run: |
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         rm .githubtoken
