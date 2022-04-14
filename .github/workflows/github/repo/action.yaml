@@ -27,8 +27,16 @@ runs:
     - name: Check out Repo
       uses: actions/checkout@v3
       
+    # Create the new Repo and mark public
+    - name:  Create the new Repo and mark public
+      shell: bash
+      run: |
+        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        gh repo create ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}} --public
+
     # Push the workflows to the repo
-    - name: Push README docs & workflows to the repo
+    - name: Push README docs & workflows to the newly minted repo
       shell: bash
       run: |
         git config --global user.name ${{ inputs.USER_NAME }}
