@@ -74,6 +74,15 @@ runs:
       run: |
         sleep 10s
 
+       # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+      with:
+        # Repository name with owner. For example, actions/checkout
+        # Default: ${{ github.repository }}
+        repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        fetch-depth: 0
+        
     - name: Create secrets
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
