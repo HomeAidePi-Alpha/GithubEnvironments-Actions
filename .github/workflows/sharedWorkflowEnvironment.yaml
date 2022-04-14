@@ -1,10 +1,9 @@
 name: Shared Action - Setup Environment
-
 # This will run when kicked off manually or by trigger
 on:
   workflow_dispatch:
     inputs:
-      environment:
+      ENVIRONMENT:
         description: 'Environment Name'
         required: true
         default: 'preprod'
