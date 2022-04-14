@@ -1,4 +1,4 @@
-name: Shared Action - Setup Environment
+name: Environment - Shared Action
 # This will run when kicked off manually or by trigger
 on:
   workflow_dispatch:
