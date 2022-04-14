@@ -28,7 +28,7 @@ runs:
       uses: actions/checkout@v3
       
     # Push the workflows to the repo
-    - name: Push workflows to the repo
+    - name: Push README docs & workflows to the repo
       shell: bash
       run: |
         git config --global user.name ${{ inputs.USER_NAME }}
