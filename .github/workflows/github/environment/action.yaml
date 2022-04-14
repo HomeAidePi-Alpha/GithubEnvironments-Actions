@@ -45,6 +45,7 @@ inputs:
   #   required: false
 
 runs:
+    # composite type is key to chaining workflow modules accessed in repo or externally packaged or shared in an organization in github
     using: "composite"
     steps:
       # Checkout the repo
@@ -55,6 +56,7 @@ runs:
         # Default: ${{ github.repository }}
         repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
         fetch-depth: 0
+
     # Here we will create environment(s) and push secrets using gh cli 
     # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
     # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
@@ -68,21 +70,13 @@ runs:
         rm .githubtoken
         gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ inputs.ENVIRONMENT }}
     
-    - name: Create an environment & create secrets
+    # Sleep for magic seconds to give the former process time to complete (may be legacy if they queue durably)
+    - name: Sleep for 10 seconds
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
         sleep 10s
 
-       # Checkout the repo
-    - name: Check out Repo
-      uses: actions/checkout@v3
-      with:
-        # Repository name with owner. For example, actions/checkout
-        # Default: ${{ github.repository }}
-        repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        fetch-depth: 0
-        
     - name: Create secrets
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted

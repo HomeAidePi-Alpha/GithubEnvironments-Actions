@@ -72,6 +72,11 @@ jobs:
     steps:
     # Checkout the repo
     - uses: actions/checkout@v3
+      with:
+        # Repository name with owner. For example, actions/checkout
+        # Default: ${{ github.repository }}
+        repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        fetch-depth: 0
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/environment
       with:
