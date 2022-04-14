@@ -144,15 +144,21 @@ jobs:
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
-          ENVIRONMENT: preprod
+          MESSAGE: 'Environment: ${{  github.event.inputs.environment }} deployment completed for commit: ${{ github.sha }}'
           TEAMS_WEBHOOK: ${{ github.event.inputs.teams_webhook }}
 
     # Send a chat ops notification depending on slack
     - uses: ./.github/workflows/chatops/slack
       with:
           ENVIRONMENT: preprod
-          USER_NAME: ${{ github.event.inputs.user_name }}
+          SLACK_USERNAME: ${{ github.event.inputs.user_name }}
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
+          SLACK_CHANNEL: general
+          SLACK_COLOR: 'good' # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/HomeAidePi-Alpha/GithubEnvironments-Actions/blob/main/docs/bear-cavalry.png?size=48
+          SLACK_MESSAGE: ':rocket: '
+          SLACK_TITLE: 'CI/CQ/CD Completed' 
+          
 
   # todo Perform quality checks & standards here
 

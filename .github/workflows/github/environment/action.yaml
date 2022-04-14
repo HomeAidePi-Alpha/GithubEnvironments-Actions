@@ -1,4 +1,4 @@
-name: Create preprod secrets
+name: Create Github environment and secrets
 
 inputs:
   ENVIRONMENT:

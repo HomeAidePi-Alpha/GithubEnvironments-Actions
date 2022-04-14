@@ -1,11 +1,23 @@
-name: Create a Teams message related to deployment
+name: Create a Teams message related to action
 
 inputs:
-  ENVIRONMENT:
-    description: 'Environment Name'
+  SLACK_USER_NAME:
+    description: 'User who should be sent along the notification'
     required: true
-  USER_NAME:
-    description: 'User creating the job should be sent on the notification'
+  SLACK_CHANNEL:
+    description: 'The main slack message'
+    required: true
+  SLACK_COLOR:
+    description: 'The message coloring'
+    required: true
+  SLACK_ICON:
+    description: 'The slack icon'
+    required: true
+  SLACK_MESSAGE:
+    description: 'The main slack message'
+    required: true
+  SLACK_TITLE:
+    description: 'The message title'
     required: true
   SLACK_WEBHOOK:
     description: 'Slack Webhook for some Chat Channel'
@@ -22,10 +34,10 @@ runs:
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_CHANNEL: general
-        SLACK_COLOR: 'good' # or a specific color like 'good' or '#ff00ff'
-        SLACK_ICON: docs/bear-cavalry.png?size=48
-        SLACK_MESSAGE: ':rocket: Environment: ${{ inputs.ENVIRONMENT }} deployment completed for commit: ${{ github.sha }}'
-        SLACK_TITLE: 'CI/CQ/CD Completed' 
-        SLACK_USERNAME: ${{ inputs.USER_NAME }}
+        SLACK_CHANNEL: ${{ inputs.SLACK_CHANNEL }}
+        SLACK_COLOR: ${{ inputs.SLACK_COLOR }}
+        SLACK_ICON: ${{ inputs.SLACK_ICON }}
+        SLACK_MESSAGE: ${{ inputs.SLACK_MESSAGE }}
+        SLACK_TITLE: ${{ inputs.SLACK_TITLE }}
+        SLACK_USERNAME: ${{ inputs.SLACK_USERNAME }}
         SLACK_WEBHOOK: ${{ inputs.SLACK_WEBHOOK }}
