@@ -1,0 +1,49 @@
+name: Run a Python File List
+
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  GITHUB_ORG_NAME:
+    description: 'GitHub Organization Name'
+    required: true
+  GITHUB_REPO_BRANCH:
+    description: 'GitHub Repo Branch Name usually "main" or  "master"'
+    required: true
+  GITHUB_REPO_NAME:
+    description: 'GitHub Repo Name'
+    required: true
+  GITHUB_REPO_TOKEN:
+    description: 'GitHub Repo Token for Auth'
+    required: true
+  GITHUB_REPO_FILE_LIST:
+    description: 'GitHub Repo File List'
+    required: true
+
+env:
+  python-version: [ '2.x', '3.x', 'pypy-2.7', 'pypy-3.7', 'pypy-3.8' ]
+  environments: ['preprod', 'prod']
+  python-architecture: 'x64'
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+
+    # Setup Python versions
+    - name: Setup Python versions
+      uses: actions/setup-python@v3
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: ${{ env.python-version }}
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: ${{ env.python-architecture }}
+
+    # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
+    - name: Display Python version & Execute python from the github repo file list
+      shell: bash
+      run: | 
+        python -c "import sys; print(sys.version)"
+        python ${{ inputs.GITHUB_REPO_FILE_LIST }}

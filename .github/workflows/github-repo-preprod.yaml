@@ -24,10 +24,6 @@ on:
         description: 'GitHub Repo Name'
         required: true
         default: 'GitHubEnvironments-Alpha'
-      file_list:
-        description: 'GitHub Repo File List'
-        required: true
-        default: './.github/workflows/github/repo/src/alpha.py'
       token:
         description: 'A Token'
         required: true
@@ -48,14 +44,15 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        # todo implement quality strategy after tiger team committee approval
-        # package:
-        #   - coding-standard
-        #   - lint-rules (eslint, flake8)
-        #   - commit-guidelines
-        #   - pull-request-peer-review
-        #   - quality-check
+    # todo implement quality strategy after tiger team committee approval
+    # package:
+    #   - coding-standard
+    #   - lint-rules (eslint, flake8)
+    #   - commit-guidelines
+    #   - pull-request-peer-review
+    #   - quality-check
     runs-on: ${{ matrix.os }}
+    # todo prolly could be a variable for even more consistency and cleanup
     environment: 'preprod'
     # todo Implement principle of least priv based on need
     permissions:
@@ -69,25 +66,13 @@ jobs:
     # Checkout the repo
     - uses: actions/checkout@v3
     # Create a GitHub Repo, populate base code
-    - uses: ./.github/workflows/github/repo/create-pre
+    - uses: ./.github/workflows/github/repo
       with:
           ENVIRONMENT: 'preprod'
-          USER_NAME: ${{ github.event.inputs.user_name }}
-          USER_EMAIL: ${{ github.event.inputs.user_email }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
-          GITHUB_REPO_FILE_LIST: ${{ github.event.inputs.file_list }}
-          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
-          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
-          PULLED_FROM_SQL: ${{ secrets.PULLED_FROM_SQL }}
-          PULLED_FROM_BLOB: ${{ secrets.PULLED_FROM_BLOB }}
-          PULLED_FROM_FILE: ${{ secrets.PULLED_FROM_FILE }}
-          PULLED_FROM_QUEUE: ${{ secrets.PULLED_FROM_QUEUE }}
-          PULLED_FROM_STREAM: ${{ secrets.PULLED_FROM_STREAM }}
-          PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
-          PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
 
   deploy:
     name: Deploy
@@ -111,14 +96,22 @@ jobs:
     - uses: actions/checkout@v3
 
      # Push post creation items like workflows
-    - uses: ./.github/workflows/github/repo/create-post
+    - uses: ./.github/workflows/github/environment
       with:
-          USER_NAME: ${{ github.event.inputs.user_name }}
-          USER_EMAIL: ${{ github.event.inputs.user_email }}
-          GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
-          GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
-          GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
-          GITHUB_ORG_NAME: ${{ github.event.inputs.org_name }}
+          ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
+          GITHUB_REPO_TOKEN: ${{ github.event.inputs.GITHUB_REPO_TOKEN }}
+          GITHUB_REPO_BRANCH: ${{ github.event.inputs.GITHUB_REPO_BRANCH }}
+          GITHUB_REPO_NAME: ${{ github.event.inputs.GITHUB_REPO_NAME }}
+          GITHUB_ORG_NAME: ${{ github.event.inputs.GITHUB_ORG_NAME }}
+          PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}
+          PULLED_FROM_CYBERARK: ${{ secrets.PULLED_FROM_CYBERARK }}
+          PULLED_FROM_SQL: ${{ secrets.PULLED_FROM_SQL }}
+          PULLED_FROM_BLOB: ${{ secrets.PULLED_FROM_BLOB }}
+          PULLED_FROM_FILE: ${{ secrets.PULLED_FROM_FILE }}
+    # PULLED_FROM_QUEUE: ${{ secrets.PULLED_FROM_QUEUE }}
+    # PULLED_FROM_STREAM: ${{ secrets.PULLED_FROM_STREAM }}
+    # PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
+    # PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
 
   chat-ops:
     name: Notify
@@ -155,7 +148,7 @@ jobs:
           SLACK_WEBHOOK: ${{ github.event.inputs.slack_webhook }}
 
   # todo Perform quality checks & standards here
-  
+
   # Run a shared workflow on the newly minted repo
   # exec-shared-workflow:
   #   name: Exec-Alpha
@@ -175,7 +168,7 @@ jobs:
   #     deployments: 'write'
   #     repository-projects: 'write'
   #   steps:
-  #   - uses: https://github.com home/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}   
+  #   - uses: https://github.com home/${{ github.event.inputs.repo_name }}/.github/workflows/phase1-alpha-python-executed.yaml@${{ github.event.inputs.branch }}
   #     with:
   #       secrets:
   #         PULLED_FROM_KEYVAULT: ${{ secrets.PULLED_FROM_KEYVAULT }}

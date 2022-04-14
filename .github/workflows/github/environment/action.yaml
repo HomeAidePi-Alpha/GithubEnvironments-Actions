@@ -73,12 +73,22 @@ jobs:
     # Checkout the repo
     - uses: actions/checkout@v3
     # Create a GitHub Repo, populate base code
-    - uses: ./.github/repo/ci-cq-cd
+    - uses: ./.github/environments/ci-cq-cd
       with:
           ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.GITHUB_REPO_TOKEN }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.GITHUB_REPO_BRANCH }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.GITHUB_REPO_NAME }}
           GITHUB_ORG_NAME: ${{ github.event.inputs.GITHUB_ORG_NAME }}
+          PULLED_FROM_KEYVAULT: ${{ github.event.inputs.PULLED_FROM_KEYVAULT }}
+          PULLED_FROM_CYBERARK: ${{ github.event.inputs.PULLED_FROM_CYBERARK }}
+          PULLED_FROM_SQL: ${{  github.event.inputs.PULLED_FROM_SQL }}
+          PULLED_FROM_BLOB: ${{  github.event.inputs.PULLED_FROM_BLOB }}
+          PULLED_FROM_FILE: ${{  github.event.inputs.PULLED_FROM_FILE }}
+    
+    # PULLED_FROM_QUEUE: ${{ secrets.PULLED_FROM_QUEUE }}
+    # PULLED_FROM_STREAM: ${{ secrets.PULLED_FROM_STREAM }}
+    # PULLED_FROM_HTTP: ${{ secrets.PULLED_FROM_HTTP }}
+    # PULLED_FROM_SERVICE: ${{ secrets.PULLED_FROM_SERVICE }}
 
   # todo Perform quality checks & standards here

@@ -1,0 +1,75 @@
+name: Create preprod secrets
+
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  GITHUB_ORG_NAME:
+    description: 'GitHub Organization Name'
+    required: true
+  GITHUB_REPO_BRANCH:
+    description: 'GitHub Repo Branch Name usually "main" or  "master"'
+    required: true
+  GITHUB_REPO_NAME:
+    description: 'GitHub Repo Name'
+    required: true
+  GITHUB_REPO_TOKEN:
+    description: 'GitHub Repo Token for Auth'
+    required: true
+  PULLED_FROM_KEYVAULT:
+    description: 'Keyvault Credential'
+    required: false
+  PULLED_FROM_CYBERARK:
+    description: 'Cyberark Credential'
+    required: false
+  PULLED_FROM_SQL:
+    description: 'Sql Credential'
+    required: false
+  PULLED_FROM_BLOB:
+    description: 'Blob Credential'
+    required: false
+  PULLED_FROM_FILE:
+    description: 'File Credential'
+    required: false
+  # PULLED_FROM_QUEUE:
+  #   description: 'Queue Credential'
+  #   required: false
+  # PULLED_FROM_STREAM:
+  #   description: 'Stream Credential'
+  #   required: false
+  # PULLED_FROM_HTTP:
+  #   description: 'Http Credential'
+  #   required: false
+  # PULLED_FROM_SERVICE:
+  #   description: 'Service Credential'
+  #   required: false
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+    # Here we will create environment(s) and push secrets using gh cli 
+    # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
+    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
+    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds with the secrets as only The Cloud Provider and Github will exchange credentials along up-stream (back) channels.
+    - name: Create an environment & create secrets
+      shell: bash
+      
+      # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
+      run: |
+       echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
+        gh auth login --with-token < .githubtoken
+        rm .githubtoken
+        gh api --method PUT -H "Accept: application/vnd.github.v3+json" /repos/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}/environments/${{ inputs.ENVIRONMENT}}
+        sleep 10s
+        gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_BLOB --body "${{ inputs.PULLED_FROM_BLOB }}" --env ${{  inputs.ENVIRONMENT }}
+        gh secret set PULLED_FROM_FILE --body "${{ inputs.PULLED_FROM_FILE }}" --env ${{  inputs.ENVIRONMENT }}
+      # gh secret set PULLED_FROM_QUEUE --body "${{ inputs.PULLED_FROM_QUEUE }}" --env ${{  inputs.ENVIRONMENT }}
+      # gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }}
+      # gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }}
+      # gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }}        
