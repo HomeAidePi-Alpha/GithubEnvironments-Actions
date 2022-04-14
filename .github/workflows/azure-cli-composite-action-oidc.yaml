@@ -1,4 +1,4 @@
-name: Microsoft Azure CI-CQ-CD
+name: Microsoft Azure CLI - OIDC
 on:
   workflow_dispatch:
 

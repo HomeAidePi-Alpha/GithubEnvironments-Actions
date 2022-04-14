@@ -1,4 +1,4 @@
-name: azure-powershell-composite-action-oidc
+name: Azure FunctionApp Composite - Creds
 on:
   workflow_dispatch:
 

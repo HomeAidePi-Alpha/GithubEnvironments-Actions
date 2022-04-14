@@ -1,4 +1,4 @@
-name: azure-net-core-composite-action-creds
+name: Azure .netCore Composite - Creds
 
 on:
   workflow_dispatch:

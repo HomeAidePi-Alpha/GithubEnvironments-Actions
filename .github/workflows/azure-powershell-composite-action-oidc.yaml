@@ -1,4 +1,4 @@
-name: azure-powershell-composite-action-oidc
+name: Azure Powershell Composite - OIDC
 on:
   workflow_dispatch:
 
