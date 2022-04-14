@@ -4,7 +4,7 @@ name: Shared Action - Setup Environment
 on:
   workflow_dispatch:
     inputs:
-      ENVIRONMENT:
+      environment:
         description: 'Environment Name'
         required: true
         default: 'preprod'
