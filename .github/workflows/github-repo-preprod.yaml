@@ -52,8 +52,9 @@ jobs:
     #   - pull-request-peer-review
     #   - quality-check
     runs-on: ${{ matrix.os }}
-    # todo prolly could be a variable for even more consistency and cleanup
-    environment: 'preprod'
+
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
@@ -63,12 +64,10 @@ jobs:
       deployments: 'write'
       repository-projects: 'write'
     steps:
-    # Checkout the repo
-    - uses: actions/checkout@v3
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/repo
       with:
-          ENVIRONMENT: 'preprod'
+          ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.token }}
           GITHUB_REPO_BRANCH: ${{ github.event.inputs.branch }}
           GITHUB_REPO_NAME: ${{ github.event.inputs.repo_name }}
@@ -82,7 +81,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    environment: 'preprod'
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
@@ -91,11 +90,8 @@ jobs:
       actions: 'write'
       deployments: 'write'
       repository-projects: 'write'
-    steps:
-    # Checkout the repo
-    - uses: actions/checkout@v3
 
-     # Push post creation items like workflows
+    steps:
     - uses: ./.github/workflows/github/environment
       with:
           ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
@@ -121,7 +117,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    environment: 'preprod'
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
@@ -130,10 +127,8 @@ jobs:
       actions: 'write'
       deployments: 'write'
       repository-projects: 'write'
-    steps:
-    # Checkout the repo
-    - uses: actions/checkout@v3
 
+    steps:
     # Send a chat ops notification depending on teams or slack
     - uses: ./.github/workflows/chatops/teams
       with:
