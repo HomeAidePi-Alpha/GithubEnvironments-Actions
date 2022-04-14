@@ -22,7 +22,7 @@ on:
         default: 'PULLED_FROM_SQL'
       PULLED_FROM_BLOB:
         description: 'Pulled from Blob Storage'
-       required: false
+        required: false
         default: 'PULLED_FROM_BLOB'
       PULLED_FROM_FILE:
         description: 'Pulled from some file'
