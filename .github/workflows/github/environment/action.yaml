@@ -56,7 +56,6 @@ runs:
     # Consider federating Cloud Provider(s) to Github to prevent even bad deeds with the secrets as only The Cloud Provider and Github will exchange credentials along up-stream (back) channels.
     - name: Create an environment & create secrets
       shell: bash
-      
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
        echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken

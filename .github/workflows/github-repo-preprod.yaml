@@ -4,6 +4,10 @@ name: Create a GitHub Repo, populate code, create secrets, docs & wiki, & ci-cq-
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'preprod'
       user_name:
         description: 'User Name'
         required: true
