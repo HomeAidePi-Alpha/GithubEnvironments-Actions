@@ -60,7 +60,7 @@ jobs:
     #   - quality-check
     runs-on: ${{ matrix.os }}
     # todo prolly could be a variable for even more consistency and cleanup
-    environment: 'preprod'
+    environment:  ${{ github.event.inputs.ENVIRONMENT }}
     # todo Implement principle of least priv based on need
     permissions:
       contents: 'write'
