@@ -1,4 +1,4 @@
-name: Preprod create a GitHub Repo and populate code, create secrets, docs & wiki, test for quality and check standards
+name: Shared Action - Setup Environment
 
 # This will run when kicked off manually or by trigger
 on:
