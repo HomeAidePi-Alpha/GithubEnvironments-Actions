@@ -47,6 +47,7 @@ on:
 jobs:
   build:
     name: Build
+    continue-on-error: true
     timeout-minutes: 3
     strategy:
       matrix:
@@ -70,14 +71,6 @@ jobs:
       deployments: 'write'
       repository-projects: 'write'
     steps:
-    # Checkout the repo
-    - uses: actions/checkout@v3
-      with:
-          # Repository name with owner. For example, actions/checkout
-          # Default: ${{ github.repository }}
-          repository: ${{ github.event.inputs.GITHUB_ORG_NAME}}/${{ github.event.inputs.GITHUB_REPO_NAME}}
-          fetch-depth: 0
-
     # Checkout the repo
     - uses: actions/checkout@v2
 
