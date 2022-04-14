@@ -71,15 +71,11 @@ jobs:
       repository-projects: 'write'
     steps:
     # Checkout the repo
-    - uses: actions/checkout@v3
-      with:
-          # Repository name with owner. For example, actions/checkout
-          # Default: ${{ github.repository }}
-          repository: ${{ github.event.inputs.GITHUB_ORG_NAME}}/${{ github.event.inputs.GITHUB_REPO_NAME}}
-          fetch-depth: 0
+    - uses: actions/checkout@v2
 
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/environment
+    - uses: my-org/
       with:
           ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.GITHUB_REPO_TOKEN }}
