@@ -50,6 +50,7 @@ runs:
     steps:
       # Checkout the repo
     - name: Check out Repo
+      id: Check-Out-Repo-1
       uses: actions/checkout@v3
       with:
         # Repository name with owner. For example, actions/checkout
@@ -57,11 +58,9 @@ runs:
         repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
         fetch-depth: 0
 
-    # Here we will create environment(s) and push secrets using gh cli 
-    # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
-    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
-    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds with the secrets as only The Cloud Provider and Github will exchange credentials along up-stream (back) channels.
-    - name: Create an environment & create secrets
+    # Here we will create environment using gh cli 
+    - name: Create an environment 
+      id: create
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
@@ -72,21 +71,18 @@ runs:
     
     # Sleep for magic seconds to give the former process time to complete (may be legacy if they queue durably)
     - name: Sleep for 10 seconds
+      id: sleep
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
         sleep 10s
 
-      # Checkout the repo
-    - name: Check out Repo
-      uses: actions/checkout@v3
-      with:
-        # Repository name with owner. For example, actions/checkout
-        # Default: ${{ github.repository }}
-        repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        fetch-depth: 0
-        
+    # Here we will push secrets using gh cli 
+    # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
+    # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
+    # Consider federating Cloud Provider(s) to Github to prevent even bad deeds with the secrets as only The Cloud Provider and Github will exchange credentials along up-stream (back) channels.
     - name: Create secrets
+      id: secrets
       shell: bash
       # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
