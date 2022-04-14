@@ -75,7 +75,6 @@ jobs:
 
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/environment
-    - uses: my-org/
       with:
           ENVIRONMENT:  ${{ github.event.inputs.ENVIRONMENT }}
           GITHUB_REPO_TOKEN: ${{ github.event.inputs.GITHUB_REPO_TOKEN }}
