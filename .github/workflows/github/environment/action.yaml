@@ -53,7 +53,7 @@ runs:
       with:
           # Repository name with owner. For example, actions/checkout
           # Default: ${{ github.repository }}
-          repository: ${{ github.event.inputs.GITHUB_ORG_NAME}}/${{ github.event.inputs.GITHUB_REPO_NAME}}
+          repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
           fetch-depth: 0
 
     # Here we will create environment using gh cli 
