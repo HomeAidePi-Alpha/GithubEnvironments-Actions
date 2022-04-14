@@ -73,6 +73,14 @@ jobs:
     # Checkout the repo
     - uses: actions/checkout@v2
 
+    # Checkout the repo
+    - uses: actions/checkout@v3
+      with:
+          # Repository name with owner. For example, actions/checkout
+          # Default: ${{ github.repository }}
+          repository: ${{ github.event.inputs.GITHUB_ORG_NAME}}/${{ github.event.inputs.GITHUB_REPO_NAME}}
+          fetch-depth: 0
+
     # Create a GitHub Repo, populate base code
     - uses: ./.github/workflows/github/environment
       with:
@@ -86,13 +94,5 @@ jobs:
           PULLED_FROM_SQL: ${{ secrets.PULLED_FROM_SQL }}
           PULLED_FROM_BLOB: ${{  secrets.PULLED_FROM_BLOB }}
           PULLED_FROM_FILE: ${{  secrets.PULLED_FROM_FILE }}
-
-    # Checkout the repo
-    - uses: actions/checkout@v3
-      with:
-          # Repository name with owner. For example, actions/checkout
-          # Default: ${{ github.repository }}
-          repository: ${{ github.event.inputs.GITHUB_ORG_NAME}}/${{ github.event.inputs.GITHUB_REPO_NAME}}
-          fetch-depth: 0
         
 
