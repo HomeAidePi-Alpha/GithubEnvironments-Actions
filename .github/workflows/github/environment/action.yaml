@@ -50,9 +50,9 @@ runs:
       # Checkout the repo
     - name: Check out Repo
       uses: actions/checkout@v3
-     with:
-        path: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-        fetch-depth: 0 
+      with:
+          path: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+          fetch-depth: 0 
     # Here we will create environment(s) and push secrets using gh cli 
     # Basically from any source we seek to use and will be abstracted away from the consumer of the repo in one degree of separation 
     # Unless they are doing bad deeds with the keys such as writing them to console or external places the keys wont be reasonably able to be observed.
