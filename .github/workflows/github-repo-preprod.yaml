@@ -1,4 +1,5 @@
 name: Create a GitHub Repo, populate code, create secrets, docs & wiki, & ci-cq-cd (test for quality and check standards)
+description: yada
 
 # This will run when kicked off manually or by trigger
 on:
