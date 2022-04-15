@@ -6,10 +6,10 @@ on:
       - "main"
 
 inputs:
-  AZURE_CLIENT_ID:
+  AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
     required: true
-  AZURE_TENANT_ID:
+  AZURE_AD_TENANT_ID:
     description: 'Azure Tenant Id'
     required: true
   AZURE_SUBSCRIPTION_ID:
@@ -25,8 +25,8 @@ runs:
       - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
         uses: azure/login@v1
         with:
-          client-id: ${{ inputs.AZURE_CLIENT_ID }}
-          tenant-id: ${{ inputs.AZURE_TENANT_ID }}
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }} 
           enable-AzPSSession: true
 
