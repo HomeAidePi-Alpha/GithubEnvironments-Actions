@@ -13,9 +13,6 @@ inputs:
   AZURE_SUBSCRIPTION_ID:
     description: 'Azure Subscription Id'
     required: true
-  AZURE_CLI_VERSION:
-    description: 'Version of Azure Cli to Target'
-    required: true
   AZURE_RESOURCE_GROUP:
     description: 'Azure Resource Group'
     required: true
@@ -44,7 +41,7 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-      # CLI login using Open ID Connect
+       # Login to Azure with CLI with Federated with Github
       - name: 'Az CLI Login via OIDC'
         uses: azure/login@v1
         with:
@@ -56,7 +53,7 @@ runs:
       - name: Create Resource Group - Storage Account - Storage Container and Service Principle
         uses: azure/CLI@v1
         with:
-          azcliversion: ${{ env.AZURE_CLI_VERSION }}
+          azcliversion: 2.35.0
           inlineScript: |
                       az group create -n ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} -l ${{ inputs.AZURE_REGION }}
                       az storage account create -n ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} -l ${{ inputs.AZURE_REGION }} --sku Standard_LRS
