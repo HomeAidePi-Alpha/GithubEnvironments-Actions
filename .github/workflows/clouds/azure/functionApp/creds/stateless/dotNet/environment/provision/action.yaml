@@ -47,6 +47,13 @@ runs:
       # Create Resource Group, Storage Account, Storage Container and Service Principle
       - name: Create Resource Group - Storage Account - Storage Container and Service Principle
         uses: azure/CLI@v1
+        env:
+          ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+          AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+          AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
+          AZURE_REGION: ${{ inputs.AZURE_REGION }}
         with:
           azcliversion: 2.35.0
           inlineScript: |
