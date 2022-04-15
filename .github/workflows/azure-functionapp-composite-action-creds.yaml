@@ -1,4 +1,4 @@
-name: Azure FunctionApp Composite - Creds
+name: Azure FunctionApp Composite Creds
 on:
   workflow_dispatch:
     inputs: 
@@ -31,9 +31,6 @@ permissions:
   contents: 'read'
   id-token: 'write'
 
-env:
-  AZURE_CLI_VERSION: '2.35.0'
-  
 jobs:
   provision:
     name: Provision Azure Function App
@@ -55,7 +52,7 @@ jobs:
         AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
         AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
         AZURE_REGION: ${{ inputs.AZURE_REGION }}
-  
+    
   # deploy:
   #   name: Deploy Azure Function App
   #   needs: [provision]
@@ -73,7 +70,7 @@ jobs:
   #       AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
   #       AZURE_FUNCTIONAPP_DIR_PATH: ${{ secrets.AZURE_FUNCTIONAPP_DIR_PATH }}
  
-   chatops:
+  chatops:
     name: Send notifications with Teams
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
