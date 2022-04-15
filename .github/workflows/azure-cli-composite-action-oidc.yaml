@@ -13,7 +13,7 @@ permissions:
   
 jobs:
   login-oidc:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     environment: ${{ inputs.ENVIRONMENT }}
     steps:
     - uses: actions/checkout@v3
