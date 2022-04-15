@@ -77,7 +77,7 @@ jobs:
     environment: ${{ inputs.ENVIRONMENT }}
     steps:
       # Checkout the Repo
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       # Send Chat Ops notification
       - name: Send chat ops notification to teams
