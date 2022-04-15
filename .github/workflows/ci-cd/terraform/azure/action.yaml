@@ -1,0 +1,77 @@
+name: 'Terraform Azure '
+ 
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  AZURE_GROUP_NAME:
+    description: 'Azure Group Name'
+    required: true
+  AZURE_STORAGE_ACCOUNT_NAME:
+    description: 'Azure Storage Account Name'
+    required: true
+  AZURE_STORAGE_CONTAINER_NAME:
+    description: 'Azure Storage Container Name'
+    required: true
+  AZURE_REGION:
+    description: 'Region for the Destination'
+    required: true
+  TERRAFORM_WORKING_DIR:
+    description: 'Terraform Working File Path'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+ 
+      # Terraform Format 
+      - name: 'Terraform Format'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}} #"./terraform"
+
+      # Terraform Init
+      - name: 'Terraform Init'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
+        env:
+            TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}"'
+            AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
+            AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+            AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+            AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
+            AZURE_STORAGE_CONTAINER_NAME_KEY: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}.tfstate
+            AZURE_REGION: ${{ inputs.AZURE_REGION }}
+
+      # Terraform Validate
+      - name: 'Terraform Validate'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'validate'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
+         
+      # Terraform Plan
+      - name: 'Terraform Plan'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'plan'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
+
+      # Terraform Apply
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'apply'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}

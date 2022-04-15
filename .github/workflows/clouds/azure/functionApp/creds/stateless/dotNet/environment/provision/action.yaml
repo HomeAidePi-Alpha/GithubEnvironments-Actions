@@ -1,0 +1,77 @@
+name: 'Deploy Terraform app to Azure Web App'
+
+inputs:
+  ENVIRONMENT:
+    description: Enviroment Name
+    required: true
+  AZURE_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+  AZURE_CLI_VERSION:
+    description: 'Version of Azure Cli to Target'
+    required: true
+  AZURE_RESOURCE_GROUP:
+    description: 'Azure Resource Group'
+    required: true
+    #default: 'tamops'
+  AZURE_RESOURCE_GROUP_NAME:
+    description: 'Azure Resource Group Name'
+    required: true
+    #default: 'tamopstfstates'
+  AZURE_STORAGE_ACCOUNT_NAME: 
+    description: 'Azure Storage Account Name'
+    required: true
+    #default: 'tamopstf'
+  AZURE_STORAGE_CONTAINER_NAME:
+    description: 'Azure Storage Container Name'
+    required: true
+    #default: 'tfstatedevops'
+  AZURE_REGION:
+    description: 'Azure Region'
+    required: true
+    # default: 'eastus2'
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      # CLI login using Open ID Connect
+      - name: 'Az CLI Login via OIDC'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ inputs.AZURE_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+
+      # Create Resource Group, Storage Account, Storage Container and Service Principle
+      - name: Create Resource Group - Storage Account - Storage Container and Service Principle
+        uses: azure/CLI@v1
+        with:
+          azcliversion: ${{ env.AZURE_CLI_VERSION }}
+          inlineScript: |
+                      az group create -n ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} -l ${{ inputs.AZURE_REGION }}
+                      az storage account create -n ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} -l ${{ inputs.AZURE_REGION }} --sku Standard_LRS
+                      az storage container create -n ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
+                      az ad sp create-for-rbac --name ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+
+      # Terraform these newly minted resources
+      - name: Terraform Azure Resources
+        uses: ./github/workflows/ci-cd/terraform/azure
+        with:
+          ENVIRONMENT: ${{ inputs.AZURE_GROUP_NAME }}
+          AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+          AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
+          AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}.tfstate
+          AZURE_REGION: ${{ inputs.AZURE_REGION }}
+      
