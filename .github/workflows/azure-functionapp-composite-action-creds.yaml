@@ -36,43 +36,44 @@ jobs:
   provision:
     name: Provision Azure Function App
     runs-on: ubuntu-latest
-    environment: preprod
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+
     steps:  
     # Checkout the Repo
     - uses: actions/checkout@v3
 
     - name: bash script
       shell: bash
-      env:
-        ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
-        AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
-        AZURE_REGION: ${{ inputs.AZURE_REGION }}
       run: | 
-        echo environment: ${{ env.ENVIRONMENT }}
+        echo environment: ${{ github.event.inputs.ENVIRONMENT }}
         echo env: $ENVIRONMENT
         echo env1: ${ENVIRONMENT}
+      env:
+        ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
+        AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
+        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
 
     # This section runs the Azure function app provisioning
     - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
       with:
-        ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+        ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
         AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
         AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
         AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
-        AZURE_REGION: ${{ inputs.AZURE_REGION }}
+        AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
+        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
     
   # deploy:
   #   name: Deploy Azure Function App
   #   needs: [provision]
   #   runs-on: ubuntu-latest
-  #   environment: ${{ inputs.ENVIRONMENT }}
+  #   environment: ${{ github.event.inputs.ENVIRONMENT }}
   #   steps:
   #   # Checkout the Repo
   #   - uses: actions/checkout@v3
@@ -89,7 +90,7 @@ jobs:
     name: Send notifications with Teams
     needs: [provision]
     runs-on: ubuntu-latest
-    environment: ${{ inputs.ENVIRONMENT }}
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
       # Checkout the Repo
       - uses: actions/checkout@v3
@@ -98,5 +99,5 @@ jobs:
       - name: Send chat ops notification to teams
         uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
         with:
-          webhook: ${{ inputs.TEAMS_WEBHOOK }}
+          webhook: ${{ secrets.TEAMS_WEBHOOK }}
           message: 'Deployment Completed for commit: ${{ github.sha }} check logs to determine success.'
