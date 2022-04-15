@@ -58,7 +58,7 @@ jobs:
   
   # deploy:
   #   name: Deploy Azure Function App
-  #   depends: [provision]
+  #   needs: [provision]
   #   runs-on: ubuntu-latest
   #   environment: ${{ inputs.ENVIRONMENT }}
   #   steps:
