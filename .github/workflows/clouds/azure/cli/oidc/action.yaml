@@ -39,6 +39,6 @@ runs:
       - name: "Add a mask to the SWA Token"
         uses: azure/CLI@v1
         with:
-          azcliversion: ${{ env.AZURE_CLI_VERSION }}
+          azcliversion: ${{ inputs.AZURE_CLI_VERSION }}
           inlineScript: |
                         echo "::add-mask::$(az login)"
