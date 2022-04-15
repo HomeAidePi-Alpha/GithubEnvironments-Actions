@@ -41,6 +41,10 @@ jobs:
     # Checkout the Repo
     - uses: actions/checkout@v3
 
+    - name: bash script
+      shell: bash
+      run: echo "${{ inputs.AZURE_RESOURCE_GROUP }}"
+
     # This section runs the Azure function app provisioning
     - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
       with:
