@@ -14,7 +14,7 @@ permissions:
 jobs:
   login-oidc:
     runs-on: windows-latest
-    environment: preprod
+    environment: ${{ inputs.ENVIRONMENT }}
     steps:
     # Checkout the Repo
     - uses: actions/checkout@v3
