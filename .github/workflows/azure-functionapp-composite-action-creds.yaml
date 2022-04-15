@@ -36,7 +36,7 @@ jobs:
   provision:
     name: Provision Azure Function App
     runs-on: ubuntu-latest
-    environment: ${{ inputs.ENVIRONMENT }}
+    environment: preprod
     steps:  
     # Checkout the Repo
     - uses: actions/checkout@v3
