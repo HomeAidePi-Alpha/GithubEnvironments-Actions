@@ -6,11 +6,10 @@ permissions:
   contents: 'read'
   id-token: 'write'
 
-  
 jobs:
   job:
-    runs-on: ubuntu-latest
-    environment: 'PreProd'
+    runs-on: windows-latest
+    environment: preprod
     steps:
     - uses: actions/checkout@v3
     #

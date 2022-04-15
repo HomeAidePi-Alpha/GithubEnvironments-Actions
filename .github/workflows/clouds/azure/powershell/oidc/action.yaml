@@ -1,10 +1,5 @@
 name: Run Azure Login with OpenID Connect and PowerShell
 
-on:
-  push:
-    branches:
-      - "main"
-
 inputs:
   AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
