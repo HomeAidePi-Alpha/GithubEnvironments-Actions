@@ -51,8 +51,9 @@ jobs:
         AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
         AZURE_REGION: ${{ inputs.AZURE_REGION }}
       run: | 
-        echo "environment-->${{ env.ENVIRONMENT }}"
-        echo "azure_resource_group-->${{ env.AZURE_RESOURCE_GROUP }}"
+        echo environment: ${{ env.ENVIRONMENT }}
+        echo env: $ENVIRONMENT
+        echo env1: ${ENVIRONMENT}
 
     # This section runs the Azure function app provisioning
     - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
