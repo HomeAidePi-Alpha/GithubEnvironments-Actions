@@ -73,6 +73,7 @@ jobs:
  
   chatops:
     name: Send notifications with Teams
+    depends: [provision]
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
     steps:

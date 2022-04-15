@@ -50,10 +50,10 @@ runs:
         with:
           azcliversion: 2.35.0
           inlineScript: |
-                      az group create -n ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} -l ${{ inputs.AZURE_REGION }}
-                      az storage account create -n ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} -l ${{ inputs.AZURE_REGION }} --sku Standard_LRS
-                      az storage container create -n ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
-                      az ad sp create-for-rbac --name ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+                      az group create -n '${{ inputs.AZURE_RESOURCE_GROUP_NAME }}' -l '${{ inputs.AZURE_REGION }}'
+                      az storage account create -n '${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}' -g '${{ inputs.AZURE_RESOURCE_GROUP_NAME }}' -l '${{ inputs.AZURE_REGION }}' --sku Standard_LRS
+                      az storage container create -n '${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}'
+                      az ad sp create-for-rbac --name '${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}'
 
       # Terraform these newly minted resources
       - name: Terraform Azure Resources
