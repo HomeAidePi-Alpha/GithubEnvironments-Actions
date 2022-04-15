@@ -21,7 +21,7 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-      # Login to Azure with CLI with Federated Client Id
+      # Login to Azure with CLI with Federated with Github
       - name: 'Az CLI Login via OIDC'
         uses: azure/login@v1
         with:
@@ -32,6 +32,6 @@ runs:
       - name: "Add a mask to the SWA Token"
         uses: azure/CLI@v1
         with:
-          azPSVersion: "2022"
+          azcliversion: 2.35.0
           inlineScript: |
                         echo "::add-mask::$(az login)"

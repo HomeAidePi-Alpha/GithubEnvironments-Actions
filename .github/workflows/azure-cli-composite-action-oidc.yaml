@@ -13,7 +13,7 @@ permissions:
   
 jobs:
   login-oidc:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
     steps:
     # Checkout the Repo
