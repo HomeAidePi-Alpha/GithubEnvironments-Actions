@@ -1,10 +1,5 @@
 name: 'Deploy ASP.NET Core app to Azure Web App'
 
-on:
-  push:
-    branches:
-      - "main"
-
 inputs:
   AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
@@ -29,6 +24,7 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
+      # Login to Azure with CLI with Federated Client Id
       - name: 'Az CLI Login via OIDC'
         uses: azure/login@v1
         with:

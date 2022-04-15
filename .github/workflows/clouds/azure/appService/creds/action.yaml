@@ -1,10 +1,5 @@
 name: 'Deploy ASP.NET Core app to Azure Web App'
 
-on:
-  push:
-    branches:
-      - "main"
-
 inputs:
   AZURE_CREDENTIALS:
     description: 'Azure Credentials'
