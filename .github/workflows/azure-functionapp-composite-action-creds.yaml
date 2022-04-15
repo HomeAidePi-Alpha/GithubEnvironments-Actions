@@ -35,11 +35,14 @@ env:
   AZURE_CLI_VERSION: '2.35.0'
   
 jobs:
-  job:
+  provision:
+    name: Provision Azure Function App
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
-    steps:
+    steps:  
+    # Checkout the Repo
     - uses: actions/checkout@v3
+
     # This section runs the Azure function app provisioning
     - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
       with:
@@ -52,12 +55,21 @@ jobs:
         AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
         AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
         AZURE_REGION: ${{ inputs.AZURE_REGION }}
-    
-    # This section runs the Azure function app action composite with creds
-    - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/deploy
-      with:
-        AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-        AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-        AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        AZURE_FUNCTIONAPP_DIR_PATH: ${{ secrets.AZURE_FUNCTIONAPP_DIR_PATH }}
+  
+  # deploy:
+  #   name: Deploy Azure Function App
+  #   depends: [provision]
+  #   runs-on: ubuntu-latest
+  #   environment: ${{ inputs.ENVIRONMENT }}
+  #   steps:
+  #   # Checkout the Repo
+  #   - uses: actions/checkout@v3
+
+  #   # This section runs the Azure function app action composite with creds
+  #   - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/deploy
+  #     with:
+  #       AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+  #       AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+  #       AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+  #       AZURE_FUNCTIONAPP_DIR_PATH: ${{ secrets.AZURE_FUNCTIONAPP_DIR_PATH }}
  
