@@ -13,9 +13,6 @@ inputs:
   TEAMS_WEBHOOK:
     description: 'ChatOps Webhook for Ms Teams Channel Connector'
     required: true
-  AZURE_CLI_VERSION:
-    description: 'Version of Azure Cli to Target'
-    required: true
 
 runs:
     using: "composite"
@@ -35,6 +32,6 @@ runs:
       - name: "Add a mask to the SWA Token"
         uses: azure/CLI@v1
         with:
-          azcliversion: ${{ inputs.AZURE_CLI_VERSION }}
+          azPSVersion: "2022"
           inlineScript: |
                         echo "::add-mask::$(az login)"
