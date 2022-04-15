@@ -10,9 +10,6 @@ inputs:
   AZURE_SUBSCRIPTION_ID:
     description: 'Azure Subscription Id'
     required: true
-  TEAMS_WEBHOOK:
-    description: 'ChatOps Webhook for Ms Teams Channel Connector'
-    required: true
   
 runs:
     using: "composite"

@@ -16,23 +16,18 @@ inputs:
   AZURE_RESOURCE_GROUP:
     description: 'Azure Resource Group'
     required: true
-    #default: 'tamops'
   AZURE_RESOURCE_GROUP_NAME:
     description: 'Azure Resource Group Name'
     required: true
-    #default: 'tamopstfstates'
   AZURE_STORAGE_ACCOUNT_NAME: 
     description: 'Azure Storage Account Name'
     required: true
-    #default: 'tamopstf'
   AZURE_STORAGE_CONTAINER_NAME:
     description: 'Azure Storage Container Name'
     required: true
-    #default: 'tfstatedevops'
   AZURE_REGION:
     description: 'Azure Region'
     required: true
-    # default: 'eastus2'
 
 runs:
     using: "composite"
