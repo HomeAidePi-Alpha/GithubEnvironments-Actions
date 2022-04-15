@@ -3,11 +3,11 @@ name: Azure FunctionApp Composite Creds
 on:
   workflow_dispatch:
     inputs: 
-      environment:
+      ENVIRONMENT:
         description: 'Environment'
         required: true
         default: 'preprod'
-      azure_resource_group:
+      AZURE_RESOURCE_GROUP:
         description: 'Azure Resource Group'
         required: true
         default: 'tamops'
@@ -43,9 +43,16 @@ jobs:
 
     - name: bash script
       shell: bash
+      env:
+        ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+        AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
+        AZURE_REGION: ${{ inputs.AZURE_REGION }}
       run: | 
-        echo "environment-->${{ inputs.environment }}"
-        echo "azure_resource_group-->${{ inputs.azure_resource_group }}"
+        echo "environment-->${{ env.environment }}"
+        echo "azure_resource_group-->${{ env.azure_resource_group }}"
 
     # This section runs the Azure function app provisioning
     - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
