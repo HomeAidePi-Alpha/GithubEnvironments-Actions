@@ -1,9 +1,9 @@
 terraform {
     backend "azurerm" {
-        resource_group_name  = env.AZURE_RESOURCE_GROUP_NAME
-        storage_account_name = env.AZURE_STORAGE_ACCOUNT_NAME
-        container_name       = env.AZURE_STORAGE_CONTAINER_NAME
-        key                  = env.AZURE_STORAGE_CONTAINER_NAME_KEY
+        resource_group_name  = var.AZURE_RESOURCE_GROUP_NAME
+        storage_account_name = var.AZURE_STORAGE_ACCOUNT_NAME
+        container_name       = var.AZURE_STORAGE_CONTAINER_NAME
+        key                  = var.AZURE_STORAGE_CONTAINER_NAME_KEY
     }
     required_providers {
         azurerm = {
@@ -20,15 +20,15 @@ data "azurerm_client_config" "current" {}
  
 #Create Resource Group
 resource "azurerm_resource_group" "tamops-rg" {
-  name     = env.AZURE_RESOURCE_GROUP
-  location = env.AZURE_REGION
+  name     = var.AZURE_RESOURCE_GROUP
+  location = var.AZURE_REGION
 }
  
 #Create Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "tamops-vnet"
   address_space       = ["192.168.0.0/16"]
-  location            = env.AZURE_REGION
+  location            = var.AZURE_REGION
   resource_group_name = azurerm_resource_group.tamops.name
 }
  

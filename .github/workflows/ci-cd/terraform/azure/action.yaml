@@ -43,13 +43,14 @@ runs:
           tf_actions_subcommand: 'init'
           tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
         env:
-            TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}"'
-            AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
-            AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-            AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-            AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
-            AZURE_STORAGE_CONTAINER_NAME_KEY: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}.tfstate
-            AZURE_REGION: ${{ inputs.AZURE_REGION }}
+            TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                              -var="AZURE_RESOURCE_GROUP=${{inputs.AZURE_RESOURCE_GROUP}}" 
+                              -var="AZURE_RESOURCE_GROUP_NAME=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
+                              -var="AZURE_STORAGE_ACCOUNT_NAME=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}" 
+                              -var="AZURE_STORAGE_CONTAINER_NAME=${{inputs.AZURE_STORAGE_CONTAINER_NAME}}"
+                              -var="AZURE_STORAGE_CONTAINER_NAME_KEY=${{inputs.AZURE_STORAGE_CONTAINER_NAME_KEY}}"
+                              -var="AZURE_REGION=${{inputs.AZURE_REGION}}"
+                              '
 
       # Terraform Validate
       - name: 'Terraform Validate'
