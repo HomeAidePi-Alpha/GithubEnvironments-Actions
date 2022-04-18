@@ -67,6 +67,7 @@ runs:
         uses: ./.github/workflows/ci-cd/terraform/azure
         with:
           ENVIRONMENT: ${{ inputs.AZURE_GROUP_NAME }}
+          TERRAFORM_WORKING_DIR: './.github/workflows/ci-cd/terraform/azure'
           AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
