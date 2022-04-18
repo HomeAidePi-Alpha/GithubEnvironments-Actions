@@ -42,49 +42,49 @@ jobs:
     # Checkout the Repo
     - uses: actions/checkout@v3
 
-    - name: bash script
-      shell: bash
-      run: | 
-        echo environment: ${{ github.event.inputs.ENVIRONMENT }}
-        echo env: $ENVIRONMENT
-        echo env1: ${ENVIRONMENT}
-      env:
-        ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
-        AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
-        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
+    # - name: bash script
+    #   shell: bash
+    #   run: | 
+    #     echo environment: ${{ github.event.inputs.ENVIRONMENT }}
+    #     echo env: $ENVIRONMENT
+    #     echo env1: ${ENVIRONMENT}
+    #   env:
+    #     ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
+    #     AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
+    #     AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+    #     AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+    #     AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
+    #     AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
 
-    # This section runs the Azure function app provisioning
-    - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
-      with:
-        ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
-        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
-        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
+    # # This section runs the Azure function app provisioning
+    # - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
+    #   with:
+    #     ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
+    #     AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+    #     AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+    #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    #     AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
+    #     AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+    #     AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+    #     AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
+    #     AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
     
   # deploy:
-  #   name: Deploy Azure Function App
-  #   needs: [provision]
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ github.event.inputs.ENVIRONMENT }}
-  #   steps:
-  #   # Checkout the Repo
-  #   - uses: actions/checkout@v3
+    name: Deploy Azure Function App
+    needs: [provision]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+    steps:
+    # Checkout the Repo
+    - uses: actions/checkout@v3
 
-  #   # This section runs the Azure function app action composite with creds
-  #   - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/deploy
-  #     with:
-  #       AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-  #       AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-  #       AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-  #       AZURE_FUNCTIONAPP_DIR_PATH: ${{ secrets.AZURE_FUNCTIONAPP_DIR_PATH }}
+    # This section runs the Azure function app action composite with creds
+    - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/deploy
+      with:
+        AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        AZURE_FUNCTIONAPP_DIR_PATH: ${{ secrets.AZURE_FUNCTIONAPP_DIR_PATH }}
  
   chatops:
     name: Send notifications with Teams
