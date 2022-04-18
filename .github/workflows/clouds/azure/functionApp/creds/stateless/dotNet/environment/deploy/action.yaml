@@ -25,7 +25,7 @@ runs:
       - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 5.x.x
+          dotnet-version: 6.x.x
       - run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}   
         shell: bash
       - run: dotnet test ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}
