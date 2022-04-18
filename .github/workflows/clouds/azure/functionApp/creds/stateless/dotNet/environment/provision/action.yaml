@@ -37,12 +37,12 @@ runs:
         uses: actions/checkout@v3
 
        # Login to Azure with CLI with Federated with Github
-      - name: 'Az CLI Login via OIDC'
-        uses: azure/login@v1
-        with:
-          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
-          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
-          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+      # - name: 'Az CLI Login via OIDC'
+      #   uses: azure/login@v1
+      #   with:
+      #     client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+      #     tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+      #     subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
 
       # Create Resource Group, Storage Account, Storage Container and Service Principle
       # - name: Create Resource Group - Storage Account - Storage Container and Service Principle
@@ -66,11 +66,9 @@ runs:
       - name: Terraform Azure Resources
         uses: ./.github/workflows/ci-cd/terraform/azure
         with:
-          ENVIRONMENT: ${{ inputs.AZURE_GROUP_NAME }}
+          ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           TERRAFORM_WORKING_DIR: './.github/workflows/ci-cd/terraform/azure'
-          AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
-          AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-          AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-          AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
-          AZURE_REGION: ${{ inputs.AZURE_REGION }}
+          AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
       

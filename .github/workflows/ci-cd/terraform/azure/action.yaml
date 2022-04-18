@@ -4,20 +4,17 @@ inputs:
   ENVIRONMENT:
     description: 'Environment Name'
     required: true
-  AZURE_GROUP_NAME:
-    description: 'Azure Group Name'
-    required: true
-  AZURE_STORAGE_ACCOUNT_NAME:
-    description: 'Azure Storage Account Name'
-    required: true
-  AZURE_STORAGE_CONTAINER_NAME:
-    description: 'Azure Storage Container Name'
-    required: true
-  AZURE_REGION:
-    description: 'Region for the Destination'
-    required: true
   TERRAFORM_WORKING_DIR:
     description: 'Terraform Working File Path'
+    required: true
+  AZURE_AD_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_AD_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
     required: true
 
 runs:
@@ -44,12 +41,9 @@ runs:
           tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                              -var="AZURE_RESOURCE_GROUP=${{inputs.AZURE_RESOURCE_GROUP}}" 
-                              -var="AZURE_RESOURCE_GROUP_NAME=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
-                              -var="AZURE_STORAGE_ACCOUNT_NAME=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}" 
-                              -var="AZURE_STORAGE_CONTAINER_NAME=${{inputs.AZURE_STORAGE_CONTAINER_NAME}}"
-                              -var="AZURE_STORAGE_CONTAINER_NAME_KEY=${{inputs.AZURE_STORAGE_CONTAINER_NAME_KEY}}"
-                              -var="AZURE_REGION=${{inputs.AZURE_REGION}}"
+                               -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                               -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
+                               -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
                               '
 
       # Terraform Validate
