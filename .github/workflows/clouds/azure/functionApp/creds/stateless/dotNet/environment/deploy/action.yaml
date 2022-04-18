@@ -21,16 +21,16 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-      # Setup .NET Core SDK
+      # Setup .NET Core SDK & Build
       - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: |
             2.1.x
             3.1.x
-      - run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj
-      - run: dotnet test ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj
-      
+        run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj      
+        run: dotnet test ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj
+
       # Restore & Build
       # - name: Restore & Build Function App
       #   working-directory: '${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}'
