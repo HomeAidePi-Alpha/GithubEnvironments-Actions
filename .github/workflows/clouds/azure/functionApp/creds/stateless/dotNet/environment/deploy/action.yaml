@@ -28,9 +28,10 @@ runs:
           dotnet-version: |
             2.1.x
             3.1.x
+      - run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj   
         shell: bash
-      - run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj      
       - run: dotnet test ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj
+        shell: bash
 
       # Restore & Build
       # - name: Restore & Build Function App
