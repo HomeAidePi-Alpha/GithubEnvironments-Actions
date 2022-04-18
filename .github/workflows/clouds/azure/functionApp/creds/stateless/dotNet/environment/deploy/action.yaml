@@ -25,7 +25,7 @@ runs:
       - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v1
         with:
-           dotnet-version: 3.1.404
+           dotnet-version: 2.2.402
 
       # Restore & Build
       - name: Restore & Build Function App
