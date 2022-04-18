@@ -23,18 +23,24 @@ variable "AZURE_REGION" {
 }
 
 terraform {
-    backend "azurerm" {
-        resource_group_name  = "${var.AZURE_RESOURCE_GROUP_NAME}"
-        storage_account_name = "${var.AZURE_STORAGE_ACCOUNT_NAME}"
-        container_name       = "${var.AZURE_STORAGE_CONTAINER_NAME}"
-        key                  = "${var.AZURE_STORAGE_CONTAINER_NAME_KEY}"
-    }
-    required_providers {
+  backend "azurerm" {}
+
+  required_providers {
         azurerm = {
             source  = "hashicorp/azurerm"
             version = "2.42.0"
         }
-    }
+  }
+}
+
+data "terraform_remote_state" "state" {
+  backend = "azurerm"
+  config {
+    resource_group_name  = "${var.AZURE_RESOURCE_GROUP_NAME}"
+    storage_account_name = "${var.AZURE_STORAGE_ACCOUNT_NAME}"
+    container_name       = "${var.AZURE_STORAGE_CONTAINER_NAME}"
+    key                  = "${var.AZURE_STORAGE_CONTAINER_NAME_KEY}"
+  }
 }
 provider "azurerm" {
     features {}
