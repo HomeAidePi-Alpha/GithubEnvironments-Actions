@@ -25,12 +25,10 @@ runs:
       - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: |
-            2.1.x
-            3.1.x
-      - run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj   
+          dotnet-version: 5.x.x
+      - run: dotnet build ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}   
         shell: bash
-      - run: dotnet test ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}/alpha.csproj
+      - run: dotnet test ${{ inputs.AZURE_FUNCTIONAPP_DIR_PATH }}
         shell: bash
 
       # Restore & Build
