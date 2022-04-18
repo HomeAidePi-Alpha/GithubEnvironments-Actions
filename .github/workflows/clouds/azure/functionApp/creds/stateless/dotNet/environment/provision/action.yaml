@@ -64,7 +64,7 @@ runs:
 
       # Terraform Azure resources
       - name: Terraform Azure Resources
-        uses: ./github/workflows/ci-cd/terraform/azure
+        uses: ./.github/workflows/ci-cd/terraform/azure
         with:
           ENVIRONMENT: ${{ inputs.AZURE_GROUP_NAME }}
           AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
