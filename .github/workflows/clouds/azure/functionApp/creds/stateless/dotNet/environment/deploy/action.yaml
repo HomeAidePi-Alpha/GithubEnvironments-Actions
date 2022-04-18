@@ -21,7 +21,7 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-      # Setup .NET Core SDK & Build
+      # Setup .NET Core SDK, Build & Test
       - name: Setup DotNet Environment
         uses: actions/setup-dotnet@v2
         with:
