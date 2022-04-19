@@ -1,8 +1,11 @@
-name: 'Deploy Terraform app to Azure Web App'
+name: 'Provision Azure App Service with Terraform'
 
 inputs:
   ENVIRONMENT:
     description: Enviroment Name
+    required: true
+  AZURE_APP_SERVICE_NAME:
+    description: 'Name of the Function App Service'
     required: true
   AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
@@ -36,38 +39,13 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-       # Login to Azure with CLI with Federated with Github
-      # - name: 'Az CLI Login via OIDC'
-      #   uses: azure/login@v1
-      #   with:
-      #     client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
-      #     tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
-      #     subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
-
-      # Create Resource Group, Storage Account, Storage Container and Service Principle
-      # - name: Create Resource Group - Storage Account - Storage Container and Service Principle
-      #   uses: azure/CLI@v1
-      #   env:
-      #     ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
-      #     AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
-      #     AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-      #     AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-      #     AZURE_STORAGE_CONTAINER_NAME: ${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}
-      #     AZURE_REGION: ${{ inputs.AZURE_REGION }}
-      #   with:
-      #     azcliversion: 2.35.0
-      #     inlineScript: |
-      #                 az group create -n '${{ inputs.AZURE_RESOURCE_GROUP_NAME }}' -l '${{ inputs.AZURE_REGION }}'
-      #                 az storage account create -n '${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}' -g '${{ inputs.AZURE_RESOURCE_GROUP_NAME }}' -l '${{ inputs.AZURE_REGION }}' --sku Standard_LRS
-      #                 az storage container create -n '${{ inputs.AZURE_STORAGE_CONTAINER_NAME }}'
-      #                 az ad sp create-for-rbac --name '${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}'
-
       # Terraform Azure resources
       - name: Terraform Azure Resources
         uses: ./.github/workflows/ci-cd/terraform/azure
         with:
           ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           TERRAFORM_WORKING_DIR: './.github/workflows/ci-cd/terraform/azure'
+          AZURE_APP_SERVICE_NAME: ${{ inputs.AZURE_APP_SERVICE_NAME }}
           AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}

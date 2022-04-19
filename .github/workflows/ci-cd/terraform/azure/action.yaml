@@ -4,6 +4,9 @@ inputs:
   ENVIRONMENT:
     description: 'Environment Name'
     required: true
+  AZURE_APP_SERVICE_NAME:
+    description: 'Name of the Function App Service'
+    required: true
   TERRAFORM_WORKING_DIR:
     description: 'Terraform Working File Path'
     required: true
@@ -41,6 +44,7 @@ runs:
           tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                               -var="app-service-name=${{inputs.AZURE_APP_SERVICE_NAME}}" 
                                -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
                                -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
                                -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
