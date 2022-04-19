@@ -33,7 +33,7 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'fmt'
-          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}} #"./terraform"
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
 
       # Terraform Init
       - name: 'Terraform Init'
