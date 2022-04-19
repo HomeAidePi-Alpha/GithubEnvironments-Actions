@@ -1,6 +1,6 @@
-variable "app-service-name" {
+variable "app_service_name" {
     type = string
-    default = "windows-function-app"
+    default = "alpha-function-app"
 }
 variable "prefix" {
     type = string
@@ -61,11 +61,11 @@ resource "azurerm_service_plan" "alpha" {
 }
 
 resource "azurerm_windows_function_app" "alpha" {
-  name                = "${var.app-service-name}"
-  resource_group_name = azurerm_resource_group.alpha.name
-  location            = azurerm_resource_group.alpha.location
-  storage_account_name = azurerm_storage_account.alpha.name
-  service_plan_id      = azurerm_service_plan.alpha.id
+  name                       = var.app_service_name
+  resource_group_name        = azurerm_resource_group.alpha.name
+  location                   = azurerm_resource_group.alpha.location
+  storage_account_name       = azurerm_storage_account.alpha.name
+  service_plan_id            = azurerm_service_plan.alpha.id
   storage_account_access_key = azurerm_storage_account.alpha.primary_access_key
  
   site_config {}
