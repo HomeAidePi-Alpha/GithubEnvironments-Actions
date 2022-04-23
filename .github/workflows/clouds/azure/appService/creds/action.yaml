@@ -19,9 +19,6 @@ inputs:
   AZURE_WEBAPP_SLOT_NAME:
     description: 'AppService Deployment Slot (Env) Name'
     required: false
-  TEAMS_WEBHOOK:
-    description: 'ChatOps Webhook for Ms Teams Channel Connector'
-    required: true
   DOTNET_VERSION:
     description: 'Version of .Net Core to target'
     required: true
@@ -70,10 +67,3 @@ runs:
           publish-profile: ${{ inputs.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: '.'
           slot-name: '${{ inputs.AZURE_WEBAPP_SLOT_NAME }}'
-
-      # Send Chat Ops notification
-      - name: Send chat ops notification to teams
-        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
-        with:
-          webhook: ${{ inputs.TEAMS_WEBHOOK }}
-          message: 'CI-CQ-CD for: ${{ inputs.AZURE_WEBAPP_NAME }} dir: ${{ inputs.AZURE_WEBAPP_DIR_PATH }} package: ${{  inputs.AZURE_WEBAPP_PACKAGE_PATH }} commit: ${{ github.sha }} completed'
