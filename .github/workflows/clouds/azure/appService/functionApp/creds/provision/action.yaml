@@ -1,0 +1,69 @@
+name: 'Provision Azure App Service with Terraform'
+
+inputs:
+  ENVIRONMENT:
+    description: Enviroment Name
+    required: true
+  AZURE_APP_SERVICE_NAME:
+    description: 'Name of the Function App Service'
+    required: true
+  AZURE_AD_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_AD_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+  AZURE_RESOURCE_GROUP:
+    description: 'Azure Resource Group'
+    required: true
+  AZURE_RESOURCE_GROUP_NAME:
+    description: 'Azure Resource Group Name'
+    required: true
+  AZURE_STORAGE_ACCOUNT_NAME: 
+    description: 'Azure Storage Account Name'
+    required: true
+  AZURE_STORAGE_ACCOUNT_ACCESS_KEY:
+    description: 'Azure Storage Account Access Key'
+    required: true
+  AZURE_LOCATION:
+    description: 'Azure Location'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      # Terraform Azure appService
+      - name: Terraform Azure AppService Instance
+        uses: ./.github/workflows/ci-cd/terraform/azure/appService
+        with:
+          ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+          AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
+          AZURE_SERVICE_PLAN_ID: ${{ inputs.AZURE_SERVICE_PLAN_ID }}
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+
+      # Terraform Azure functionApp
+      - name: Terraform Azure functionApp into any AppService by named properties
+        uses: ./.github/workflows/ci-cd/terraform/azure/functionApp
+        with:
+          ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+          AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
+          AZURE_FUNCTION_APP_NAME: ${{ inputs.AZURE_FUNCTION_APP_NAME }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          AZURE_SERVICE_PLAN_ID: ${{ inputs.AZURE_SERVICE_PLAN_ID }}
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+          AZURE_STORAGE_ACCOUNT_ACCESS_KEY: ${{ inputs.AZURE_STORAGE_ACCOUNT_ACCESS_KEY }}
+      

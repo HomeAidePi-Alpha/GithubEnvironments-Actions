@@ -23,12 +23,12 @@ on:
         description: 'Azure Storage Account Name'
         required: true
         default: 'tamopstf'
-      AZURE_STORAGE_CONTAINER_NAME:
-        description: 'Azure Storage Container Name'
+      AZURE_STORAGE_ACCOUNT_ACCESS_KEY:
+        description: 'Azure Storage Access Key'
         required: true
         default: 'tfstatedevops'
-      AZURE_REGION:
-        description: 'Azure Region'
+      AZURE_LOCATION:
+        description: 'Azure Region/Location'
         required: true
         default: 'eastus2'
 
@@ -48,18 +48,18 @@ jobs:
 
     # Provision using composite
     - name: Deploy Azure Function App
-      uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/provision
+      uses: ./.github/workflows/clouds/azure/appService/functionApp/creds/provision
       with:
         ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
         AZURE_APP_SERVICE_NAME: ${{ github.event.inputs.AZURE_APP_SERVICE_NAME }}
         AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
         AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
         AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
         AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
         AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
-        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
+        AZURE_STORAGE_ACCOUNT_ACCESS_KEY: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_ACCESS_KEY }}
     
   deploy:
     name: Deploy Azure Function App
@@ -87,7 +87,7 @@ jobs:
         id: getPublishProfile
 
     # This section runs the Azure function app action composite with creds
-    - uses: ./.github/workflows/clouds/azure/functionApp/creds/stateless/dotNet/environment/deploy
+    - uses: ./.github/workflows/clouds/azure/appService/functionApp/creds/deploy
       with:
         AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE }}
         AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}

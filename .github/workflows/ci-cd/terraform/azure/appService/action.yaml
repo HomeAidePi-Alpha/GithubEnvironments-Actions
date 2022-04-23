@@ -1,0 +1,85 @@
+name: 'Terraform Azure AppService'
+ 
+inputs:
+  ENVIRONMENT:
+    description: 'Environment Name'
+    required: true
+  AZURE_AD_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_AD_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_LOCATION:
+    description: 'Azure Region/Location'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+  AZURE_RESOURCE_GROUP_NAME:
+    description: 'Azure Resource Group Name'
+    required: true
+  AZURE_SERVICE_PLAN_ID:
+    description: 'Azure Service Plan Id'
+    required: true
+  AZURE_STORAGE_ACCOUNT_NAME:
+    description: 'Azure Storage Account Name'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+ 
+      # Terraform Format 
+      - name: 'Terraform Format'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: .
+
+      # Terraform Init
+      - name: 'Terraform Init'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: .
+        env:
+            TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                               -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                               -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
+                               -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                               -var="resource-group-name=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                               -var="location=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                               -var="service-plan-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                               -var="storage-account-name=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                              '
+
+      # Terraform Validate
+      - name: 'Terraform Validate'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'validate'
+          tf_actions_working_dir: .
+         
+      # Terraform Plan
+      - name: 'Terraform Plan'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'plan'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
+
+      # Terraform Apply
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'apply'
+          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}

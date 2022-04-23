@@ -62,5 +62,5 @@ jobs:
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
-        python .github/workflows/workloads/python-workload.py '1${{ secrets.PULLED_FROM_KEYVAULT }}' '2${{ secrets.PULLED_FROM_CYBERARK }}'
+        python ${{ inputs.GITHUB_REPO_FILE_LIST }} '1${{ secrets.PULLED_FROM_KEYVAULT }}' '2${{ secrets.PULLED_FROM_CYBERARK }}'
         

@@ -1,25 +1,49 @@
-name: Azure .netCore Composite - Creds
+name: Azure .netCore AppService Workflow Composite - Creds
 
 on:
   workflow_dispatch:
-
-permissions:
-  contents: 'read'
-  id-token: 'write'
+    inputs: 
+      ENVIRONMENT: 
+        description: 'Environment Name'
+        required: true
+        default: preprod
 
 env:
   DOTNET_VERSION: '3.1.404'
   
 jobs:
-  job:
+  provision:
+    name: Provision Azure WebService
     runs-on: ubuntu-latest
-    environment: 'PreProd'
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+
+    steps:  
+    # Checkout the Repo
+    - uses: actions/checkout@v3
+
+    # Provision using composite
+    - name: Deploy Azure Function App
+      uses: ./.github/workflows/clouds/azure/appService/webApp/creds/provision
+      with:
+        ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
+        AZURE_APP_SERVICE_NAME: ${{ github.event.inputs.AZURE_APP_SERVICE_NAME }}
+        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
+        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
     - uses: actions/checkout@v3
-    #
-    #   This section runs the Azure NetCore Build and Publish action workflow with Creds
-    #
-    - uses: ./.github/workflows/netCore/appService/creds
+    
+    #  Azure AppService WebApp Build and Deploy composite with Creds
+    - uses: ./.github/workflows/clouds/azure/appService/webApp/creds/deploy
       with:
         AZURE_CREDENTIALS:  ${{ secrets.AZURE_CREDENTIALS }}
         AZURE_WEBAPP_PUBLISH_PROFILE:  ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
@@ -29,4 +53,18 @@ jobs:
         AZURE_WEBAPP_SLOT_NAME: ${{ secrets.AZURE_WEBAPP_SLOT_NAME }}
         DOTNET_VERSION: ${{ env.DOTNET_VERSION }}
 
+  chatops:
+    name: Send notifications with Teams
+    needs: [provision, deploy]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+    steps:
+      # Checkout the Repo
+      - uses: actions/checkout@v3
 
+      # Send Chat Ops notification
+      - name: Send chat ops notification to teams
+        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+        with:
+          webhook: ${{ secrets.TEAMS_WEBHOOK }}
+          message: 'Deployment Completed for commit: ${{ github.sha }} check logs to determine success.'
