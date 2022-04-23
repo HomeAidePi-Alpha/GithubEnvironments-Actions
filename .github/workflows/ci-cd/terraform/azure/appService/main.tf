@@ -60,3 +60,7 @@ resource "azurerm-service-plan" "alpha" {
   os-type             = "Windows"
   sku-name            = "Y1"
 }
+
+output "storage-account-access-key" {
+  value = azurerm-storage-account.sa_tf_state.primary_access_key
+}

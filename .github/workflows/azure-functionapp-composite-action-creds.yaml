@@ -26,7 +26,7 @@ on:
       AZURE_STORAGE_ACCOUNT_ACCESS_KEY:
         description: 'Azure Storage Access Key'
         required: true
-        default: 'tfstatedevops'
+        default: ''
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
