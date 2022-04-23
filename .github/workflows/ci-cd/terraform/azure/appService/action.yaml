@@ -73,7 +73,7 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
+          tf_actions_working_dir: .
 
       # Terraform Apply
       - name: Terraform Apply
@@ -82,4 +82,4 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: ${{inputs.TERRAFORM_WORKING_DIR}}
+          tf_actions_working_dir: .
