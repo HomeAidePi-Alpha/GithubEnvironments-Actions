@@ -9,7 +9,7 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token):
     from ghapi.all import GhApi
     api = GhApi(owner = owner, repo = repo, token=token)
     print(api)
-    workflows = api.actions.list_workflow_for_repo(owner, repo, branch="main")
+    workflows = api.actions.list_workflows_for_repo(owner, repo)
     print(workflows)
     runs = api.actions.list_workflow_runs_for_repo(owner, repo, branch="main")
     print(runs)
