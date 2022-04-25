@@ -1,0 +1,56 @@
+name: Run a python process
+
+on:
+  workflow_dispatch:
+    inputs:
+      PYTHON_FILE_PATH:
+        description : 'Relative path to the python file to execute'
+        required: true
+        default: './workloads/python/github-actions-delete-workflows-by-owner-repo.py'
+      OWNER:
+        description: 'Owner of the action'
+        required: true
+      REPO:
+        description: 'Repository to perform action against'
+        required: true
+
+#Phase 1 - Alpha - Executed
+jobs:
+  Phase1-Alpha-Python-Executed:
+    runs-on: ubuntu-latest
+    # todo Implement principle of least priv based on need
+    environment: 'preprod'
+    permissions:
+      contents: write
+      id-token: write
+      issues: write
+      actions: write
+      deployments: write
+      repository-projects: write
+      checks: write
+      packages: write
+      pull-requests: write
+      security-events: write
+      statuses: write
+
+    steps:
+      # Checkout the repo
+    - name: Check out Repo
+      uses: actions/checkout@v3
+
+    # Setup Python versions
+    - name: Setup Python versions
+      uses: actions/setup-python@v3
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: ${{ env.python-version }}
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: ${{ env.python-architecture }}
+
+    # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
+    - name: Display Python version & Execute python on the file list
+      shell: bash
+      run: | 
+        python -c "import sys; print(sys.version)"
+        python ${{ inputs.PYTHON_FILE_PATH }} '${{ inputs.OWNER }}' '${{ inputs.REPO }}'
+        
