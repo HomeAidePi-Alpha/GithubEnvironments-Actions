@@ -23,6 +23,7 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
         print(workflow.url)
         print(headers)
         response = requests.get(workflow.url, headers)
+        print(response)
         print(response.text)
         runs = response.text.workflow_runs
         print(runs)
