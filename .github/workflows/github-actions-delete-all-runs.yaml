@@ -17,11 +17,11 @@ on:
       REPO:
         description: 'Repository to perform action against'
         required: true
-        default: 'GitHubEnvironments-Actions'
+        default: 'GithubEnvironments-Actions'
       WORKFLOW_ID:
         description : 'Workflow Id to delete runs for'
         required: true
-        default: "github-actions-delete-all-runs.yaml"
+        default: "24800832"
 
 #Phase 1 - Alpha - Executed
 jobs:
