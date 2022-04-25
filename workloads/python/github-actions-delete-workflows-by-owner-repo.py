@@ -4,8 +4,8 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, github_token):
     print("Hello Alpha-Actions")
     print('owner:"', owner, '"')
     print('repo:"', repo, '"')
-    print('token len:"', len(token), '"')
-    print('token first3:"', token[1:3], '"')
+    print('token len:"', len(github_token), '"')
+    print('token first3:"', github_token[1:3], '"')
     from ghapi.all import GhApi
     api = GhApi(token=github_token)
 
