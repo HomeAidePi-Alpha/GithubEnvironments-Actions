@@ -20,6 +20,8 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
         authorization = f"Bearer {token}"
         accept = 'application/vnd.github.v3+json'
         headers = {'Accept' : accept, 'Authorization' : authorization}
+        print(url)
+        print(headers)
         response = requests.get(url, headers)
         print(response.text)
         runs = response.text.workflow_runs
