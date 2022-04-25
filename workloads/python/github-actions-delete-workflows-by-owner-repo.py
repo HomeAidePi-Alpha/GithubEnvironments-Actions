@@ -10,12 +10,9 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print('workflow_id:"' , workflow_id, '"')
     from ghapi.all import GhApi
     api = GhApi(owner = owner, repo = repo, token=token)
-    print(api)
     response = api.actions.list_repo_workflows(owner, repo)
-    print(response)
     workflows = response.workflows
     for workflow in workflows:
-        print(workflow)
         # escapement if workflow id was provided to check and escape if not a match
         # if workflow_id and workflow_id != workflow.id: 
         #     continue
@@ -24,7 +21,7 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
         authorization = "Bearer " + token 
         accept = 'application/vnd.github.v3+json'
         headers = {'Accept' : accept, 'Authorization' : authorization}
-        print(url)
+        print(url) 
         #print(headers)
         # make raw github api request
         response = requests.get(url, headers)
