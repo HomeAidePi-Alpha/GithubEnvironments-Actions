@@ -16,7 +16,7 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     workflows = response.workflows
     for workflow in workflows:
         print(workflow)
-        response = api.actions.list_workflow_runs(owner, repo, workflow_file_name=workflow_id)
+        response = api.actions.list_workflow_runs_for_repo(owner, repo, workflow_file_name=workflow_id, per_page = 1,)
         print(response)
         runs = response.workflow_runs
         print(runs)
