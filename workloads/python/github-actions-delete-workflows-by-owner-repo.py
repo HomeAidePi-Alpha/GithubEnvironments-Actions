@@ -1,4 +1,5 @@
 import sys
+import json
 
 def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print("Hello Alpha-Actions")
@@ -12,7 +13,9 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print(api)
     workflows = api.actions.list_repo_workflows(owner, repo)
     print(workflows)
-    for workflow in workflows:
+    json_workflows = json.load(workflows)
+
+    for workflow in json_workflows:
         print(workflow)
         runs = api.actions.list_workflow_runs(owner, repo, workflow.id)
         print(runs)
