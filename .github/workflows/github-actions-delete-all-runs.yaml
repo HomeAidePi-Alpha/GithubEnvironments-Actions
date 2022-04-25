@@ -18,6 +18,10 @@ on:
         description: 'Repository to perform action against'
         required: true
         default: 'GitHubEnvironments-Actions'
+      WORKFLOW_ID:
+        description : 'Workflow Id to delete runs for'
+        required: true
+        default: "github-actions-delete-all-runs.yaml"
 
 #Phase 1 - Alpha - Executed
 jobs:
@@ -26,7 +30,7 @@ jobs:
     # todo Implement principle of least priv based on need
     environment: ${{ github.event.inputs.ENVIRONMENT }}
     permissions:
-      contents: write
+      contents: write 
       id-token: write
       issues: write
       actions: write
@@ -58,5 +62,5 @@ jobs:
       run: | 
         pip install ghapi
         python -c "import sys; print(sys.version)"
-        python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}' '${{ secrets.REPO_TOKEN }}'
+        python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}' '${{ secrets.REPO_TOKEN }}' '${{  github.event.inputs.WORKFLOW_ID }}'
         
