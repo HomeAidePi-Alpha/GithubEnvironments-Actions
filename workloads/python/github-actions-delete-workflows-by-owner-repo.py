@@ -1,5 +1,5 @@
 import sys
-import json
+import requests
 
 def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print("Hello Alpha-Actions")
@@ -16,7 +16,11 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     workflows = response.workflows
     for workflow in workflows:
         print(workflow)
-        response = api.actions.list_workflow_runs_for_repo(owner, repo, workflow_file_name=workflow_id, per_page = 1,)
+        url = 'https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs'.format(owner, repo, workflow_id)
+        authorization = 'Bearer {token}'.format(token)
+        accept = 'application/vnd.github.v3+json'
+        headers = {'Accept' : accept, 'Proxy-Authorization' : authorization}
+        response = requests.get(url, headers)
         print(response)
         runs = response.workflow_runs
         print(runs)
