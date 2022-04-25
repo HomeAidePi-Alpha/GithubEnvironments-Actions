@@ -12,11 +12,13 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print(api)
     workflows = api.actions.list_repo_workflows(owner, repo)
     print(workflows)
-    runs = api.actions.list_workflow_runs(owner, repo, workflow_id, Accept="application/vnd.github.v3+json")
-    print(runs)
-    for run in runs.workflow_runs:
-        print(run.id)
-        api.actions.delete_workflow_run(owner, repo, run.id)
+    for workflow in workflows:
+        print(workflow)
+        runs = api.actions.list_workflow_runs(owner, repo, workflow.id)
+        print(runs)
+        for run in runs:
+            print(run.id)
+            api.actions.delete_workflow_run(owner, repo, run.id)
 
 if __name__ == "__main__":
     owner = sys.argv[1]
