@@ -15,10 +15,10 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print(response)
     workflows = response.workflows
     for workflow in workflows:
-        #print(workflow)
+        print(workflow)
         # escapement if workflow id was provided to check and escape if not a match
-        if workflow_id and workflow_id != workflow.id: 
-            continue
+        # if workflow_id and workflow_id != workflow.id: 
+        #     continue
         # add headers for github api raw request
         url = workflow.url + "/runs"
         authorization = "Bearer " + token 
