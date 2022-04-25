@@ -61,6 +61,7 @@ jobs:
       shell: bash
       run: | 
         pip install ghapi
+        pip install requests
         python -c "import sys; print(sys.version)"
         python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}' '${{ secrets.REPO_TOKEN }}' '${{  github.event.inputs.WORKFLOW_ID }}'
         
