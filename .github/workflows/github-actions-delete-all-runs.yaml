@@ -9,9 +9,11 @@ on:
       OWNER:
         description: 'Owner of the action'
         required: true
+        default: 'HomeAidePi-Alpha'
       REPO:
         description: 'Repository to perform action against'
         required: true
+        default: 'GitHubEnvironments-Actions'
 
 #Phase 1 - Alpha - Executed
 jobs:
