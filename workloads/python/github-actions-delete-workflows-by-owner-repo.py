@@ -12,16 +12,15 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     api = GhApi(owner = owner, repo = repo, token=token)
     print(api)
     workflows = api.actions.list_repo_workflows(owner, repo)
-    print(workflows)
-    json_workflows = json.loads(str(workflows))
 
-    for workflow in json_workflows:
+    for workflow in workflows:
         print(workflow)
-        runs = api.actions.list_workflow_runs(owner, repo, workflow.id)
-        print(runs)
-        for run in runs:
-            print(run.id)
-            api.actions.delete_workflow_run(owner, repo, run.id)
+    
+    runs = api.actions.list_workflow_runs(owner, repo, workflow_id)
+    print(runs)
+    for run in runs:
+        print(run.id)
+        api.actions.delete_workflow_run(owner, repo, run.id)
 
 if __name__ == "__main__":
     owner = sys.argv[1]
