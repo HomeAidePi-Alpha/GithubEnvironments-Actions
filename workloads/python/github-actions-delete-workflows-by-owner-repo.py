@@ -13,7 +13,7 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, token, workflow_id):
     print(api)
     workflows = api.actions.list_repo_workflows(owner, repo)
     print(workflows)
-    json_workflows = json.loads(workflows)
+    json_workflows = json.loads(str(workflows))
 
     for workflow in json_workflows:
         print(workflow)
