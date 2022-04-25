@@ -49,7 +49,7 @@ jobs:
 
     # Setup Python versions
     - name: Setup Python versions
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v2
       with:
         # Semantic version range syntax or exact version of a Python version
         python-version: ${{ secrets.PYTHON_VERSION }}
