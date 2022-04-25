@@ -54,5 +54,5 @@ jobs:
       run: | 
         pip install ghapi
         python -c "import sys; print(sys.version)"
-        python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}'
+        python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}' '${{ secrets.GITHUB_TOKEN }}'
         
