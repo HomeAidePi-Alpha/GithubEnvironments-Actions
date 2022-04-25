@@ -57,7 +57,7 @@ jobs:
         architecture: ${{ env.python-architecture }}
 
     # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
-    - name: Display Python version & Execute python on the file list
+    - name: Display Python version & Execute python on the file path
       shell: bash
       run: | 
         pip install ghapi
