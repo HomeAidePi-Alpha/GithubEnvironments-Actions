@@ -1,7 +1,11 @@
-name: Deleta All Workflow Runs by Owner / Repo
+name: Delete All Workflow Runs by Owner / Repo
 on:
   workflow_dispatch:
     inputs:
+      ENVIRONMENT:
+        description : Environment name
+        required : true
+        default: preprod
       PYTHON_FILE_PATH:
         description : 'Relative path to the python file to execute'
         required: true
@@ -20,7 +24,7 @@ jobs:
   Phase1-Alpha-Python-Executed:
     runs-on: ubuntu-latest
     # todo Implement principle of least priv based on need
-    environment: 'preprod'
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     permissions:
       contents: write
       id-token: write
