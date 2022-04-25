@@ -16,5 +16,5 @@ def deleteAllWorkflowRunsByOwnerByRepo(owner,repo, github_token):
 if __name__ == "__main__":
     owner = sys.argv[1]
     repo = sys.argv[2]
-    github_token = sys.argv[2]
+    github_token = sys.argv[3]
     deleteAllWorkflowRunsByOwnerByRepo(owner, repo, github_token)
