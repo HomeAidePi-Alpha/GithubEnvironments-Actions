@@ -52,6 +52,7 @@ jobs:
     - name: Display Python version & Execute python on the file list
       shell: bash
       run: | 
+        pip install ghapi
         python -c "import sys; print(sys.version)"
         python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}'
         
