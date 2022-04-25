@@ -36,6 +36,6 @@ jobs:
       - name: Send chat ops notification to teams
         uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
         with:
-          webhook: ${{ inputs.TEAMS_WEBHOOK }}
+          webhook: ${{ secrets.TEAMS_WEBHOOK }}
           message: 'Deployment Completed for commit: ${{ github.sha }} check logs to determine success.'
  

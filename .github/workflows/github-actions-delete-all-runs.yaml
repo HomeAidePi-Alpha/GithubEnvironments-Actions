@@ -53,5 +53,5 @@ jobs:
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
-        python ${{ inputs.PYTHON_FILE_PATH }} '${{ inputs.OWNER }}' '${{ inputs.REPO }}'
+        python ${{ github.event.inputs.PYTHON_FILE_PATH }} '${{ github.event.inputs.OWNER }}' '${{ github.event.inputs.REPO }}'
         
