@@ -1,5 +1,4 @@
-name: Run a python process
-
+name: Deleta All Workflow Runs by Owner / Repo
 on:
   workflow_dispatch:
     inputs:
