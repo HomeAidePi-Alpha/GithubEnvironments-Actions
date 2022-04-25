@@ -52,9 +52,9 @@ jobs:
       uses: actions/setup-python@v3
       with:
         # Semantic version range syntax or exact version of a Python version
-        python-version: ${{ env.python-version }}
+        python-version: ${{ secrets.PYTHON_VERSION }}
         # Optional - x64 or x86 architecture, defaults to x64
-        architecture: ${{ env.python-architecture }}
+        architecture: ${{ secrets.PYTHON_ARCHITECTURE }}
 
     # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
     - name: Display Python version & Execute python on the file path
