@@ -49,8 +49,8 @@ runs:
         git add docs
         git add workflows
         git add workloads
-        git mv .github/workflows .github/
-        git mv .github/workloads .github/
+        git mv workflows .github/\
+        git mv workloads .github/\
         git commit -m "Initial Setup"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
         
