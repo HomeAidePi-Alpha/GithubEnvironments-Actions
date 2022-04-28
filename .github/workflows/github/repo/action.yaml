@@ -55,5 +55,3 @@ runs:
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
         
     # todo Perform quality checks & standards here
-
-7
