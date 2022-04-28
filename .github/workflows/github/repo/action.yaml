@@ -49,7 +49,7 @@ runs:
         git add docs
         git add workflows
         git add workloads
-        git mv .github/workflows/workflows/bootstrap.yaml .github/workflows/bootstrap.yaml 
+        git mv workflows/bootstrap.yaml .github/workflows/bootstrap.yaml
         git commit -m "Initial Setup"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
         
