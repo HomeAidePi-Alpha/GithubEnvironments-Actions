@@ -97,3 +97,9 @@ runs:
       # gh secret set PULLED_FROM_STREAM --body "${{ inputs.PULLED_FROM_STREAM }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
       # gh secret set PULLED_FROM_HTTP --body "${{ inputs.PULLED_FROM_HTTP }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
       # gh secret set PULLED_FROM_SERVICE --body "${{ inputs.PULLED_FROM_SERVICE }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+
+   # Checkout the repo
+    - uses: actions/checkout@v3
+      with:
+          # Repository name with owner. For example, actions/checkout
+          Default: ${{ github.repository }}
