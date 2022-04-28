@@ -45,7 +45,7 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'fmt'
-          tf_actions_working_dir: .
+          tf_actions_working_dir: './functionApp'
 
       # Terraform Init
       - name: 'Terraform Init'
@@ -73,7 +73,7 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'validate'
-          tf_actions_working_dir: .
+          tf_actions_working_dir: './functionApp'
          
       # Terraform Plan
       - name: 'Terraform Plan'
@@ -81,7 +81,7 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: .
+          tf_actions_working_dir: './functionApp'
 
       # Terraform Apply
       - name: Terraform Apply
@@ -90,4 +90,4 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: .
+          tf_actions_working_dir: './functionApp'

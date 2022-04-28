@@ -88,6 +88,8 @@ runs:
         echo "${{ inputs.GITHUB_REPO_TOKEN}}" > .githubtoken
         gh auth login --with-token < .githubtoken
         rm .githubtoken
+        gh secret set PYTHON_VERSION --body "3.7" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
+        gh secret set PYTHON_ARCHITECTURE --body "x64" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
         gh secret set PULLED_FROM_KEYVAULT --body "${{ inputs.PULLED_FROM_KEYVAULT }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
         gh secret set PULLED_FROM_CYBERARK --body "${{ inputs.PULLED_FROM_CYBERARK }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
         gh secret set PULLED_FROM_SQL --body "${{ inputs.PULLED_FROM_SQL }}" --env ${{  inputs.ENVIRONMENT }} --repos ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}

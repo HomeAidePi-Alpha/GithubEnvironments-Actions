@@ -2,17 +2,15 @@ name: Run a python process
 
 on:
   workflow_dispatch:
-  
-# on:
-#   # This is a reusable workflow
-#   workflow_call:
-#     secrets:
-#       PULLED_FROM_KEYVAULT:
-#         description: 'Secret pulled from keyvault'
-#         required: true
-#       PULLED_FROM_CYBERARK:
-#         description: 'Secret pulled from cyberark'
-#         required: true
+    inputs:
+      ENVIRONMENT:
+        description: 'Environment'
+        required: true
+        default: 'preprod'
+      PYTHON_FILE_PATH:
+        description: 'Fully qualified path to python file'
+        required: true
+        default: './workloads/python/alpha.py'
 
 #Phase 1 - Alpha - Executed
 jobs:
@@ -29,7 +27,7 @@ jobs:
     #           - quality-checks
 
     # todo Implement principle of least priv based on need
-    environment: 'preprod'
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
     permissions:
       contents: write
       id-token: write
@@ -53,14 +51,14 @@ jobs:
       uses: actions/setup-python@v3
       with:
         # Semantic version range syntax or exact version of a Python version
-        python-version: ${{ env.python-version }}
+        python-version: ${{ secrets.PYTHON_VERSION }}
         # Optional - x64 or x86 architecture, defaults to x64
-        architecture: ${{ env.python-architecture }}
+        architecture: ${{ secrets.PYTHON_ARCHITECTURE }}
 
     # Printing the current Python version & can perform python to perform file or src move operations in advance of repo creation
     - name: Display Python version & Execute python on the file list
       shell: bash
       run: | 
         python -c "import sys; print(sys.version)"
-        python ${{ inputs.GITHUB_REPO_FILE_LIST }} '1${{ secrets.PULLED_FROM_KEYVAULT }}' '2${{ secrets.PULLED_FROM_CYBERARK }}'
+        python ${{ github.event.inputs.PYTHON_FILE_PATH }} '1${{ secrets.PULLED_FROM_KEYVAULT }}' '2${{ secrets.PULLED_FROM_CYBERARK }}'
         
