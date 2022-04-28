@@ -1,0 +1,23 @@
+name: Bootstrap Repository
+on: [push]
+
+jobs:
+  probot-settings:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Add a project board
+      run: ./create-board.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Remove workflow file from master branch
+      run: rm ./.github/workflows/bootstrap.yaml
+
+    - name: Commit changes
+      uses: elstudio/actions-js-build/commit@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

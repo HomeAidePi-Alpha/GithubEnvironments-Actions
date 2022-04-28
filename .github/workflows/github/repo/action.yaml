@@ -47,7 +47,6 @@ runs:
         git remote add origin "https://${{ inputs.GITHUB_REPO_TOKEN}}@github.com/${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}.git"
         git add README.md
         git add docs
-        git add languages
         git add workflows
         git add workloads
         git mv workflows .github/workflows
