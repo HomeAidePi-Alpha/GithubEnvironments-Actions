@@ -5,19 +5,32 @@ jobs:
   probot-settings:
 
     runs-on: ubuntu-latest
+    environment:  ${{ secrets.ENVIRONMENT }}
 
     steps:
-    - uses: actions/checkout@v1
+    # Adds a project board
+    # - name: Add a project board
+    #   run: ./create-board.sh
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Add a project board
-      run: ./create-board.sh
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Remove workflow file from master branch
+    # Clean up bootstrapper
+    - name: Remove this workflow file from main branch
       run: rm ./.github/workflows/bootstrap.yaml
 
-    - name: Commit changes
-      uses: elstudio/actions-js-build/commit@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Move the primary action 
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+        fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+    - name: Commit files
+      run: |
+        git mv -f .github/workloads .github/
+        git commit -m "Bootstrapping" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}

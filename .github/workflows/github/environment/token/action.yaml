@@ -54,7 +54,8 @@ runs:
           # Repository name with owner. For example, actions/checkout
           # Default: ${{ github.repository }}
           repository: ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}}
-          fetch-depth: 0
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
     # Here we will create environment using gh cli 
     - name: Create an environment 
