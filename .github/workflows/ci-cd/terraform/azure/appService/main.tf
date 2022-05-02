@@ -33,6 +33,15 @@ variable "storage-account-name" {
   default = ""
 }
 
+terraform {
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "=3.0.1"
+    }
+  }
+}
+
 provider "azurerm" {
   tenant-id       = var.tenant-id
   subscription-id = var.subscription-id
