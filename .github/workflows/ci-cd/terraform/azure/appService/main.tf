@@ -43,18 +43,18 @@ terraform {
 }
 
 provider "azurerm" {
-  tenant-id       = var.tenant-id
-  subscription-id = var.subscription-id
-  client-id       = var.client-id
   features {}
+  subscription-id = var.subscription-id
+  tenant-id       = var.tenant-id
+  client-id       = var.client-id
 }
 
-resource "azurerm-resource-group" "alpha" {
+resource "azurerm_resource_group" "alpha" {
   name     = var.resource-group-name
   location = var.location
 }
 
-resource "azurerm-storage-account" "alpha" {
+resource "azurerm_storage_account" "alpha" {
   name                     = var.storage-account-name
   resource-group-name      = var.resource-group-name
   location                 = var.location
@@ -62,7 +62,7 @@ resource "azurerm-storage-account" "alpha" {
   account-replication-type = "LRS"
 }
 
-resource "azurerm-service-plan" "alpha" {
+resource "azurerm_service_plan" "alpha" {
   name                = var.service-plan-name
   resource-group-name = var.resource-group-name
   location            = var.location
@@ -70,6 +70,6 @@ resource "azurerm-service-plan" "alpha" {
   sku-name            = "Y1"
 }
 
-output "storage-account-access-key" {
-  value = azurerm-storage-account.sa_tf_state.primary_access_key
+output "storage_account_access_+key" {
+  value = azurerm_storage_account.main.primary_access_key
 }
