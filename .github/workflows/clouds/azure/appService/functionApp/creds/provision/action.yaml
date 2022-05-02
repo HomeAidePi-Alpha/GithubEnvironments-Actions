@@ -10,6 +10,9 @@ inputs:
   AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
     required: true
+  AZURE_AD_CLIENT_SECRET:
+    description: 'Azure Client Secret'
+    required: true
   AZURE_AD_TENANT_ID:
     description: 'Azure Tenant Id'
     required: true
@@ -43,6 +46,8 @@ runs:
         with:
           ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          AZURE_AD_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
+          AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
