@@ -30,7 +30,7 @@ env:
   WORKING_DIR: ./.github/workflows/ci-cd/terraform/azure/appService
 
 outputs:
-      storage_account_access_key: ${{ steps.output.outputs.storage_account_access_key }}
+  storage_account_access_key: ${{ steps.output.outputs.storage_account_access_key }}
       
 defaults:
   run:
