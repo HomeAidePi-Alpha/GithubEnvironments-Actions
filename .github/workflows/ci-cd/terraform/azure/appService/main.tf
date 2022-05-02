@@ -1,36 +1,36 @@
 variable "tenant-id" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "client-id" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "subscription-id" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "location" {
-    type = string
-    default = "eastus"
+  type    = string
+  default = "eastus"
 }
 
 variable "resource-group-name" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "service-plan-name" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "storage-account-name" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 provider "azurerm" {
