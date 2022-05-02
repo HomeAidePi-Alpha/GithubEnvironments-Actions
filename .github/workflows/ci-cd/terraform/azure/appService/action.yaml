@@ -81,7 +81,7 @@ runs:
 
       # Terraform Apply
       - name: Terraform Apply
-        id: plan
+        id: apply
         shell: bash
         working-directory: ${{ env.WORKING_DIR }}
         run: terraform apply -no-color
