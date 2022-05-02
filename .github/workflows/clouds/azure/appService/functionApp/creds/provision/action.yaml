@@ -38,6 +38,7 @@ runs:
 
       # Terraform Azure appService
       - name: Terraform Azure AppService Instance
+        id: appservice
         uses: ./.github/workflows/ci-cd/terraform/azure/appService
         with:
           ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
@@ -62,5 +63,5 @@ runs:
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_SERVICE_PLAN_ID: ${{ inputs.AZURE_SERVICE_PLAN_ID }}
           AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-          AZURE_STORAGE_ACCOUNT_ACCESS_KEY: ${{ inputs.AZURE_STORAGE_ACCOUNT_ACCESS_KEY }}
+          AZURE_STORAGE_ACCOUNT_ACCESS_KEY: ${{ steps.appservice.outputs.storage-account-access-key }}
       

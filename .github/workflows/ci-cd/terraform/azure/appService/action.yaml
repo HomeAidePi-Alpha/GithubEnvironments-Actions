@@ -30,7 +30,7 @@ env:
   WORKING_DIR: ./.github/workflows/ci-cd/terraform/azure/appService
 
 outputs:
-  storage_account_access_key:
+  storage-account-access-key:
     description: "storage_account_access_key"
     value: ${{ steps.output.outputs.storage-account-access-key }}
 
@@ -40,12 +40,17 @@ runs:
       # Checkout the repo
       - name: Checkout the repo
         uses: actions/checkout@v3
+
+      - name: Echo Dir
+        id: echo
+        shell: bash
+        run: echo ${{ env.WORKING_DIR }}
  
       # Terraform Setup 
       - uses: hashicorp/setup-terraform@v2
 
       # Terraform Format 
-      - name: 'Terraform Format'
+      - name: Terraform Format
         id: fmt
         shell: bash
         working-directory: ${{ env.WORKING_DIR }}
@@ -93,7 +98,7 @@ runs:
         #continue-on-error: true
 
       # Terraform Output
-      - name: Call terraform output
+      - name: Terraform Output
         id: output
         shell: bash
         working-directory: ${{ env.WORKING_DIR }}
