@@ -41,15 +41,6 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-       # Login to Azure with CLI with Federated with Github
-      - name: 'Az CLI Login via OIDC'
-        uses: azure/login@v1
-        with:
-          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
-          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
-          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
-          client-secret: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
-
       - name: Working Dir
         id: working-dir
         shell: bash
@@ -75,6 +66,7 @@ runs:
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
                                -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                               -var="client-secret=${{inputs.AZURE_AD_CLIENT_SECRET}}" 
                                -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
                                -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
                                -var="resource-group-name=${{inputs.AZURE_SUBSCRIPTION_ID}}"
