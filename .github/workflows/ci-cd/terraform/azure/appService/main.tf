@@ -71,5 +71,5 @@ resource "azurerm_service_plan" "alpha" {
 }
 
 output "storage-account-access-key" {
-  value = azurerm_storage_account.main.primary_access_key
+  value = azurerm_storage_account.alpha.primary_access_key
 }
