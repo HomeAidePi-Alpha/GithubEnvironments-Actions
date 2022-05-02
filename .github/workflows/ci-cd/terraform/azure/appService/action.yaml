@@ -39,6 +39,7 @@ runs:
       # Terraform Format 
       - name: 'Terraform Format'
         id: fmt
+        shell: bash
         run: terraform fmt -check
         continue-on-error: true
 
