@@ -46,6 +46,7 @@ runs:
       # Terraform Init 
       - name: Terraform Init
         id: init
+        shell: bash
         run: terraform init
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
@@ -61,11 +62,13 @@ runs:
       # Terraform Validate 
       - name: Terraform Validate
         id: validate
+        shell: bash
         run: terraform validate -no-color
 
       # Terraform Plan 
       - name: Terraform Plan
         id: plan
+        shell: bash
         run: terraform plan -no-color
         continue-on-error: true
 
