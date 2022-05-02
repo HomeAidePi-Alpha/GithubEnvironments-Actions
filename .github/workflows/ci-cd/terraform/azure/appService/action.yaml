@@ -26,9 +26,6 @@ inputs:
     description: 'Azure Storage Account Name'
     required: true
 
-env:
-  WORKING_DIR: ./.github/workflows/ci-cd/terraform/azure/appService
-
 outputs:
   storage-account-access-key:
     description: "storage_account_access_key"
@@ -41,10 +38,10 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-      - name: Echo Dir
-        id: echo
+      - name: Working Dir
+        id: working-dir
         shell: bash
-        run: echo ${{ env.WORKING_DIR }}
+        run: echo ./.github/workflows/ci-cd/terraform/azure/appService
  
       # Terraform Setup 
       - uses: hashicorp/setup-terraform@v2
@@ -53,7 +50,7 @@ runs:
       - name: Terraform Format
         id: fmt
         shell: bash
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform fmt -check
         #continue-on-error: true
 
@@ -61,7 +58,7 @@ runs:
       - name: Terraform Init
         id: init
         shell: bash
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform init
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
@@ -78,14 +75,14 @@ runs:
       - name: Terraform Validate
         id: validate
         shell: bash
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform validate -no-color
 
       # Terraform Plan 
       - name: Terraform Plan
         id: plan
         shell: bash
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform plan -no-color
         #continue-on-error: true
 
@@ -93,7 +90,7 @@ runs:
       - name: Terraform Apply
         id: apply
         shell: bash
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform apply -no-color
         #continue-on-error: true
 
@@ -101,7 +98,7 @@ runs:
       - name: Terraform Output
         id: output
         shell: bash
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: |
           output=$(terraform output storage-account-access-key)
           echo $output
