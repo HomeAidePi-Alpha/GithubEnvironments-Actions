@@ -41,6 +41,14 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
+       # Login to Azure with CLI with Federated with Github
+      - name: 'Az CLI Login via OIDC'
+        uses: azure/login@v1
+        with:
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+
       - name: Working Dir
         id: working-dir
         shell: bash
