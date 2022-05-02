@@ -43,6 +43,7 @@ runs:
         uses: azure/login@v1
         with:
           client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
           tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
 
