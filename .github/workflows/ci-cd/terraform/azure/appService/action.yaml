@@ -47,7 +47,7 @@ runs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'init'
-          tf_actions_working_dir: '.github/workflows/ci-cd/terraform/azure/'
+          tf_actions_working_dir: '.github/workflows/ci-cd/terraform/azure/appService'
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
                                -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
