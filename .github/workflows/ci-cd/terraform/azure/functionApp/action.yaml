@@ -34,6 +34,9 @@ inputs:
 
 runs:
     using: "composite"
+    defaults:
+      run:
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/functionApp
     steps:
       # Checkout the repo
       - name: Checkout the repo

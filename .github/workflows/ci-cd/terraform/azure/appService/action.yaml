@@ -28,6 +28,9 @@ inputs:
 
 runs:
     using: "composite"
+    defaults:
+      run:
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
     steps:
       # Checkout the repo
       - name: Checkout the repo
@@ -74,9 +77,7 @@ runs:
 
       # Terraform Apply
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: '.github/workflows/ci-cd/terraform/azure/appService'
+        id: plan
+        shell: bash
+        run: terraform apply -no-color
+        continue-on-error: true

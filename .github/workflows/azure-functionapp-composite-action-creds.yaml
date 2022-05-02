@@ -47,7 +47,7 @@ jobs:
     - uses: actions/checkout@v3
 
     # Provision using composite
-    - name: Deploy Azure Function App
+    - name: Provision Azure Function App with Terraform
       uses: ./.github/workflows/clouds/azure/appService/functionApp/creds/provision
       with:
         ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
