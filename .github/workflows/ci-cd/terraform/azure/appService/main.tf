@@ -70,6 +70,6 @@ resource "azurerm_service_plan" "alpha" {
   sku-name            = "Y1"
 }
 
-output "storage_account_access_key" {
+output "storage-account-access-key" {
   value = azurerm_storage_account.main.primary_access_key
 }

@@ -30,12 +30,9 @@ env:
   WORKING_DIR: ./.github/workflows/ci-cd/terraform/azure/appService
 
 outputs:
-  storage_account_access_key: ${{ steps.output.outputs.storage_account_access_key }}
-      
-defaults:
-  run:
-    shell: bash
-    working-directory: ${{ env.WORKING_DIR }}
+  storage_account_access_key:
+    description: "storage_account_access_key"
+    value: ${{ steps.output.outputs.storage-account-access-key }}
 
 runs:
     using: "composite"
@@ -50,12 +47,16 @@ runs:
       # Terraform Format 
       - name: 'Terraform Format'
         id: fmt
+        shell: bash
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform fmt -check
         #continue-on-error: true
 
       # Terraform Init 
       - name: Terraform Init
         id: init
+        shell: bash
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform init
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
@@ -71,23 +72,31 @@ runs:
       # Terraform Validate 
       - name: Terraform Validate
         id: validate
+        shell: bash
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform validate -no-color
 
       # Terraform Plan 
       - name: Terraform Plan
         id: plan
+        shell: bash
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform plan -no-color
         #continue-on-error: true
 
       # Terraform Apply
       - name: Terraform Apply
         id: apply
+        shell: bash
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform apply -no-color
         #continue-on-error: true
 
       # Terraform Output
       - name: Call terraform output
         id: output
+        shell: bash
+        working-directory: ${{ env.WORKING_DIR }}
         run: |
-          output=$(terraform output storage_account_access_key)
+          output=$(terraform output storage-account-access-key)
           echo $output
