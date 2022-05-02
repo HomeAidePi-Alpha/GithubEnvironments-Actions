@@ -43,7 +43,7 @@ runs:
       - name: 'Terraform Format'
         id: fmt
         shell: bash
-        working-directory: {{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform fmt -check
         #continue-on-error: true
 
@@ -51,7 +51,7 @@ runs:
       - name: Terraform Init
         id: init
         shell: bash
-        working-directory: {{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform init
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
@@ -68,14 +68,14 @@ runs:
       - name: Terraform Validate
         id: validate
         shell: bash
-        working-directory: {{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform validate -no-color
 
       # Terraform Plan 
       - name: Terraform Plan
         id: plan
         shell: bash
-        working-directory: {{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform plan -no-color
         #continue-on-error: true
 
@@ -83,6 +83,6 @@ runs:
       - name: Terraform Apply
         id: plan
         shell: bash
-        working-directory: {{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
         run: terraform apply -no-color
         #continue-on-error: true
