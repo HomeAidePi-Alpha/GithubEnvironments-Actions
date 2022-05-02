@@ -48,7 +48,6 @@ runs:
           AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           AZURE_AD_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
           AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
-          AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
