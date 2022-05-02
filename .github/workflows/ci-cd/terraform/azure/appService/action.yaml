@@ -29,10 +29,11 @@ inputs:
 env:
   WORKING_DIR: ./.github/workflows/ci-cd/terraform/azure/appService
 
+outputs:
+      storage_account_access_key: ${{ steps.output.storage_account_access_key }}
+      
 runs:
     using: "composite"
-    outputs:
-      storage_account_access_key: ${{ steps.output.storage_account_access_key }}
     steps:
       # Checkout the repo
       - name: Checkout the repo
