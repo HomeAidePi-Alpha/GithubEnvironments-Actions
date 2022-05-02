@@ -23,10 +23,6 @@ on:
         description: 'Azure Storage Account Name'
         required: true
         default: 'tamopstf'
-      AZURE_STORAGE_ACCOUNT_ACCESS_KEY:
-        description: 'Azure Storage Access Key'
-        required: true
-        default: ''
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
@@ -59,7 +55,6 @@ jobs:
         AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
         AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_ACCOUNT_ACCESS_KEY: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_ACCESS_KEY }}
     
   deploy:
     name: Deploy Azure Function App

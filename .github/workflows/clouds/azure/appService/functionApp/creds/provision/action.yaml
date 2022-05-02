@@ -25,9 +25,6 @@ inputs:
   AZURE_STORAGE_ACCOUNT_NAME: 
     description: 'Azure Storage Account Name'
     required: true
-  AZURE_STORAGE_ACCOUNT_ACCESS_KEY:
-    description: 'Azure Storage Account Access Key'
-    required: true
   AZURE_LOCATION:
     description: 'Azure Location'
     required: true

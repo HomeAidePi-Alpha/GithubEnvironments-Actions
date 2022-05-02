@@ -31,6 +31,8 @@ env:
 
 runs:
     using: "composite"
+    outputs:
+      storage_account_access_key: ${{ steps.output.storage_account_access_key }}
     steps:
       # Checkout the repo
       - name: Checkout the repo
@@ -86,3 +88,10 @@ runs:
         working-directory: ${{ env.WORKING_DIR }}
         run: terraform apply -no-color
         #continue-on-error: true
+
+      # Terraform Output
+      - name: Call terraform output
+        id: output
+        run: |
+          output=$(terraform output storage_account_access_key)
+          echo $output
