@@ -10,7 +10,7 @@ on:
       AZURE_FUNCTION_APP_NAME:
         description: 'Name of the FunctionApp'
         required: true
-        default: 'alpha-app-service-name'
+        default: 'alpha-function-app-name'
       AZURE_APP_SERVICE_NAME:
         description: 'Name of the hosting App Service'
         required: true
@@ -55,7 +55,6 @@ jobs:
       uses: ./.github/workflows/clouds/azure/appService/functionApp/creds/provision
       with:
         ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
-        AZURE_APP_SERVICE_NAME: ${{ github.event.inputs.AZURE_APP_SERVICE_NAME }}
         AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
         AZURE_AD_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
         AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}

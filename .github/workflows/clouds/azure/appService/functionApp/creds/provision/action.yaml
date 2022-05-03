@@ -44,6 +44,7 @@ runs:
         id: appservice
         uses: ./.github/workflows/ci-cd/terraform/azure/appService
         with:
+          AZURE_APP_SERVICE_NAME: "alpha-app-service-name"
           ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           AZURE_AD_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
@@ -58,12 +59,12 @@ runs:
       - name: Terraform Azure functionApp into any AppService by named properties
         uses: ./.github/workflows/ci-cd/terraform/azure/functionApp
         with:
+          AZURE_FUNCTION_APP_NAME: "alpha-function-app"
           ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
           AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
-          AZURE_FUNCTION_APP_NAME: ${{ inputs.AZURE_FUNCTION_APP_NAME }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_SERVICE_PLAN_NAME: ${{ inputs.AZURE_SERVICE_PLAN_NAME }}
           AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
