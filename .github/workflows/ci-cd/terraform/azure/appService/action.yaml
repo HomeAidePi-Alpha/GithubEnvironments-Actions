@@ -41,12 +41,6 @@ runs:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
-       # Login to Azure with CLI with Federated with Github
-      - name: 'Az CLI Login via OIDC'
-        id: azureLogin
-        shell: bash
-        run: az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
-
       - name: Working Dir
         id: working-dir
         shell: bash
@@ -54,6 +48,12 @@ runs:
  
       # Terraform Setup 
       - uses: hashicorp/setup-terraform@v2
+
+      # Login to Azure with CLI with Federated with Github
+      - name: 'Az CLI Login via OIDC'
+        id: azureLogin
+        shell: bash
+        run: az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
 
       # Terraform Format 
       - name: Terraform Format
