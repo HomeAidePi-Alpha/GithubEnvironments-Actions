@@ -45,6 +45,14 @@ runs:
         id: working-dir
         shell: bash
         run: echo ./.github/workflows/ci-cd/terraform/azure/appService
+
+       # Login to Azure with CLI with Federated with Github
+      - name: 'Az CLI Login via OIDC'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
  
       # Terraform Setup 
       - uses: hashicorp/setup-terraform@v2
@@ -85,9 +93,7 @@ runs:
                             -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
                             -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
                           '
-        run: |
-          az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
-          terraform plan -no-color
+        run: terraform plan -no-color
         continue-on-error: true
 
       # Terraform Apply
@@ -106,9 +112,7 @@ runs:
                             -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}" 
                             -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}" 
                           '
-        run: |
-          az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
-          terraform apply -no-color
+        run: terraform apply -no-color
         #continue-on-error: true
 
       # Terraform Output
