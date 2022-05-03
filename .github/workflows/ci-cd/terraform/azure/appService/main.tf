@@ -34,26 +34,26 @@ terraform {
 provider "azurerm" {
   features {}
 
-  subscription_id = var.subscription-id
-  tenant_id       = var.tenant-id
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
 }
 
 resource "azurerm_resource_group" "alpha" {
-  name     = var.resource-group-name
+  name     = var.resource_group_name
   location = var.location
 }
 
 resource "azurerm_storage_account" "alpha" {
-  name                     = var.storage-account-name
-  resource_group_name      = var.resource-group-name
+  name                     = var.storage_account_name
+  resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
 resource "azurerm_service_plan" "alpha" {
-  name                = var.service-plan-name
-  resource_group_name = var.resource-group-name
+  name                = var.service_plan_name
+  resource_group_name = var.resource_group_name
   location            = var.location
   os_type             = "Windows"
   sku_name            = "Y1"
