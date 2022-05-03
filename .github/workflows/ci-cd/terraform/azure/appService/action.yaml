@@ -43,12 +43,9 @@ runs:
 
        # Login to Azure with CLI with Federated with Github
       - name: 'Az CLI Login via OIDC'
-        uses: azure/login@v1
-        with:
-          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
-          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
-          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
-          allow-no-subscriptions: true
+        id: azureLogin
+        shell: bash
+        run: az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
 
       - name: Working Dir
         id: working-dir
