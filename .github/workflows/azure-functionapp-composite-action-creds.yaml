@@ -7,22 +7,30 @@ on:
         description: 'Environment'
         required: true
         default: 'preprod'
-      AZURE_APP_SERVICE_NAME:
-        description: 'Name of the Function App Service'
+      AZURE_FUNCTION_APP_NAME:
+        description: 'Name of the FunctionApp'
         required: true
-        default: 'azure-function-app'
+        default: 'alpha-app-service-name'
+      AZURE_APP_SERVICE_NAME:
+        description: 'Name of the hosting App Service'
+        required: true
+        default: 'alpha-app-service-name'
+      AZURE_SERVICE_PLAN_NAME:
+        description: 'Name of the Service Plan'
+        required: true
+        default: 'alpha-service-plan-name'
       AZURE_RESOURCE_GROUP:
         description: 'Azure Resource Group'
         required: true
-        default: 'tamops'
+        default: 'alpha-resource-group'
       AZURE_RESOURCE_GROUP_NAME:
         description: 'Azure Resource Group Name'
         required: true
-        default: 'tamopstfstates'
+        default: 'alpha-resource-group-name'
       AZURE_STORAGE_ACCOUNT_NAME: 
         description: 'Azure Storage Account Name'
         required: true
-        default: 'tamopstf'
+        default: 'alpha-storage-account-name'
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
@@ -53,6 +61,7 @@ jobs:
         AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
         AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
+        AZURE_SERVICE_PLAN_NAME: ${{ github.event.inputs.AZURE_SERVICE_PLAN_NAME }}
         AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
         AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
@@ -67,14 +76,15 @@ jobs:
     - uses: actions/checkout@v3
 
     # Login to Azure CLI
-    - name: 'Az CLI Login via OIDC'
+    - name: Az CLI Login via OIDC
+      id: azure-login
       uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: "Add a mask to the SWA Token"
+    - name: Get publish profile
       uses: azure/CLI@v1
       with:
         azcliversion: 2.35.0
@@ -83,10 +93,12 @@ jobs:
         id: getPublishProfile
 
     # This section runs the Azure function app action composite with creds
-    - uses: ./.github/workflows/clouds/azure/appService/functionApp/creds/deploy
+    - name: Deploy Function app with creds publish profile
+      id: deploy
+      uses: ./.github/workflows/clouds/azure/appService/functionApp/creds/deploy
       with:
         AZURE_FUNCTIONAPP_PUBLISH_PROFILE:  ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE }}
-        AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        AZURE_FUNCTIONAPP_NAME: ${{ github.events.inputs.AZURE_FUNCTION_APP_NAME }}
         AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         AZURE_FUNCTIONAPP_DIR_PATH: ${{ secrets.AZURE_FUNCTIONAPP_DIR_PATH }}
   

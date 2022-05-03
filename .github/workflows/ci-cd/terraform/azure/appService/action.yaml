@@ -22,8 +22,8 @@ inputs:
   AZURE_RESOURCE_GROUP_NAME:
     description: 'Azure Resource Group Name'
     required: true
-  AZURE_SERVICE_PLAN_ID:
-    description: 'Azure Service Plan Id'
+  AZURE_SERVICE_PLAN_NAME:
+    description: 'Azure Service Plan nAME'
     required: true
   AZURE_STORAGE_ACCOUNT_NAME:
     description: 'Azure Storage Account Name'
@@ -84,15 +84,6 @@ runs:
         id: plan
         shell: bash
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
-        env:
-          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                            -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}"
-                            -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
-                            -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
-                            -var="location=${{inputs.AZURE_LOCATION}}"
-                            -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
-                            -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
-                          '
         run: terraform plan -no-color
         continue-on-error: true
 
@@ -113,7 +104,7 @@ runs:
                             -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}" 
                           '
         run: terraform apply -no-color
-        #continue-on-error: true
+        continue-on-error: true
 
       # Terraform Output
       - name: Terraform Output
