@@ -78,18 +78,14 @@ runs:
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform validate -no-color
 
-       # Login to Azure with CLI with Federated with Github
-      - name: 'Az CLI Login via OIDC'
-        id: azureLogin
-        shell: bash
-        run: az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
-
       # Terraform Plan 
       - name: Terraform Plan
         id: plan
         shell: bash
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
-        run: terraform plan -no-color
+        run: |
+          az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
+          terraform plan -no-color
         #continue-on-error: true
 
       # Terraform Apply
@@ -97,7 +93,9 @@ runs:
         id: apply
         shell: bash
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
-        run: terraform apply -no-color
+        run: |
+          az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
+          terraform apply -no-color
         #continue-on-error: true
 
       # Terraform Output
