@@ -4,9 +4,6 @@ inputs:
   ENVIRONMENT:
     description: Enviroment Name
     required: true
-  AZURE_APP_SERVICE_NAME:
-    description: 'Name of the Function App Service'
-    required: true
   AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
     required: true
@@ -24,6 +21,9 @@ inputs:
     required: true
   AZURE_RESOURCE_GROUP_NAME:
     description: 'Azure Resource Group Name'
+    required: true
+  AZURE_SERVICE_PLAN_NAME:
+    description: 'Azure Service Plan Name'
     required: true
   AZURE_STORAGE_ACCOUNT_NAME: 
     description: 'Azure Storage Account Name'
@@ -51,7 +51,7 @@ runs:
           AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
-          AZURE_SERVICE_PLAN_ID: ${{ inputs.AZURE_SERVICE_PLAN_ID }}
+          AZURE_SERVICE_PLAN_NAME: ${{ inputs.AZURE_SERVICE_PLAN_NAME }}
           AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
 
       # Terraform Azure functionApp
@@ -65,7 +65,7 @@ runs:
           AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
           AZURE_FUNCTION_APP_NAME: ${{ inputs.AZURE_FUNCTION_APP_NAME }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-          AZURE_SERVICE_PLAN_ID: ${{ inputs.AZURE_SERVICE_PLAN_ID }}
+          AZURE_SERVICE_PLAN_NAME: ${{ inputs.AZURE_SERVICE_PLAN_NAME }}
           AZURE_STORAGE_ACCOUNT_NAME: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
           AZURE_STORAGE_ACCOUNT_ACCESS_KEY: ${{ steps.appservice.outputs.storage-account-access-key }}
       

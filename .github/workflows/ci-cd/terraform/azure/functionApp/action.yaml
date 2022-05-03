@@ -22,8 +22,8 @@ inputs:
   AZURE_RESOURCE_GROUP_NAME:
     description: 'Azure Resource Group Name'
     required: true
-  AZURE_SERVICE_PLAN_ID:
-    description: 'Azure Service Plan Id'
+  AZURE_SERVICE_PLAN_NAME:
+    description: 'Azure Service Plan Name'
     required: true
   AZURE_STORAGE_ACCOUNT_NAME:
     description: 'Azure Storage Account Name'
@@ -65,7 +65,7 @@ runs:
                                -var="function-app-name=${{inputs.AZURE_FUNCTION_APP_NAME}}"
                                -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
                                -var="location=${{inputs.AZURE_LOCATION}}"
-                               -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_ID}}"
+                               -var="service-plan-name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
                                -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
                                -var="storage-account-access-key=${{inputs.AZURE_STORAGE_ACCOUNT_ACCESS_KEY}}"
                               '

@@ -78,19 +78,17 @@ runs:
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         env:
           TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                            -var="client_id=${{inputs.AZURE_AD_CLIENT_ID}}" 
-                            -var="client_secret=${{inputs.AZURE_AD_CLIENT_SECRET}}" 
                             -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}"
                             -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
                             -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
                             -var="location=${{inputs.AZURE_LOCATION}}"
-                            -var="service_plan_id=${{inputs.AZURE_SERVICE_PLAN_ID}}"
+                            -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
                             -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
                           '
         run: |
           az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
           terraform plan -no-color
-        #continue-on-error: true
+        continue-on-error: true
 
       # Terraform Apply
       - name: Terraform Apply
@@ -101,12 +99,12 @@ runs:
           TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
                             -var="client_id=${{inputs.AZURE_AD_CLIENT_ID}}" 
                             -var="client_secret=${{inputs.AZURE_AD_CLIENT_SECRET}}" 
-                            -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}"
-                            -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
-                            -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
-                            -var="location=${{inputs.AZURE_LOCATION}}"
-                            -var="service_plan_id=${{inputs.AZURE_SERVICE_PLAN_ID}}"
-                            -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
+                            -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}" 
+                            -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}" 
+                            -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}" 
+                            -var="location=${{inputs.AZURE_LOCATION}}" 
+                            -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}" 
+                            -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}" 
                           '
         run: |
           az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
