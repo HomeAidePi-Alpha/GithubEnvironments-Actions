@@ -1,50 +1,28 @@
-variable "web-app-name" {
-    type = string
-    default = "alpha-web-app"
+variable "tenant_id" {
 }
-
-variable "resource-group-name" {
-    type = string
-    default = "resource-group-name"
+variable "subscription_id" {
 }
-
 variable "location" {
-    type = string
-    default = "eastus"
 }
-
-variable "tenant-id" {
-    type = string
-    default = ""
+variable "resource_group_name" {
 }
-
-variable "client-id" {
-    type = string
-    default = ""
+variable "service_plan_name" {
 }
-
-variable "subscription-id" {
-    type = string
-    default = ""
-}
-
-variable "service-plan-id" {
-    type = string
-    default = ""
+variable "storage_account_name" {
 }
 
 provider "azurerm" {
-  tenant-id       = var.tenant-id
-  subscription-id = var.subscription-id
-  client-id       = var.client-id
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
   features {}
 }
 
-resource "azurerm-windows-web-app" "alpha" {
-  name                = var.web-app-name
-  resource-group-name = var.resource-group-name
+resource "azurerm_windows_web_app" "alpha" {
+  name                = var.web_app_name
+  resource_group_name = var.resource_group_name
   location            = var.location
-  service-plan-id     = var.service-plan-id
+  service_plan_id     = var.service_plan_id
 
-  site-config {}
+  site_config {}
 }

@@ -94,8 +94,6 @@ runs:
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         env:
           TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                            -var="client_id=${{inputs.AZURE_AD_CLIENT_ID}}" 
-                            -var="client_secret=${{inputs.AZURE_AD_CLIENT_SECRET}}" 
                             -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}" 
                             -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}" 
                             -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}" 
