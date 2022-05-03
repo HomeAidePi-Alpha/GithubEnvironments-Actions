@@ -6,16 +6,12 @@ variable "tenant_id" {
 }
 variable "subscription_id" {
 }
-
 variable "location" {
 }
-
 variable "resource_group_name" {
 }
-
 variable "service_plan_name" {
 }
-
 variable "storage_account_name" {
 }
 
