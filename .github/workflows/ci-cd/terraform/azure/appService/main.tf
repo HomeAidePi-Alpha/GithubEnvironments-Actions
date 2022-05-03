@@ -49,8 +49,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = var.subscription-id
-  tenant_id       = var.tenant-id
 }
 
 resource "azurerm_resource_group" "alpha" {

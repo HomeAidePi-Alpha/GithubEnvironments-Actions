@@ -49,12 +49,6 @@ runs:
       # Terraform Setup 
       - uses: hashicorp/setup-terraform@v2
 
-      # Login to Azure with CLI with Federated with Github
-      - name: 'Az CLI Login via OIDC'
-        id: azureLogin
-        shell: bash
-        run: az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
-
       # Terraform Format 
       - name: Terraform Format
         id: fmt
@@ -71,10 +65,6 @@ runs:
         run: terraform init
         env:
             TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                               -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
-                               -var="client-secret=${{inputs.AZURE_AD_CLIENT_SECRET}}" 
-                               -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
-                               -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
                                -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
                                -var="location=${{inputs.AZURE_LOCATION}}"
                                -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_ID}}"
@@ -87,6 +77,12 @@ runs:
         shell: bash
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         run: terraform validate -no-color
+
+       # Login to Azure with CLI with Federated with Github
+      - name: 'Az CLI Login via OIDC'
+        id: azureLogin
+        shell: bash
+        run: az login --service-principal -u ${{inputs.AZURE_AD_CLIENT_ID}} -p ${{inputs.AZURE_AD_CLIENT_SECRET}} --tenant ${{inputs.AZURE_AD_TENANT_ID}}
 
       # Terraform Plan 
       - name: Terraform Plan
