@@ -1,33 +1,25 @@
-variable "tenant-id" {
+variable "tenant_id" {
 }
 
-variable "client-id" {
+variable "client_id" {
 }
 
-variable "client-secret" {
+variable "client_secret" {
 }
 
-variable "subscription-id" {
+variable "subscription_id" {
 }
 
 variable "location" {
-  type    = string
-  default = "eastus"
 }
 
-variable "resource-group-name" {
-  type    = string
-  default = ""
+variable "resource_group_name" {
 }
 
-variable "service-plan-name" {
-  type    = string
-  default = ""
+variable "service_plan_name" {
 }
 
-variable "storage-account-name" {
-  type    = string
-  default = ""
+variable "storage_account_name" {
 }
 
 terraform {
