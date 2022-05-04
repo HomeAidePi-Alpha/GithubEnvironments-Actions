@@ -12,6 +12,7 @@ variable "storage_account_name" {
 }
 
 terraform {
+  backend "azurerm" {}
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
