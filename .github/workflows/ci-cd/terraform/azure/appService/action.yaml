@@ -63,10 +63,10 @@ runs:
         shell: bash
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
         env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
           RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           STORAGE_ACCOUNT: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
         run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT" -backend-config="resource_group_name=$RESOURCE_GROUP"
