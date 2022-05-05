@@ -19,6 +19,9 @@ inputs:
   AZURE_SUBSCRIPTION_ID:
     description: 'Azure Subscription Id'
     required: true
+  AZURE_RESOURCE_GROUP:
+    description: 'Azure Resource Group'
+    required: true
   AZURE_RESOURCE_GROUP_NAME:
     description: 'Azure Resource Group Name'
     required: true
@@ -67,9 +70,13 @@ runs:
           ARM_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
           ARM_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          CONTAINER_NAME: ${{ inputs.AZURE_RESOURCE_GROUP }}
           RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           STORAGE_ACCOUNT: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT" -backend-config="resource_group_name=$RESOURCE_GROUP"
+        run: terraform init 
+              -backend-config="storage_account_name=$STORAGE_ACCOUNT" 
+              -backend-config="resource_group_name=$RESOURCE_GROUP"
+              -backend-config="container_name=$CONTAINER_NAME"
 
       # Terraform Validate 
       - name: Terraform Validate

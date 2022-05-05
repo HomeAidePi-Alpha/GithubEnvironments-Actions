@@ -44,12 +44,12 @@ runs:
         id: appservice
         uses: ./.github/workflows/ci-cd/terraform/azure/appService
         with:
-          AZURE_APP_SERVICE_NAME: "alpha-app-service-name"
           ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
           AZURE_AD_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           AZURE_AD_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
           AZURE_AD_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          AZURE_RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP }}
           AZURE_RESOURCE_GROUP_NAME: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_LOCATION: ${{ inputs.AZURE_LOCATION }}
           AZURE_SERVICE_PLAN_NAME: ${{ inputs.AZURE_SERVICE_PLAN_NAME }}
