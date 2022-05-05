@@ -10,15 +10,15 @@ on:
       AZURE_FUNCTION_APP_NAME:
         description: 'Name of the FunctionApp'
         required: true
-        default: 'alpha-function-app-name'
+        default: 'alpha-function-app'
       AZURE_APP_SERVICE_NAME:
         description: 'Name of the hosting App Service'
         required: true
-        default: 'alpha-app-service-name'
+        default: 'alpha-app-service'
       AZURE_SERVICE_PLAN_NAME:
         description: 'Name of the Service Plan'
         required: true
-        default: 'alpha-service-plan-name'
+        default: 'alpha-service-plan'
       AZURE_RESOURCE_GROUP:
         description: 'Azure Resource Group'
         required: true
@@ -30,7 +30,7 @@ on:
       AZURE_STORAGE_ACCOUNT_NAME: 
         description: 'Azure Storage Account Name'
         required: true
-        default: 'alpha-storage-account-name'
+        default: 'alpha-storage-account'
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
