@@ -77,7 +77,6 @@ runs:
               -backend-config="storage_account_name=$STORAGE_ACCOUNT" 
               -backend-config="resource_group_name=$RESOURCE_GROUP"
               -backend-config="container_name=$CONTAINER_NAME"
-              -backend-config="key="
 
       # Terraform Validate 
       - name: Terraform Validate
