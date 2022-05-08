@@ -1,5 +1,7 @@
 variable "tenant_id" {
 }
+variable "client_id" {
+}
 variable "subscription_id" {
 }
 variable "location" {
@@ -13,7 +15,8 @@ variable "storage_account_name" {
 
 terraform {
   backend "azurerm" {
-    container_name       = "tfstate"
+    storage_account_name = "tstate"
+    container_name       = "tstate"
     key                  = "terraform.tfstate"
   }
   required_providers {

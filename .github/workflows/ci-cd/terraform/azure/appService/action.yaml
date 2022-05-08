@@ -65,17 +65,21 @@ runs:
         id: init
         shell: bash
         working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
+        run: terraform init 
         env:
           ARM_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
           ARM_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
-          CONTAINER_NAME: ${{ inputs.AZURE_RESOURCE_GROUP }}
-          RESOURCE_GROUP: ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-          STORAGE_ACCOUNT: ${{ inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        run: terraform init 
-              -backend-config="storage_account_name=$STORAGE_ACCOUNT" 
-              -backend-config="resource_group_name=$RESOURCE_GROUP"
+          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                              -var="client_id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                              -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}"
+                              -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                              -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
+                              -var="location=${{inputs.AZURE_LOCATION}}"
+                              -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
+                              -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
+                            '
 
       # Terraform Validate 
       - name: Terraform Validate
@@ -88,13 +92,21 @@ runs:
       - name: Terraform Plan
         id: plan
         shell: bash
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
+        run: terraform plan -no-color
         env:
           ARM_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ inputs.AZURE_AD_CLIENT_SECRET }}
           ARM_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
-        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
-        run: terraform plan -no-color
+          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                              -var="client_id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                              -var="tenant_id=${{inputs.AZURE_AD_TENANT_ID}}"
+                              -var="subscription_id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                              -var="resource_group_name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
+                              -var="location=${{inputs.AZURE_LOCATION}}"
+                              -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
+                              -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
         continue-on-error: true
 
       # # Login to Azure with CLI with Federated with Github
