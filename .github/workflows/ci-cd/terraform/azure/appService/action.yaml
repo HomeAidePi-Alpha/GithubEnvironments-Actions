@@ -107,6 +107,7 @@ runs:
                               -var="location=${{inputs.AZURE_LOCATION}}"
                               -var="service_plan_name=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
                               -var="storage_account_name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
+                              '
         continue-on-error: true
 
       # # Login to Azure with CLI with Federated with Github
