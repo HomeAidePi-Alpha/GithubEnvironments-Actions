@@ -26,6 +26,5 @@ runs:
         uses: azure/powershell@v1
         with:
             inlineScript: |
-              Get-AzResourceGroup
               New-AzADApplication -DisplayName myApp
             azPSVersion: "2022"
