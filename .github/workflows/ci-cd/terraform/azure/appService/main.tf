@@ -62,6 +62,6 @@ resource "azurerm_service_plan" "alpha" {
   name                = "${var.prefix}-app-service-plan"
   resource_group_name = azurerm_resource_group.alpha.name
   location            = azurerm_resource_group.alpha.location
-  os-type             = "Windows"
-  sku-name            = "Y1"
+  os_type             = "Windows"
+  sku_name            = "Y1"
 }
