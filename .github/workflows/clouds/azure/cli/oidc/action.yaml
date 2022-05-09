@@ -1,6 +1,9 @@
-name: 'Deploy ASP.NET Core app to Azure Web App'
+name: 'CLI with OIDC and create an App'
 
 inputs:
+  AZURE_APP_NAME:
+    description: 'Azure App Name'
+    required: true
   AZURE_AD_CLIENT_ID:
     description: 'Azure Client Id'
     required: true
@@ -31,4 +34,4 @@ runs:
         with:
           azcliversion: 2.35.0
           inlineScript: |
-                        echo "::add-mask::$(az login)"
+                        echo "::add-mask::$(az ad app create --display-name ${{ inputs.AZURE_APP_NAME}})"
