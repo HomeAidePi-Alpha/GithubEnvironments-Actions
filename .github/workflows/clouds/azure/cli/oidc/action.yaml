@@ -29,9 +29,8 @@ runs:
           tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
 
-      - name: "Add a mask to the SWA Token"
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.35.0
-          inlineScript: |
-                        echo "::add-mask::$(az ad app create --display-name ${{ inputs.AZURE_APP_NAME}})"
+      - name: 'Run az commands'
+        run: |
+          az account show
+          az group list
+          echo "::add-mask::$(az ad app create --display-name ${{ inputs.AZURE_APP_NAME}})"
