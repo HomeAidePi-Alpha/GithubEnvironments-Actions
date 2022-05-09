@@ -45,12 +45,12 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm-resource-group" "alpha" {
+resource "azurerm_resource_group" "alpha" {
   name     = "${var.prefix}-resources"
   location = var.location
 }
 
-resource "azurerm-storage-account" "alpha" {
+resource "azurerm_storage_account" "alpha" {
   name                     = var.storage-account-name
   resource-group-name      = var.resource-group-name
   location                 = var.location
@@ -58,10 +58,10 @@ resource "azurerm-storage-account" "alpha" {
   account-replication-type = "LRS"
 }
 
-resource "azurerm-service-plan" "alpha" {
+resource "azurerm_service_plan" "alpha" {
   name                = "${var.prefix}-app-service-plan"
-  resource-group-name = azurerm-resource-group.alpha.name
-  location            = azurerm-resource-group.alpha.location
+  resource-group-name = azurerm_resource_group.alpha.name
+  location            = azurerm_resource_group.alpha.location
   os-type             = "Windows"
   sku-name            = "Y1"
 }
