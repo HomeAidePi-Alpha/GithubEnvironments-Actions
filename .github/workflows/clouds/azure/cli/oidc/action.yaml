@@ -30,6 +30,7 @@ runs:
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
 
       - name: 'Run az commands'
+        shell: bash
         run: |
           az account show
           az group list
