@@ -39,9 +39,9 @@ variable "prefix" {
 }
 
 provider "azurerm" {
-  tenant-id       = var.tenant-id
-  subscription-id = var.subscription-id
-  client-id       = var.client-id
+  tenant_id       = var.tenant-id
+  subscription_id = var.subscription-id
+  client_id       = var.client-id
   features {}
 }
 
@@ -52,15 +52,15 @@ resource "azurerm_resource_group" "alpha" {
 
 resource "azurerm_storage_account" "alpha" {
   name                     = var.storage-account-name
-  resource-group-name      = var.resource-group-name
+  resource_group_name      = var.resource-group-name
   location                 = var.location
-  account-tier             = "Standard"
-  account-replication-type = "LRS"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 }
 
 resource "azurerm_service_plan" "alpha" {
   name                = "${var.prefix}-app-service-plan"
-  resource-group-name = azurerm_resource_group.alpha.name
+  resource_group_name = azurerm_resource_group.alpha.name
   location            = azurerm_resource_group.alpha.location
   os-type             = "Windows"
   sku-name            = "Y1"
