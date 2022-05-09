@@ -1,52 +1,67 @@
-variable "tenant_id" {
-}
-variable "client_id" {
-}
-variable "subscription_id" {
-}
-variable "location" {
-}
-variable "resource_group_name" {
-}
-variable "service_plan_name" {
-}
-variable "storage_account_name" {
+variable "tenant-id" {
+    type = string
+    default = ""
 }
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=3.0.1"
-    }
-  }
+variable "client-id" {
+    type = string
+    default = ""
+}
+
+variable "subscription-id" {
+    type = string
+    default = ""
+}
+
+variable "location" {
+    type = string
+    default = "eastus"
+}
+
+variable "resource-group-name" {
+    type = string
+    default = ""
+}
+
+variable "storage-account-name" {
+    type = string
+    default = ""
+}
+
+variable "storage-account-access-key" {
+    type = string
+    default = ""
+}
+
+variable "prefix" {
+    type = string
+    default = "alpha-pre"
 }
 
 provider "azurerm" {
+  tenant-id       = var.tenant-id
+  subscription-id = var.subscription-id
+  client-id       = var.client-id
   features {}
 }
 
-resource "azurerm_resource_group" "alpha" {
-  name     = var.resource_group_name
+resource "azurerm-resource-group" "alpha" {
+  name     = "${var.prefix}-resources"
   location = var.location
 }
 
-resource "azurerm_storage_account" "alpha" {
-  name                     = var.storage_account_name
-  resource_group_name      = var.resource_group_name
+resource "azurerm-storage-account" "alpha" {
+  name                     = var.storage-account-name
+  resource-group-name      = var.resource-group-name
   location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  account-tier             = "Standard"
+  account-replication-type = "LRS"
 }
 
-resource "azurerm_service_plan" "alpha" {
-  name                = var.service_plan_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  os_type             = "Windows"
-  sku_name            = "Y1"
-}
-
-output "storage-account-access-key" {
-  value = azurerm_storage_account.alpha.primary_access_key
+resource "azurerm-service-plan" "alpha" {
+  name                = "${var.prefix}-app-service-plan"
+  resource-group-name = azurerm-resource-group.alpha.name
+  location            = azurerm-resource-group.alpha.location
+  os-type             = "Windows"
+  sku-name            = "Y1"
 }
