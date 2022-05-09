@@ -27,4 +27,5 @@ runs:
         with:
             inlineScript: |
               Get-AzResourceGroup
+              New-AzADApplication -DisplayName myApp
             azPSVersion: "2022"
