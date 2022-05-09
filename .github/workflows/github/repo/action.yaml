@@ -50,9 +50,10 @@ runs:
         git add workflows
         git add workloads
         git mv workflows/bootstrap.yaml .github/workflows/bootstrap.yaml 
+        git mv workflows/turn-code-todo-into-issues.yaml .github/workflows/turn-code-todo-into-issues.yaml 
         git mv workflows/phase1-alpha-python-executed.yaml .github/workflows/phase1-alpha-python-executed.yaml 
         git mv workflows/quality-codeql.yaml .github/workflows/quality-codeql.yaml 
         git commit -m "Initial Setup"
         git push -f origin ${{ inputs.GITHUB_REPO_BRANCH }}
         
-    # todo Perform quality checks & standards here
+    # TODO Perform quality checks & standards here

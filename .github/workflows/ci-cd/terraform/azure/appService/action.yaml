@@ -28,6 +28,19 @@ inputs:
 
 runs:
     using: "composite"
+    env:
+      ARM_CLIENT_ID: ${{ inputs.AZURE_AD_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ inputs.AZURE_AD_TENANT_ID }}    
+      TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                        -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                        -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
+                        -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                        -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
+                        -var="location=${{inputs.AZURE_LOCATION}}"
+                        -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
+                        -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
+                      '
     steps:
       # Checkout the repo
       - name: Checkout the repo
@@ -40,68 +53,28 @@ runs:
           client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
           tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Format
+        id: fmt
+        shell: bash
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        shell: bash
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
+        run: terraform init
+     
+      - name: Terraform Plan
+        id: plan
+        shell: bash
+        working-directory: ./.github/workflows/ci-cd/terraform/azure/appService
+        run: terraform plan
  
-      # Terraform Format 
-      - name: 'Terraform Format'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'fmt'
-          tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
-
-      # Terraform Init
-      - name: 'Terraform Init'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'init'
-          tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
-        env:
-          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                              -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
-                              -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
-                              -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
-                              -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
-                              -var="location=${{inputs.AZURE_LOCATION}}"
-                              -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
-                              -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
-                            '
-
-      # Terraform Validate
-      - name: 'Terraform Validate'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'validate'
-          tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
-         
-      # Terraform Plan
-      - name: 'Terraform Plan'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
-        env:
-          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                              -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
-                              -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
-                              -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
-                              -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
-                              -var="location=${{inputs.AZURE_LOCATION}}"
-                              -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
-                              -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
-                            '
-
-      # Terraform Apply
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'apply'
-          tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
-
       # Terraform Output
       - name: Terraform Output
         id: output
