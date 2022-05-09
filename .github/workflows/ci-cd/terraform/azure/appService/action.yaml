@@ -57,15 +57,15 @@ runs:
           tf_actions_subcommand: 'init'
           tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
         env:
-            TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
-                               -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
-                               -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
-                               -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
-                               -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
-                               -var="location=${{inputs.AZURE_LOCATION}}"
-                               -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
-                               -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
-                              '
+          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                              -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                              -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
+                              -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                              -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
+                              -var="location=${{inputs.AZURE_LOCATION}}"
+                              -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
+                              -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
+                            '
 
       # Terraform Validate
       - name: 'Terraform Validate'
@@ -82,6 +82,16 @@ runs:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'plan'
           tf_actions_working_dir: ./.github/workflows/ci-cd/terraform/azure/appService
+        env:
+          TF_CLI_ARGS_init: '-var="env=${{inputs.ENVIRONMENT}}" 
+                              -var="client-id=${{inputs.AZURE_AD_CLIENT_ID}}" 
+                              -var="tenant-id=${{inputs.AZURE_AD_TENANT_ID}}"
+                              -var="subscription-id=${{inputs.AZURE_SUBSCRIPTION_ID}}"
+                              -var="resource-group-name=${{inputs.AZURE_RESOURCE_GROUP_NAME}}"
+                              -var="location=${{inputs.AZURE_LOCATION}}"
+                              -var="service-plan-id=${{inputs.AZURE_SERVICE_PLAN_NAME}}"
+                              -var="storage-account-name=${{inputs.AZURE_STORAGE_ACCOUNT_NAME}}"
+                            '
 
       # Terraform Apply
       - name: Terraform Apply
