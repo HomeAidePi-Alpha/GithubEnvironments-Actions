@@ -14,11 +14,6 @@ variable "storage_account_name" {
 }
 
 terraform {
-  backend "azurerm" {
-    storage_account_name = "tstate"
-    container_name       = "tstate"
-    key                  = "terraform.tfstate"
-  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -29,8 +24,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-
-  
 }
 
 resource "azurerm_resource_group" "alpha" {
