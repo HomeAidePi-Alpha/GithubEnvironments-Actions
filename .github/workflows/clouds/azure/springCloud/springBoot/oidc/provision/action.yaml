@@ -1,4 +1,4 @@
-name: 'CLI with OIDC and create an App'
+name: 'Create a Spring Cloud - Spring Boot App with OIDC with Azure CLI'
 
 inputs:
   AZURE_AD_CLIENT_ID:
@@ -28,14 +28,15 @@ runs:
         uses: actions/checkout@v3
 
       # Login to Azure with CLI with Federated with Github
-      - name: 'Az CLI Login via OIDC'
+      - name: Az CLI Login via OIDC
         uses: azure/login@v1.4.0
         with:
           client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
           tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
 
-      - name: 'Run az commands'
+      # Run azure spring cloud deploy az cli commands under OIDC context
+      - name: Run azure spring cloud deploy az cli commands
         shell: bash
         run: |
           az extension add --name spring-cloud

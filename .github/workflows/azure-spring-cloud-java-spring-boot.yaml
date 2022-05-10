@@ -78,7 +78,7 @@ jobs:
         with:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: deploy
-          service-name: ${{ github.event.inputs.AZURE_SERVICE_PLAN_NAME }}
+          service-name: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
           app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
           use-staging-deployment: false
           package:  ${{ github.workspace }}
