@@ -10,7 +10,7 @@ on:
       AZURE_APP_NAME:
         description: 'Name of the Sprint Cloud App'
         required: true
-        default: 'alpha-sc-app-service'
+        default: 'alpha-sc-app'
       AZURE_SERVICE_INSTANCE_NAME:
         description: 'Name of the Service Instance'
         required: true
