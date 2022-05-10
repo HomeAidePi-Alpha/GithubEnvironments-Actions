@@ -1,4 +1,4 @@
-name: AzureSpringCloud
+name: Azure Spring Cloud Java Spring Boot
 
 on:
   workflow_dispatch:
