@@ -47,15 +47,15 @@ jobs:
       - name: Az CLI Login via OIDC
         uses: azure/login@v1.4.0
         with:
-          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
-          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
-          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # Deploy the Spring Cloud app 
       - name: deploy step from source code built in the earlier provision composite
         uses: azure/spring-cloud-deploy@v1
         with:
-          azure-subscription: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           action: deploy
           service-name: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
           app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
