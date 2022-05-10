@@ -33,26 +33,25 @@ permissions:
   id-token: 'write'
 
 jobs:
-  provision:
-    name: Provision Azure Function App
-    runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.ENVIRONMENT }}
+  # provision:
+  #   name: Provision Azure Function App
+  #   runs-on: ubuntu-latest
+  #   environment: ${{ github.event.inputs.ENVIRONMENT }}
 
-    steps:  
-    # Checkout the Repo
-    - uses: actions/checkout@v3
+  #   steps:  
+  #   # Checkout the Repo
+  #   - uses: actions/checkout@v3
 
-    # Provision using composite
-    - name: Provision Azure Spring Boot App with Azure Cli
-      uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/provision
-      with:
-        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
-        AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-
+  #   # Provision using composite
+  #   - name: Provision Azure Spring Boot App with Azure Cli
+  #     uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/provision
+  #     with:
+  #       AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+  #       AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+  #       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #       AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
+  #       AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
+  #       AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
   deploy:
     needs: [provision]
     runs-on: ubuntu-latest
