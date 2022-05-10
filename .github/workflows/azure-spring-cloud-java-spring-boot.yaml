@@ -7,26 +7,22 @@ on:
         description: 'Environment'
         required: true
         default: 'preprod'
-      AZURE_FUNCTION_APP_NAME:
-        description: 'Name of the FunctionApp'
+      AZURE_APP_NAME:
+        description: 'Name of the Sprint Cloud App'
         required: true
-        default: 'alpha-function-app'
-      AZURE_APP_SERVICE_NAME:
-        description: 'Name of the hosting App Service'
-        required: true
-        default: 'alpha-app-service'
+        default: 'alpha-sc-app-service'
       AZURE_SERVICE_INSTANCE_NAME:
         description: 'Name of the Service Instance'
         required: true
-        default: 'alpha-service-plan'
+        default: 'alpha-sc-service-instance'
       AZURE_RESOURCE_GROUP:
         description: 'Azure Resource Group'
         required: true
-        default: 'alpha-resource-group'
+        default: 'alpha-sc-resource-group'
       AZURE_RESOURCE_GROUP_NAME:
         description: 'Azure Resource Group Name'
         required: true
-        default: 'alpha-resource-group-name'
+        default: 'alpha-sc-resource-group-name'
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
@@ -56,7 +52,7 @@ jobs:
         AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
         AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_APP_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_APP_NAME: ${{ github.event.inputs.AZURE_APP_NAME }}
 
   deploy:
     needs: [provision]
