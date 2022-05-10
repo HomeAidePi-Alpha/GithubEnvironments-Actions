@@ -29,35 +29,46 @@ permissions:
   id-token: 'write'
 
 jobs:
-  # provision:
-  #   name: Provision Azure Spring Boot App
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ github.event.inputs.ENVIRONMENT }}
+  provision:
+    name: Provision Azure Spring Boot App
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
 
-  #   steps:  
-  #   # Checkout the Repo
-  #   - uses: actions/checkout@v3
+    steps:  
+    # Checkout the Repo
+    - uses: actions/checkout@v3
 
-  #   # Provision using composite
-  #   - name: Provision Azure Spring Boot App with Azure Cli
-  #     uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/provision
-  #     with:
-  #       AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-  #       AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-  #       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  #       AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
-  #       AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
-  #       AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-  #       AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
+    # Provision using composite
+    - name: Provision Azure Spring Boot App with Azure Cli
+      uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/provision
+      with:
+        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
+        AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
+
   deploy:
-    name: Deploy with source code
-    # needs: [provision]
+    name: Deploy from source code build
+    needs: [provision]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
       # Check out the repo
       - name: Checkout Github Action
         uses: actions/checkout@v2
+
+      # Setup Java runtime
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+      - name: Build with Maven Wrapper
+        run: ./workloads/java/springBoot/petClinic/mvnw -B package
 
       # Login to Azure with CLI with Federated with Github
       - name: Az CLI Login via OIDC
@@ -76,5 +87,4 @@ jobs:
           service-name: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
           app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
           use-staging-deployment: false
-          create-new-deployment: true
-          package:  ${{ github.workspace }}
+          package:  ./workloads/java/springBoot/petClinic/**/*.jar
