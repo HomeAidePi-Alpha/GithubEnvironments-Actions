@@ -30,7 +30,7 @@ permissions:
 
 jobs:
   provision:
-    name: Provision Azure Function App
+    name: Provision Azure Spring Boot App
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
 
@@ -50,7 +50,7 @@ jobs:
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
         AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
   deploy:
-    name: deploy to production with source code
+    name: Deploy with source code
     needs: [provision]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
