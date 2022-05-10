@@ -8,7 +8,7 @@ on:
         required: true
         default: 'preprod'
       AZURE_APP_NAME:
-        description: 'Name of the Sprint Cloud App'
+        description: 'Name of the Spring Cloud App'
         required: true
         default: 'alpha-sc-app'
       AZURE_SERVICE_INSTANCE_NAME:
