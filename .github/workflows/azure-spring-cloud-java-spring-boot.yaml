@@ -52,7 +52,6 @@ jobs:
         AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
         AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_APP_NAME: ${{ github.event.inputs.AZURE_APP_NAME }}
 
   deploy:
     needs: [provision]
