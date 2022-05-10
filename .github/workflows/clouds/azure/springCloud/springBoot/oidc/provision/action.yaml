@@ -1,0 +1,44 @@
+name: 'CLI with OIDC and create an App'
+
+inputs:
+  AZURE_AD_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_AD_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+  AZURE_LOCATION:
+    description: 'Azure Location'
+    required: true
+  AZURE_RESOURCE_GROUP_NAME:
+    description: 'Azure Resource Group Name'
+    required: true
+  AZURE_SERVICE_INSTANCE_NAME:
+    description: 'Azure Service Instance Name'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      # Login to Azure with CLI with Federated with Github
+      - name: 'Az CLI Login via OIDC'
+        uses: azure/login@v1.4.0
+        with:
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+
+      - name: 'Run az commands'
+        shell: bash
+        run: |
+          az extension add --name spring-cloud
+          az group create --location ${{ inputs.AZURE_LOCATION}} --name ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          az spring-cloud create -n ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          az spring-cloud config-server git set -n ${{ inputs.AZURE_SERVICE_PLAN_NAME }} --uri https://github.com/spring-projects/spring-petclinic --label config

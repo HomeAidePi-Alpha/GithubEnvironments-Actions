@@ -1,0 +1,84 @@
+name: AzureSpringCloud
+
+on:
+  workflow_dispatch:
+    inputs: 
+      ENVIRONMENT:
+        description: 'Environment'
+        required: true
+        default: 'preprod'
+      AZURE_FUNCTION_APP_NAME:
+        description: 'Name of the FunctionApp'
+        required: true
+        default: 'alpha-function-app'
+      AZURE_APP_SERVICE_NAME:
+        description: 'Name of the hosting App Service'
+        required: true
+        default: 'alpha-app-service'
+      AZURE_SERVICE_INSTANCE_NAME:
+        description: 'Name of the Service Instance'
+        required: true
+        default: 'alpha-service-plan'
+      AZURE_RESOURCE_GROUP:
+        description: 'Azure Resource Group'
+        required: true
+        default: 'alpha-resource-group'
+      AZURE_RESOURCE_GROUP_NAME:
+        description: 'Azure Resource Group Name'
+        required: true
+        default: 'alpha-resource-group-name'
+      AZURE_LOCATION:
+        description: 'Azure Region/Location'
+        required: true
+        default: 'eastus2'
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+jobs:
+  provision:
+    name: Provision Azure Function App
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+
+    steps:  
+    # Checkout the Repo
+    - uses: actions/checkout@v3
+
+    # Provision using composite
+    - name: Provision Azure Spring Boot App with Azure Cli
+      uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/provision
+      with:
+        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
+        AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_APP_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+
+  deploy_to_production:
+    runs-on: ubuntu-latest
+    name: deploy to production with source code
+    steps:
+      - name: Checkout Github Action
+        uses: actions/checkout@v2
+
+      # Login to Azure with CLI with Federated with Github
+      - name: Az CLI Login via OIDC
+        uses: azure/login@v1.4.0
+        with:
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+
+      - name: deploy to production step with soruce code
+        uses: azure/spring-cloud-deploy@v1
+        with:
+          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+          action: deploy
+          service-name: ${{ github.event.inputs.AZURE_SERVICE_PLAN_NAME }}
+          app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
+          use-staging-deployment: false
+          package:  ${{ github.workspace }}
