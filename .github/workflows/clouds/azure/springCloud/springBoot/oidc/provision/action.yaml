@@ -19,6 +19,9 @@ inputs:
   AZURE_SERVICE_INSTANCE_NAME:
     description: 'Azure Service Instance Name'
     required: true
+  AZURE_APP_NAME:
+    description: 'Azure App Name'
+    required: true
 
 runs:
     using: "composite"
@@ -36,10 +39,11 @@ runs:
           subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
 
       # Run azure spring cloud deploy az cli commands under OIDC context
-      - name: Run azure spring cloud deploy az cli commands
+      - name: Run azure spring cloud deploy 
         shell: bash
         run: |
           az extension add --name spring-cloud
           az group create --location ${{ inputs.AZURE_LOCATION}} --name ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           az spring-cloud create -n ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-          az spring-cloud config-server git set -n ${{ inputs.AZURE_SERVICE_PLAN_NAME }} --uri https://github.com/spring-projects/spring-petclinic --label config
+          az spring-cloud config-server git set -n ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} --uri https://github.com/spring-projects/spring-petclinic --label config
+          az spring-cloud app create -n ${{ inputs.AZURE_APP_NAME }} -s ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
