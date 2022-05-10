@@ -15,14 +15,10 @@ on:
         description: 'Name of the Service Instance'
         required: true
         default: 'alpha-sc-service-instance'
-      AZURE_RESOURCE_GROUP:
-        description: 'Azure Resource Group'
-        required: true
-        default: 'alpha-sc-resource-group'
       AZURE_RESOURCE_GROUP_NAME:
         description: 'Azure Resource Group Name'
         required: true
-        default: 'alpha-sc-resource-group-name'
+        default: 'HomeAidePi'
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
