@@ -45,5 +45,7 @@ runs:
           az extension add --name spring-cloud
           az group create --location ${{ inputs.AZURE_LOCATION}} --name ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           az spring-cloud create -n ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          sleep 10000
           az spring-cloud config-server git set -n ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }} --uri https://github.com/HomeAidePi-Alpha/spring-petclinic.git
+          sleep 10000
           az spring-cloud app create -n ${{ inputs.AZURE_APP_NAME }} -s ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
