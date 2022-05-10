@@ -45,4 +45,7 @@ runs:
           az extension add --name spring-cloud
           az group create --location ${{ inputs.AZURE_LOCATION}} --name ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
           az spring-cloud create -n ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
-          az spring-cloud app create -n ${{ inputs.AZURE_APP_NAME }} -s ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }} -g ${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          az config set defaults.group=${{ inputs.AZURE_RESOURCE_GROUP_NAME }}
+          az config set defaults.spring-cloud=${{ inputs.AZURE_SERVICE_INSTANCE_NAME }}
+          az spring-cloud app create -n ${{ inputs.AZURE_APP_NAME }}
+          
