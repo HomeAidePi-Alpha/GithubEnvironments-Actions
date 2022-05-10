@@ -26,7 +26,7 @@ on:
       AZURE_LOCATION:
         description: 'Azure Region/Location'
         required: true
-        default: 'eastus2'
+        default: 'centralus'
 
 permissions:
   contents: 'read'
