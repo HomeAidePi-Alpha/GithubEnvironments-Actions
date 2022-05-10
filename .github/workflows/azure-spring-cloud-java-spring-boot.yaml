@@ -14,7 +14,7 @@ on:
       AZURE_SERVICE_INSTANCE_NAME:
         description: 'Name of the Service Instance'
         required: true
-        default: 'alpha-sc-service-instance'
+        default: 'alpha-sc-service'
       AZURE_RESOURCE_GROUP_NAME:
         description: 'Azure Resource Group Name'
         required: true
