@@ -61,13 +61,16 @@ jobs:
         uses: actions/checkout@v2
 
       # Setup Java runtime
-      - name: Setup Java and Build with Maven
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
           cache: 'maven'
-      - run: ./workloads/java/springBoot/petClinic/gradlew build --no-daemon
+      - name: Change wrapper permissions to allow it to execute a build
+        run: chmod +x ./workloads/java/springBoot/petClinic/gradlew
+      - name: Build with Gradle
+        run: ./workloads/java/springBoot/petClinic/gradlew build --no-daemon
           
       # Login to Azure with CLI with Federated with Github
       - name: Az CLI Login via OIDC
