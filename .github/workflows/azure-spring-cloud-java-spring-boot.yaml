@@ -72,10 +72,12 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Change wrapper permissions to allow it to execute a build
-        run: chmod +x ./workloads/java/springBoot/petClinic/gradlew
+        run: chmod +x ./gradlew
+        working-directory: ./workloads/java/springBoot/petClinic
       
       - name: Build with Gradle
-        run: ./workloads/java/springBoot/petClinic/gradlew build --no-daemon
+        run: ./gradlew build --no-daemon
+        working-directory: ./workloads/java/springBoot/petClinic
           
       # Login to Azure with CLI with Federated with Github
       - name: Az CLI Login via OIDC
