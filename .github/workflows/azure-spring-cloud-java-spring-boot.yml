@@ -76,20 +76,25 @@ jobs:
         run: mvn clean package -Djar.finalName=${{ env.BUILD_PACKAGE_NAME }}
         working-directory: ${{ env.BUILD_PACKAGE_PATH }}
 
-  deploy: 
-    # Checkout the Repo
-    - uses: actions/checkout@v3
+  deploy:
+    name: Build source code
+    needs: [provision, build]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+    steps:
+      # Checkout the Repo
+      - uses: actions/checkout@v3
 
-    # Deploy using composite
-    - name: Deploy Azure Spring Boot App with Azure Cli
-      uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/deploy
-      with:
-        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
-        AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
-        BUILD_PACKAGE_PATH:  ${{ env.BUILD_PACKAGE_PATH }}
-        BUILD_PACKAGE_NAME:  ${{ env.BUILD_PACKAGE_NAME }}
+      # Deploy using composite
+      - name: Deploy Azure Spring Boot App with Azure Cli
+        uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/deploy
+        with:
+          AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+          AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
+          AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+          AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
+          BUILD_PACKAGE_PATH:  ${{ env.BUILD_PACKAGE_PATH }}
+          BUILD_PACKAGE_NAME:  ${{ env.BUILD_PACKAGE_NAME }}
