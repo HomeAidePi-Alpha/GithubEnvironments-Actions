@@ -11,7 +11,9 @@
   "scripts": {
     "test": "test",
     "start": "node index.js",
-    "lint": "node index.js"
+    "lint": "node index.js",
+    "precommit": "lint-staged",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
