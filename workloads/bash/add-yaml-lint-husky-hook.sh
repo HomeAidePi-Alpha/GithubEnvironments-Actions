@@ -1,5 +1,9 @@
 #!/bin/sh
 
+npm install -g yarn
+
+#choco install yarn
+
 # Add yaml-lint as a dependency
 yarn add -D yaml-lint
 
