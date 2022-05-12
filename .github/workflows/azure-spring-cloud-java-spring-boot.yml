@@ -1,6 +1,6 @@
 name: Azure Spring Cloud Java Spring Boot
 
-on:
+  on:
   workflow_dispatch:
     inputs: 
       ENVIRONMENT:

@@ -10,5 +10,7 @@
 First Time Setup:
     install vscode
     install az cli
+    choco install nodejs
+    npm install
     az bicep install
     https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/quickstart-create-bicep-use-visual-studio-code?tabs=CLI
