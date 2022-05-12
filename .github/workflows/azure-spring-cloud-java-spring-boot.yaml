@@ -88,5 +88,5 @@ jobs:
           action: deploy
           service-name: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
           app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
-          use-staging-deployment: false
+          use-staging-deployment: true
           package:  ./workloads/java/springBoot/petClinic/target/spring-petclinic-2.6.0-SNAPSHOT.jar
