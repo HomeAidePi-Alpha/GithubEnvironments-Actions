@@ -3,7 +3,6 @@
   "description": "- 👋 Hi, I’m Vandy @ Ferguson\r - 👀 I’m interested in helping grow a team, product & community\r - 🌱 I’m currently learning harness.io, azure boards and extending my github ops skillsets\r - 🚀 I’m looking to collaborate with other architects on executing cloud functions in a scalable, multi-tenant, L1 & L2 self service, IaC managed fashion\r - 📫 How to reach me please submit an issue in this repository, create a pull request or email: matthew.vandergrift@homeaidepi.com",
   "version": "1.0.0",
   "author": "Vandy",
-  "license": "ISC",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -20,15 +19,22 @@
       "pre-commit": "node index.js"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Actions.git"
+  "lint-staged": {
+    "*.{js,json,css,scss,html,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "keywords": [
     "ci",
     "cq",
     "cd"
   ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Actions.git"
+  },
   "bugs": {
     "url": "https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Actions/issues"
   },
