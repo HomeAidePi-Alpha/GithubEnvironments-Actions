@@ -75,6 +75,13 @@ jobs:
       - name: maven clean & package build by env name and path
         run: mvn clean package -Djar.finalName=${{ env.BUILD_PACKAGE_NAME }}
         working-directory: ${{ env.BUILD_PACKAGE_PATH }}
+      
+      # Upload artifacts
+      - name: Upload maven package
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.inputs.AZURE_APP_NAME }}
+          path:  ${{ env.BUILD_PACKAGE_PATH }}/target
 
   deploy:
     name: Deploy source code

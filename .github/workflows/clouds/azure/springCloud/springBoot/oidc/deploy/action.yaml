@@ -41,6 +41,13 @@ runs:
         run: sleep 60s
         shell: bash
 
+      # Download the maven package
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.AZURE_APP_NAME }}
+          path: target
+
       # Login to Azure with CLI with Federated with Github
       - name: Az CLI Login via OIDC
         uses: azure/login@v1.4.0
@@ -58,5 +65,5 @@ runs:
           service-name: ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }}
           app-name: ${{ inputs.AZURE_APP_NAME }}
           use-staging-deployment: false
-          package:  ${{ inputs.BUILD_PACKAGE_PATH }}/target/${{ inputs.BUILD_PACKAGE_NAME }}
+          package:  target/${{ inputs.BUILD_PACKAGE_NAME }}
           
