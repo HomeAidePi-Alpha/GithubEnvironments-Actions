@@ -10,7 +10,9 @@ yamlLint
   .lint(content)
   .then(() => {
     console.log('Valid YAML file.');
+    return 0;
   })
   .catch((error) => {
     console.error('Invalid YAML file.', error);
+    return -1;
   });
