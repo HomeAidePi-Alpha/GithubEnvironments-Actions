@@ -1,0 +1,83 @@
+{
+  "name": "githubenvironments-actions",
+  "description": "- 👋 Hi, I’m Vandy @ Ferguson\r - 👀 I’m interested in helping grow a team, product & community\r - 🌱 I’m currently learning harness.io, azure boards and extending my github ops skillsets\r - 🚀 I’m looking to collaborate with other architects on executing cloud functions in a scalable, multi-tenant, L1 & L2 self service, IaC managed fashion\r - 📫 How to reach me please submit an issue in this repository, create a pull request or email: matthew.vandergrift@homeaidepi.com",
+  "version": "1.0.0",
+  "author": "Vandy",
+  "license": "ISC",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "test",
+    "lint": "yamllint *.{yaml,yml}"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Actions.git"
+  },
+  "keywords": [
+    "ci",
+    "cq",
+    "cd"
+  ],
+  "bugs": {
+    "url": "https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Actions/issues"
+  },
+  "homepage": "https://github.com/HomeAidePi-Alpha/GitHubEnvironments-Actions#readme",
+  "dependencies": {
+    "argparse": "^2.0.1",
+    "ansi-regex": "^5.0.1",
+    "ansi-styles": "^4.3.0",
+    "async": "^3.2.3",
+    "array-union": "^2.1.0",
+    "braces": "^3.0.2",
+    "color-convert": "^2.0.1",
+    "consola": "^2.15.3",
+    "dir-glob": "^3.0.1",
+    "color-name": "^1.1.4",
+    "emoji-regex": "^8.0.0",
+    "cliui": "^7.0.4",
+    "escalade": "^3.1.1",
+    "fastq": "^1.13.0",
+    "fill-range": "^7.0.1",
+    "globby": "^11.1.0",
+    "ignore": "^5.2.0",
+    "glob-parent": "^5.1.2",
+    "get-caller-file": "^2.0.5",
+    "fast-glob": "^3.2.11",
+    "ini": "^2.0.0",
+    "is-fullwidth-code-point": "^3.0.0",
+    "is-extglob": "^2.1.1",
+    "is-glob": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "is-number": "^7.0.0",
+    "micromatch": "^4.0.5",
+    "nconf": "^0.12.0",
+    "path-type": "^4.0.0",
+    "picomatch": "^2.3.1",
+    "queue-microtask": "^1.2.3",
+    "require-directory": "^2.1.1",
+    "reusify": "^1.0.4",
+    "secure-keys": "^1.0.0",
+    "run-parallel": "^1.2.0",
+    "slash": "^3.0.0",
+    "to-regex-range": "^5.0.1",
+    "string-width": "^4.2.3",
+    "strip-ansi": "^6.0.1",
+    "y18n": "^5.0.8",
+    "merge2": "^1.4.1",
+    "wrap-ansi": "^7.0.0",
+    "yargs": "^16.2.0",
+    "yargs-parser": "^20.2.9"
+  },
+  "devDependencies": {
+    "husky": "^8.0.1",
+    "yaml-lint": "^1.6.0"
+  }
+}
