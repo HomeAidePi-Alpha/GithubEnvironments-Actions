@@ -1,0 +1,62 @@
+name: 'Create a Spring Cloud - Spring Boot App with OIDC with Azure CLI'
+
+inputs:
+  AZURE_AD_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_AD_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+  AZURE_LOCATION:
+    description: 'Azure Location'
+    required: true
+  AZURE_RESOURCE_GROUP_NAME:
+    description: 'Azure Resource Group Name'
+    required: true
+  AZURE_SERVICE_INSTANCE_NAME:
+    description: 'Azure Service Instance Name'
+    required: true
+  AZURE_APP_NAME:
+    description: 'Azure App Name'
+    required: true
+  BUILD_PACKAGE_PATH:
+    description: 'Spring Boot Package Path'
+    required: true
+  BUILD_PACKAGE_NAME:
+    description: 'Spring Boot Package Name'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      # App may provisioned but not available
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
+
+      # Login to Azure with CLI with Federated with Github
+      - name: Az CLI Login via OIDC
+        uses: azure/login@v1.4.0
+        with:
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+
+      # Deploy the Spring Cloud app 
+      - name: deploy step from source code built in the earlier maven build
+        uses: azure/spring-cloud-deploy@v1
+        with:
+          azure-subscription: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+          action: deploy
+          service-name: ${{ inputs.AZURE_SERVICE_INSTANCE_NAME }}
+          app-name: ${{ inputs.AZURE_APP_NAME }}
+          use-staging-deployment: false
+          package:  ${{ inputs.BUILD_PACKAGE_PATH }}/${{ inputs.BUILD_PACKAGE_NAME }}
+          

@@ -28,6 +28,10 @@ permissions:
   contents: 'read'
   id-token: 'write'
 
+env:
+  BUILD_PACKAGE_PATH: ./workloads/java/springBoot/petClinic/target
+  BUILD_PACKAGE_NAME: spring-petclinic-2.6.0-SNAPSHOT.jar
+
 jobs:
   provision:
     name: Provision Azure Spring Boot App
@@ -51,7 +55,7 @@ jobs:
         AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
 
   build:
-    name: Source code build
+    name: Build source code
     needs: [provision]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
@@ -68,40 +72,58 @@ jobs:
           java-version: '17'
 
       # Maven Clean and Build
-      - name: maven clean & package build
-        run: mvn clean package
-        working-directory: ./workloads/java/springBoot/petClinic
+      - name: maven clean & package build by env name and path
+        run: mvn clean package -Djar.finalName=${{ env.BUILD_PACKAGE_NAME }}
+        working-directory: ${{ env.BUILD_PACKAGE_PATH }}
 
-  deploy:
-    name: Deploy from source code build
-    needs: [provision, build]
-    runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.ENVIRONMENT }}
-    steps:
-      # Check out the repo
-      - name: Checkout Github Action
-        uses: actions/checkout@v2
+  deploy: 
+    # Checkout the Repo
+    - uses: actions/checkout@v3
 
-      # App may provisioned but not available
-      - name: Sleep for 60 seconds
-        run: sleep 60s
-        shell: bash
+    # Deploy using composite
+    - name: Deploy Azure Spring Boot App with Azure Cli
+      uses: ./.github/workflows/clouds/azure/springCloud/springBoot/oidc/deploy
+      with:
+        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_LOCATION: ${{ github.event.inputs.AZURE_LOCATION }}
+        AZURE_SERVICE_INSTANCE_NAME: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
+        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
+        BUILD_PACKAGE_PATH:  ${{ env.BUILD_PACKAGE_PATH }}
+        BUILD_PACKAGE_NAME:  ${{ env.BUILD_PACKAGE_NAME }}
+        
+  # deploy:
+  #   name: Deploy from source code build
+  #   needs: [provision, build]
+  #   runs-on: ubuntu-latest
+  #   environment: ${{ github.event.inputs.ENVIRONMENT }}
+  #   steps:
+  #     # Check out the repo
+  #     - name: Checkout Github Action
+  #       uses: actions/checkout@v2
 
-      # Login to Azure with CLI with Federated with Github
-      - name: Az CLI Login via OIDC
-        uses: azure/login@v1.4.0
-        with:
-          client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #     # App may provisioned but not available
+  #     - name: Sleep for 60 seconds
+  #       run: sleep 60s
+  #       shell: bash
 
-      # Deploy the Spring Cloud app 
-      - name: deploy step from source code built in the earlier maven build
-        uses: azure/spring-cloud-deploy@v1
-        with:
-          azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          action: deploy
-          service-name: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
-          app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
-          use-staging-deployment: true
-          package:  ./workloads/java/springBoot/petClinic/target/spring-petclinic-2.6.0-SNAPSHOT.jar
+  #     # Login to Azure with CLI with Federated with Github
+  #     - name: Az CLI Login via OIDC
+  #       uses: azure/login@v1.4.0
+  #       with:
+  #         client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+  #         tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
+  #         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  #     # Deploy the Spring Cloud app 
+  #     - name: deploy step from source code built in the earlier maven build
+  #       uses: azure/spring-cloud-deploy@v1
+  #       with:
+  #         azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #         action: deploy
+  #         service-name: ${{ github.event.inputs.AZURE_SERVICE_INSTANCE_NAME }}
+  #         app-name: ${{ github.event.inputs.AZURE_APP_NAME }}
+  #         use-staging-deployment: false
+  #         package:  ./workloads/java/springBoot/petClinic/target/spring-petclinic-2.6.0-SNAPSHOT.jar
