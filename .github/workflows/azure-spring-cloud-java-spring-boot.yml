@@ -77,7 +77,7 @@ jobs:
         working-directory: ${{ env.BUILD_PACKAGE_PATH }}
 
   deploy:
-    name: Build source code
+    name: Deploy source code
     needs: [provision, build]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
