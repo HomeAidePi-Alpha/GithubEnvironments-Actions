@@ -29,7 +29,7 @@ permissions:
   id-token: 'write'
 
 env:
-  BUILD_PACKAGE_PATH: ./workloads/java/springBoot/petClinic/target
+  BUILD_PACKAGE_PATH: ./workloads/java/springBoot/petClinic
   BUILD_PACKAGE_NAME: spring-petclinic-2.6.0-SNAPSHOT.jar
 
 jobs:
