@@ -50,9 +50,9 @@ jobs:
         AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
         AZURE_APP_NAME:  ${{ github.event.inputs.AZURE_APP_NAME }}
 
-  deploy:
-    name: Deploy from source code build
-    # needs: [provision]
+  build:
+    name: Source code build
+    needs: [provision]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
@@ -72,6 +72,21 @@ jobs:
         run: mvn clean package
         working-directory: ./workloads/java/springBoot/petClinic
 
+  deploy:
+    name: Deploy from source code build
+    needs: [provision, build]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.ENVIRONMENT }}
+    steps:
+      # Check out the repo
+      - name: Checkout Github Action
+        uses: actions/checkout@v2
+
+      # App may provisioned but not available
+      - name: Sleep for 30 seconds
+        run: sleep 60s
+        shell: bash
+
       # Login to Azure with CLI with Federated with Github
       - name: Az CLI Login via OIDC
         uses: azure/login@v1.4.0
@@ -81,7 +96,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # Deploy the Spring Cloud app 
-      - name: deploy step from source code built in the earlier provision composite
+      - name: deploy step from source code built in the earlier maven build
         uses: azure/spring-cloud-deploy@v1
         with:
           azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
