@@ -72,7 +72,6 @@ runs:
     - name: Sleep for 10 seconds
       id: sleep
       shell: bash
-      # We place the GITHUB_REPO_TOKEN in a temp file so its not handled long then deleted
       run: |
         sleep 10s
 

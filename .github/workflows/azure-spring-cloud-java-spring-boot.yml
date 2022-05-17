@@ -36,7 +36,7 @@ jobs:
   provision:
     name: Provision Azure Spring Boot App
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.ENVIRONMENT }}
+    3
 
     steps:  
     # Checkout the Repo
@@ -56,7 +56,7 @@ jobs:
 
   build:
     name: Build source code
-    needs: [provision]
+    # needs: [provision]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
@@ -85,7 +85,7 @@ jobs:
 
   deploy:
     name: Deploy source code
-    needs: [provision, build]
+    # needs: [provision, build]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.ENVIRONMENT }}
     steps:
