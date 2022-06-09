@@ -4,14 +4,14 @@ on: [push]
 jobs:
   probot-settings:
     runs-on: ubuntu-latest
-    environment:  ${{ secrets.ENVIRONMENT }}
+    environment: 'preprod'
 
     steps:
     # Create first issue
     - name: Create Issue From File
       uses: peter-evans/create-issue-from-file@v1.0.1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
         ISSUE_TITLE: Welcome ${{github.actor}}
         ISSUE_CONTENT_FILEPATH: ../../docs/new-issue.md
         ISSUE_LABELS: report, automated issue
@@ -20,7 +20,7 @@ jobs:
     - name: Add a project board
       run: ../../workloads/projects/create-board.sh
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 
     # Clean up bootstrapper
     - name: Remove this workflow file from main branch
@@ -40,5 +40,5 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ env.GITHUB_TOKEN }}
         branch: ${{ github.ref }}

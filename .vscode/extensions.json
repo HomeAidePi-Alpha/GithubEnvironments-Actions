@@ -1,5 +1,7 @@
 {
-    "recommendations": [
-        "mdickin.markdown-shortcuts"
-    ]
+  "recommendations": [
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-dotnettools.csharp",
+    "mdickin.markdown-shortcuts"
+  ]
 }
