@@ -35,6 +35,12 @@ runs:
         gh auth login --with-token < .githubtoken
         gh repo create ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}} --public
 
+    # Create the new Repo and mark public
+    - name:  Find Id by repo name
+      shell: bash
+      run: |
+        gh repo get ${{ inputs.GITHUB_ORG_NAME}}/${{ inputs.GITHUB_REPO_NAME}} --public
+
     # Push the workflows to the repo
     - name: Push README docs & workflows to the newly minted repo
       shell: bash

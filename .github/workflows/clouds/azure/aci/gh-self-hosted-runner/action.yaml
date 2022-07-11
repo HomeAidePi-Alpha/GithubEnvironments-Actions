@@ -1,0 +1,37 @@
+name: 'CLI with OIDC and create an App'
+
+inputs:
+  AZURE_APP_NAME:
+    description: 'Azure App Name'
+    required: true
+  AZURE_AD_CLIENT_ID:
+    description: 'Azure Client Id'
+    required: true
+  AZURE_AD_TENANT_ID:
+    description: 'Azure Tenant Id'
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    description: 'Azure Subscription Id'
+    required: true
+
+runs:
+    using: "composite"
+    steps:
+      # Checkout the repo
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      # Login to Azure with CLI with Federated with Github
+      - name: 'Az CLI Login via OIDC'
+        uses: azure/login@v1.4.0
+        with:
+          client-id: ${{ inputs.AZURE_AD_CLIENT_ID }}
+          tenant-id: ${{ inputs.AZURE_AD_TENANT_ID }}
+          subscription-id: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
+
+      - name: 'Run az commands'
+        shell: bash
+        run: |
+          az account show
+          az group list
+          echo "::add-mask::$(az ad app create --display-name ${{ inputs.AZURE_APP_NAME}})"

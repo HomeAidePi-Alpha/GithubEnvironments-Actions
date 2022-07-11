@@ -1,0 +1,23 @@
+name: Azure Powershell Composite - OIDC
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
+jobs:
+  job:
+    runs-on: windows-latest
+    environment: preprod
+    steps:
+    # Check out the repo
+    - uses: actions/checkout@v3
+
+    # This section runs the Azure powershell action composite with OIDC
+    - uses: ./.github/workflows/clouds/azure/powershell/oidc
+      with:
+        AZURE_AD_CLIENT_ID:  ${{ secrets.AZURE_AD_CLIENT_ID }}
+        AZURE_AD_TENANT_ID:  ${{ secrets.AZURE_AD_TENANT_ID }}
+        AZURE_SUBSCRIPTION_ID:  ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+ 
