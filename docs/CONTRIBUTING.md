@@ -9,7 +9,7 @@ We love your input! We want to make contributing to this project as easy and tra
 - Becoming a contributor
 - Infrastructure as Code
 - Node, Python, NetCore, Java Development
-- CI / CQ / CD - DevSecOps
+- CI/CQ CD/CD - DevSecOps
 - Updating this standard through committee
 - Pair Programming
 
