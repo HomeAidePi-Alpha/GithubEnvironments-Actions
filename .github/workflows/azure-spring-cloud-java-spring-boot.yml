@@ -36,7 +36,6 @@ jobs:
   provision:
     name: Provision Azure Spring Boot App
     runs-on: ubuntu-latest
-    3
 
     steps:  
     # Checkout the Repo
