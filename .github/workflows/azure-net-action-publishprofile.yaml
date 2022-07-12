@@ -23,6 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Restore dependencies
+        shell: bash
         run: dotnet restore
         working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
