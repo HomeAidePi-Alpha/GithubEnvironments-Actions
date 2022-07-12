@@ -12,6 +12,7 @@ on:
 jobs:
   ci-cq:
     runs-on: ubuntu-latest
+    environment: 'preprod'
 
     steps:
       - uses: actions/checkout@v2
@@ -23,13 +24,15 @@ jobs:
           include-prerelease: true
 
       - name: Restore dependencies
-        run: dotnet restore ./workloads/netCore/webApp/alpha/app.csproj
+        run: dotnet restore ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}/app.csproj
 
       - name: Build	
         run: dotnet build --no-restore
+        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Test
         run: dotnet test --no-build --verbosity normal
+        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
