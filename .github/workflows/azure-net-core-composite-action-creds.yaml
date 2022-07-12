@@ -12,29 +12,29 @@ env:
   DOTNET_VERSION: '3.1.404'
   
 jobs:
-  provision:
-    name: Provision Azure WebService
-    runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.ENVIRONMENT }}
+  # provision:
+  #   name: Provision Azure WebService
+  #   runs-on: ubuntu-latest
+  #   environment: ${{ github.event.inputs.ENVIRONMENT }}
 
-    steps:  
-    # Checkout the Repo
-    - uses: actions/checkout@v3
+  #   steps:  
+  #   # Checkout the Repo
+  #   - uses: actions/checkout@v3
 
-    # Provision using composite
-    - name: Deploy Azure Function App
-      uses: ./.github/workflows/clouds/azure/appService/webApp/creds/provision
-      with:
-        ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
-        AZURE_APP_SERVICE_NAME: ${{ github.event.inputs.AZURE_APP_SERVICE_NAME }}
-        AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
-        AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
-        AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
-        AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
+  #   # Provision using composite
+  #   - name: Deploy Azure Function App
+  #     uses: ./.github/workflows/clouds/azure/appService/webApp/creds/provision
+  #     with:
+  #       ENVIRONMENT: ${{ github.event.inputs.ENVIRONMENT }}
+  #       AZURE_APP_SERVICE_NAME: ${{ github.event.inputs.AZURE_APP_SERVICE_NAME }}
+  #       AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+  #       AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+  #       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #       AZURE_RESOURCE_GROUP: ${{ github.event.inputs.AZURE_RESOURCE_GROUP }}
+  #       AZURE_RESOURCE_GROUP_NAME: ${{ github.event.inputs.AZURE_RESOURCE_GROUP_NAME }}
+  #       AZURE_STORAGE_ACCOUNT_NAME: ${{ github.event.inputs.AZURE_STORAGE_ACCOUNT_NAME }}
+  #       AZURE_STORAGE_CONTAINER_NAME: ${{ github.event.inputs.AZURE_STORAGE_CONTAINER_NAME }}
+  #       AZURE_REGION: ${{ github.event.inputs.AZURE_REGION }}
 
   deploy:
     runs-on: ubuntu-latest
