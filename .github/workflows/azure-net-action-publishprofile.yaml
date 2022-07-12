@@ -24,16 +24,13 @@ jobs:
 
       - name: Restore dependencies
         shell: bash
-        run: dotnet restore
-        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
+        run: dotnet restore ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Build	
         run: dotnet build --no-restore
-        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Test
         run: dotnet test --no-build --verbosity normal
-        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
