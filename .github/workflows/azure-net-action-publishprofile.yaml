@@ -15,7 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
@@ -28,12 +27,13 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}
+        working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/bin/Release
+          path: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}/bin/Release
 
   deploy:
     runs-on: ubuntu-latest
