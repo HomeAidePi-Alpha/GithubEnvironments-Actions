@@ -27,7 +27,7 @@ jobs:
         run: dotnet restore ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}/app.csproj
 
       - name: Build	
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore -c Release
         working-directory: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
 
       - name: Test
