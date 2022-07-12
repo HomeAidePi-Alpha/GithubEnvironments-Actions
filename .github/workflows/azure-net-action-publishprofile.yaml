@@ -23,8 +23,8 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
         working-directory: ${{env.AZURE_WEBAPP_DOTNET_ROOT}}
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.AZURE_WEBAPP_DOTNET_ROOT}}/bin/Release
