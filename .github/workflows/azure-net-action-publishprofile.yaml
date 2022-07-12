@@ -23,8 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Restore dependencies
-        shell: bash
-        run: dotnet restore ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}
+        run: dotnet restore ./workloads/netCore/webApp/alpha/app.csproj
 
       - name: Build	
         run: dotnet build --no-restore
