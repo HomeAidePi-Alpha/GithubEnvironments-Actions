@@ -40,24 +40,24 @@ jobs:
           name: .net-app
           path: ${{secrets.AZURE_WEBAPP_DOTNET_ROOT}}/bin/Release
 
-  cd:
-    runs-on: ubuntu-latest
-    needs: [ci-cq]
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  # cd:
+  #   runs-on: ubuntu-latest
+  #   needs: [ci-cq]
+  #   environment:
+  #     name: 'Production'
+  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: .net-app
+  #   steps:
+  #     - name: Download artifact from build job
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: .net-app
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'DotNetOn'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_DOTNET_PROFILE }}
-          package: .
+  #     - name: Deploy to Azure Web App
+  #       id: deploy-to-webapp
+  #       uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: 'DotNetOn'
+  #         slot-name: 'Production'
+  #         publish-profile: ${{ secrets.AZURE_WEBAPP_DOTNET_PROFILE }}
+  #         package: .
